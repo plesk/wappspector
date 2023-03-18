@@ -30,10 +30,9 @@ class Typo3Matcher implements WappMatcherInterface
             $versionFile = $version['filename'];
 
             if (!$fs->fileExists($versionFile)) {
-                var_dump('dd');
                 return [];
             }
-            
+
             if (preg_match($version['regexp'], $fs->read($versionFile), $matches) && count($matches) > 1) {
                 return [[
                     'matcher' => 'typo3 CMS',
