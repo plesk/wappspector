@@ -17,6 +17,7 @@ return [
             $container->get(WappMatchers\WordpressMatcher::class),
             $container->get(WappMatchers\DrupalMatcher::class),
             $container->get(WappMatchers\PrestashopMatcher::class),
+            $container->get(WappMatchers\Typo3Matcher::class),
         ]);
     },
     Inspect::class => static function (ContainerInterface $container): Inspect {
