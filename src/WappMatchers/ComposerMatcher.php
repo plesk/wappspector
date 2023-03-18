@@ -12,18 +12,18 @@ class ComposerMatcher implements WappMatcherInterface
      */
     public function match(Filesystem $fs, string $path): iterable
     {
-        $result = [];
         $composerJsonFile = rtrim($path, '/') . '/composer.json';
         if (!$fs->fileExists($composerJsonFile)) {
-            return $result;
+            return [];
         }
+
         $composerJson = json_decode($fs->read($composerJsonFile), JSON_FORCE_OBJECT | JSON_THROW_ON_ERROR);
-        $result[] = [
+
+        return [
             'matcher' => 'composer',
             'path' => $path,
             'application' => $composerJson['name'] ?? 'unknown',
             'version' => $composerJson['version'] ?? 'dev',
         ];
-        return $result;
     }
 }

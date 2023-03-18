@@ -22,7 +22,9 @@ final class Wappspector
 
         /** @var WappMatcherInterface $matcher */
         foreach ($this->matchers as $matcher) {
-            $result = [...$result, ...$matcher->match($fs, '/')];
+            if ($match = $matcher->match($fs, '/')) {
+                $result[] = $match;
+            }
         }
 
         return $result;

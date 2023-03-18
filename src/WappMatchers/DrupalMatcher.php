@@ -40,11 +40,11 @@ class DrupalMatcher implements WappMatcherInterface
                 continue;
             }
 
-            return [[
+            return [
                 'matcher' => 'drupal',
                 'version' => $matches[1],
                 'path' => $path,
-            ]];
+            ];
         }
 
         return [];

@@ -20,11 +20,11 @@ class LaravelMatcher implements WappMatcherInterface
 
         $laravelPackage = $this->getLaravelPackage($fs);
         if ($laravelPackage) {
-            return [[
+            return [
                 'matcher' => 'laravel',
                 'path' => $path,
                 'version' => $laravelPackage,
-            ]];
+            ];
         }
 
         return [];

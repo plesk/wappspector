@@ -28,11 +28,11 @@ class PrestashopMatcher implements WappMatcherInterface
 
             if (preg_match($version['regexp'], $fs->read($versionFile), $matches)) {
                 if (count($matches) > 1) {
-                    return [[
+                    return [
                         'matcher' => 'prestashop',
                         'version' => $matches[1],
                         'path' => $path,
-                    ]];
+                    ];
                 }
             }
         }

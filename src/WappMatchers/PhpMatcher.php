@@ -13,24 +13,18 @@ class PhpMatcher implements WappMatcherInterface
      */
     public function match(Filesystem $fs, string $path): iterable
     {
-        $result = [];
         $list = $fs->listContents($path);
+        
         foreach ($list as $item) {
             /** @var StorageAttributes $item */
             if ($item->isFile() && str_ends_with($item->path(), '.php')) {
-                $result[] = [
+                return [
                     'matcher' => 'php',
                     'path' => $path,
                 ];
-                break;
-            }
-            if ($item->isDir() && $item->path() === 'src') {
-                $result = [
-                    ...$result,
-                    ...$this->match($fs, rtrim($path, '/') . '/src'),
-                ];
             }
         }
-        return $result;
+
+        return [];
     }
 }

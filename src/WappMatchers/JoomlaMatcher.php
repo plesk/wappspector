@@ -117,10 +117,10 @@ class JoomlaMatcher implements WappMatcherInterface
             return [];
         }
 
-        return [[
+        return [
             'matcher' => 'joomla',
             'version' => $this->detectVersion($fs, $path),
             'path' => $path,
-        ]];
+        ];
     }
 }

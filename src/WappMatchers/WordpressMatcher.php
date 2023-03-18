@@ -50,10 +50,10 @@ class WordpressMatcher implements WappMatcherInterface
             return [];
         }
 
-        return [[
+        return [
             'matcher' => 'wordpress',
             'version' => $this->detectVersion($fs),
             'path' => $path,
-        ]];
+        ];
     }
 }
