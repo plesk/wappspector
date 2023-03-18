@@ -3,9 +3,8 @@
     <description>Wappspector coding standard.</description>
     <!--  Specify files which should be validated -->
     <file>src</file>
-    <file>tests</file>
 
-    <config name="testVersion" value="8.0-8.2" />
+    <config name="testVersion" value="8.1-8.2" />
     <!-- Standard rules -->
     <!-- Load and configure standard rules -->
     <rule ref="PSR12">

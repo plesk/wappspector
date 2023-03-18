@@ -20,11 +20,11 @@
         "slevomat/coding-standard": "^8.8.0"
     },
     "require": {
-        "php": ">=8.0"
+        "php": ">=8.1"
     },
     "config": {
         "platform": {
-            "php": "8.0"
+            "php": "8.1"
         },
         "sort-packages": true,
         "allow-plugins": {
