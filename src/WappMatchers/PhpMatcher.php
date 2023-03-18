@@ -3,6 +3,7 @@
 namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemException;
 use League\Flysystem\StorageAttributes;
 
 class PhpMatcher implements WappMatcherInterface
@@ -11,6 +12,9 @@ class PhpMatcher implements WappMatcherInterface
     {
     }
 
+    /**
+     * @throws FilesystemException
+     */
     public function match(string $path): iterable
     {
         $result = [];
