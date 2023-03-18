@@ -14,6 +14,7 @@ return [
         get(WappMatchers\PhpMatcher::class),
         get(WappMatchers\ComposerMatcher::class),
         get(WappMatchers\WordpressMatcher::class),
+        get(WappMatchers\JoomlaMatcher::class),
     ],
     Filesystem::class => static function (ContainerInterface $container): Filesystem {
         $adapter = new LocalFilesystemAdapter($container->get('path'));

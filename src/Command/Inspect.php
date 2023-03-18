@@ -23,7 +23,7 @@ class Inspect extends Command
         $logger = new ConsoleLogger($output);
 
         try {
-            $result = $this->wappspector->run(getcwd());
+            $result = $this->wappspector->run(getcwd() . '/test-data/joomla');
 
             $output->writeln(json_encode($result, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR));
 
