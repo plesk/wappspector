@@ -20,7 +20,8 @@
         "slevomat/coding-standard": "^8.8.0"
     },
     "require": {
-        "php": ">=8.1"
+        "php": ">=8.1",
+        "symfony/console": "^6.2"
     },
     "config": {
         "platform": {
