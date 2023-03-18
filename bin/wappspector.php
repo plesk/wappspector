@@ -6,7 +6,7 @@ use Symfony\Component\Console\Application;
 use Plesk\Wappspector\Command;
 
 $application = new Application('Wappspector');
-$command = new Command\Analyze();
+$command = new Command\Inspect();
 $application->add($command);
 $application->setDefaultCommand($command->getName(), true);
 

@@ -7,10 +7,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'wappspector:analyze')]
-class Analyze extends Command
+#[AsCommand(name: 'wappspector:inspect')]
+class Inspect extends Command
 {
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         return Command::SUCCESS;
     }
