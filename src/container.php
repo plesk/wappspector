@@ -13,6 +13,7 @@ return [
     WappMatchers\WappMatcherInterface::class => [
         get(WappMatchers\PhpMatcher::class),
         get(WappMatchers\ComposerMatcher::class),
+        get(WappMatchers\WordpressMatcher::class),
     ],
     Filesystem::class => static function (ContainerInterface $container): Filesystem {
         $adapter = new LocalFilesystemAdapter($container->get('path'));
