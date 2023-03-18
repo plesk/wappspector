@@ -2,12 +2,11 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
+use Plesk\Wappspector\DIContainer;
 use Symfony\Component\Console\Application;
-use Plesk\Wappspector\Command;
 
-$application = new Application('Wappspector');
-$command = new Command\Inspect();
-$application->add($command);
-$application->setDefaultCommand($command->getName(), true);
+$diContainer = DIContainer::build();
 
-$application->run();
+$app = $diContainer->get(Application::class);
+
+$app->run();
