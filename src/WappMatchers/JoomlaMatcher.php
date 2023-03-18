@@ -7,6 +7,8 @@ use League\Flysystem\FilesystemException;
 
 class JoomlaMatcher implements WappMatcherInterface
 {
+    private const CONFIG_FILE = 'configuration.php';
+
     /**
      * Joomla has changed the way how the version number is stored multiple times, so we need this comprehensive array
      * @var array
@@ -25,20 +27,16 @@ class JoomlaMatcher implements WappMatcherInterface
         "regex_patch" => "/\\\$?PATCH_VERSION\s*=\s*([\d.]+);/",
     ];
 
-    public function __construct(private Filesystem $fs)
-    {
-    }
-
     /**
      * @throws FilesystemException
      */
-    public function isJoomla(string $currPath): bool
+    private function isJoomla(Filesystem $fs): bool
     {
-        if (basename($currPath) !== 'configuration.php') {
+        if (!$fs->fileExists(self::CONFIG_FILE)) {
             return false;
         }
 
-        $configContents = $this->fs->read($currPath);
+        $configContents = $fs->read(self::CONFIG_FILE);
 
         if (stripos($configContents, 'JConfig') === false
             && stripos($configContents, 'mosConfig') === false) {
@@ -66,17 +64,17 @@ class JoomlaMatcher implements WappMatcherInterface
     /**
      * @throws FilesystemException
      */
-    public function detectVersion(string $path): ?string
+    private function detectVersion(Filesystem $fs, string $path): ?string
     {
         // Iterate through version files
         foreach (self::VERSION['files'] as $file) {
             $versionFile = basename($path) . $file;
 
-            if (!$this->fs->fileExists($versionFile)) {
+            if (!$fs->fileExists($versionFile)) {
                 continue;
             }
 
-            $fileContents = $this->fs->read($versionFile);
+            $fileContents = $fs->read($versionFile);
 
             preg_match(self::VERSION['regex_major'], $fileContents, $major);
             preg_match(self::VERSION['regex_minor'], $fileContents, $minor);
@@ -113,24 +111,16 @@ class JoomlaMatcher implements WappMatcherInterface
     /**
      * @throws FilesystemException
      */
-    public function match(string $path): iterable
+    public function match(Filesystem $fs, string $path): iterable
     {
-        $result = [];
-        $list = $this->fs->listContents($path);
-
-        foreach ($list as $item) {
-            $currPath = $item->path();
-
-            if ($this->isJoomla($currPath)) {
-                $result[] = [
-                    'matcher' => 'joomla',
-                    'version' => $this->detectVersion($path),
-                    'path' => $path,
-                ];
-                break;
-            }
+        if (!$this->isJoomla($fs)) {
+            return [];
         }
 
-        return $result;
+        return [[
+            'matcher' => 'joomla',
+            'version' => $this->detectVersion($fs, $path),
+            'path' => $path,
+        ]];
     }
 }

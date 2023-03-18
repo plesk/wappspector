@@ -7,13 +7,14 @@ use League\Flysystem\FilesystemException;
 
 class WordpressMatcher implements WappMatcherInterface
 {
-    public function __construct(private Filesystem $fs)
-    {
-    }
+    private const VERSION_FILE = 'wp-includes/version.php';
 
-    public function detectVersion(string $contents): ?string
+    /**
+     * @throws FilesystemException
+     */
+    private function detectVersion(Filesystem $fs): ?string
     {
-        preg_match("/\\\$wp_version\\s*=\\s*'([^']+)'/", $contents, $matches);
+        preg_match("/\\\$wp_version\\s*=\\s*'([^']+)'/", $fs->read(self::VERSION_FILE), $matches);
 
         if (count($matches)) {
             return $matches[1];
@@ -25,36 +26,34 @@ class WordpressMatcher implements WappMatcherInterface
     /**
      * @throws FilesystemException
      */
-    public function match(string $path): iterable
+    private function isWordpress(Filesystem $fs): bool
     {
-        $result = [];
-        $list = $this->fs->listContents($path);
-
-        foreach ($list as $item) {
-            $currPath = $item->path();
-
-            if (!$item->isFile()) {
-                continue;
-            }
-
-            if (basename($currPath) !== "version.php") {
-                continue;
-            }
-
-            $fileContents = $this->fs->read($currPath);
-
-            if (stripos($fileContents, '$wp_version =') !== false) {
-                $version = $this->detectVersion($fileContents);
-
-                $result[] = [
-                    'matcher' => 'wordpress',
-                    'version' => $version,
-                    'path' => $path,
-                ];
-                break;
-            }
+        if (!$fs->fileExists(self::VERSION_FILE)) {
+            return false;
         }
 
-        return $result;
+        $fileContents = $fs->read(self::VERSION_FILE);
+
+        if (stripos($fileContents, '$wp_version =') === false) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @throws FilesystemException
+     */
+    public function match(Filesystem $fs, string $path): iterable
+    {
+        if (!$this->isWordpress($fs)) {
+            return [];
+        }
+
+        return [[
+            'matcher' => 'wordpress',
+            'version' => $this->detectVersion($fs),
+            'path' => $path,
+        ]];
     }
 }

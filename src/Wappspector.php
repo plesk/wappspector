@@ -3,12 +3,11 @@
 namespace Plesk\Wappspector;
 
 use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
-use Psr\Container\ContainerInterface;
 use Throwable;
 
 final class Wappspector
 {
-    public function __construct(private ContainerInterface $container)
+    public function __construct(private FileSystemFactory $fsFactory, private array $matchers)
     {
     }
 
@@ -17,13 +16,13 @@ final class Wappspector
      */
     public function run(string $path): iterable
     {
-        $this->container->set('path', $path);
-        $matchers = $this->container->get(WappMatcherInterface::class);
+        $fs = $this->fsFactory->create($path);
+
         $result = [];
 
         /** @var WappMatcherInterface $matcher */
-        foreach ($matchers as $matcher) {
-            $result = [...$result, ...$matcher->match('/')];
+        foreach ($this->matchers as $matcher) {
+            $result = [...$result, ...$matcher->match($fs, '/')];
         }
 
         return $result;

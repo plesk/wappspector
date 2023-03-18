@@ -3,21 +3,21 @@
 namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemException;
 
 class ComposerMatcher implements WappMatcherInterface
 {
-    public function __construct(private Filesystem $fs)
-    {
-    }
-
-    public function match(string $path): iterable
+    /**
+     * @throws FilesystemException
+     */
+    public function match(Filesystem $fs, string $path): iterable
     {
         $result = [];
         $composerJsonFile = rtrim($path, '/') . '/composer.json';
-        if (!$this->fs->fileExists($composerJsonFile)) {
+        if (!$fs->fileExists($composerJsonFile)) {
             return $result;
         }
-        $composerJson = json_decode($this->fs->read($composerJsonFile), JSON_FORCE_OBJECT | JSON_THROW_ON_ERROR);
+        $composerJson = json_decode($fs->read($composerJsonFile), JSON_FORCE_OBJECT | JSON_THROW_ON_ERROR);
         $result[] = [
             'matcher' => 'composer',
             'path' => $path,

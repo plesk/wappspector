@@ -8,17 +8,13 @@ use League\Flysystem\StorageAttributes;
 
 class PhpMatcher implements WappMatcherInterface
 {
-    public function __construct(private Filesystem $fs)
-    {
-    }
-
     /**
      * @throws FilesystemException
      */
-    public function match(string $path): iterable
+    public function match(Filesystem $fs, string $path): iterable
     {
         $result = [];
-        $list = $this->fs->listContents($path);
+        $list = $fs->listContents($path);
         foreach ($list as $item) {
             /** @var StorageAttributes $item */
             if ($item->isFile() && str_ends_with($item->path(), '.php')) {
@@ -31,7 +27,7 @@ class PhpMatcher implements WappMatcherInterface
             if ($item->isDir() && $item->path() === 'src') {
                 $result = [
                     ...$result,
-                    ...$this->match(rtrim($path, '/') . '/src'),
+                    ...$this->match($fs, rtrim($path, '/') . '/src'),
                 ];
             }
         }
