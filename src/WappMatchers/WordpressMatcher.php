@@ -7,7 +7,7 @@ use League\Flysystem\FilesystemException;
 
 class WordpressMatcher implements WappMatcherInterface
 {
-    public function __construct(private readonly Filesystem $fs)
+    public function __construct(private Filesystem $fs)
     {
     }
 

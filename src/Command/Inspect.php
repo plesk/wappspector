@@ -13,7 +13,7 @@ use Throwable;
 #[AsCommand(name: 'wappspector:inspect')]
 class Inspect extends Command
 {
-    public function __construct(private readonly Wappspector $wappspector)
+    public function __construct(private Wappspector $wappspector)
     {
         parent::__construct();
     }

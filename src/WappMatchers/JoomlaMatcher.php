@@ -25,7 +25,7 @@ class JoomlaMatcher implements WappMatcherInterface
         "regex_patch" => "/\\\$?PATCH_VERSION\s*=\s*([\d.]+);/",
     ];
 
-    public function __construct(private readonly Filesystem $fs)
+    public function __construct(private Filesystem $fs)
     {
     }
 

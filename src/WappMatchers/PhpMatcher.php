@@ -8,7 +8,7 @@ use League\Flysystem\StorageAttributes;
 
 class PhpMatcher implements WappMatcherInterface
 {
-    public function __construct(private readonly Filesystem $fs)
+    public function __construct(private Filesystem $fs)
     {
     }
 

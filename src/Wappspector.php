@@ -8,7 +8,7 @@ use Throwable;
 
 final class Wappspector
 {
-    public function __construct(private readonly ContainerInterface $container)
+    public function __construct(private ContainerInterface $container)
     {
     }
 

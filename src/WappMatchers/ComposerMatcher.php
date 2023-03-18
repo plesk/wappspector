@@ -6,7 +6,7 @@ use League\Flysystem\Filesystem;
 
 class ComposerMatcher implements WappMatcherInterface
 {
-    public function __construct(private readonly Filesystem $fs)
+    public function __construct(private Filesystem $fs)
     {
     }
 
