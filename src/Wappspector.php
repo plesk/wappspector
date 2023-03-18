@@ -26,12 +26,13 @@ final class Wappspector
     public static function run(string $path): iterable
     {
         $container = self::buildContainer();
+        $container->set('path', $path);
         $matchers = $container->get(WappMatcherInterface::class);
         $result = [];
 
         /** @var WappMatcherInterface $matcher */
         foreach ($matchers as $matcher) {
-            $result = [...$result, ...$matcher->match($path)];
+            $result = [...$result, ...$matcher->match('/')];
         }
 
         return $result;

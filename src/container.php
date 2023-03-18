@@ -2,16 +2,17 @@
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
-use Plesk\Wappspector\WappMatchers\PhpMatcher;
-use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
+use Plesk\Wappspector\WappMatchers;
+use Psr\Container\ContainerInterface;
 use function DI\get;
 
 return [
-    WappMatcherInterface::class => [
-        get(PhpMatcher::class),
+    WappMatchers\WappMatcherInterface::class => [
+        get(WappMatchers\PhpMatcher::class),
+        get(WappMatchers\ComposerMatcher::class),
     ],
-    Filesystem::class => static function (): Filesystem {
-        $adapter = new LocalFilesystemAdapter(getcwd());
+    Filesystem::class => static function (ContainerInterface $container): Filesystem {
+        $adapter = new LocalFilesystemAdapter($container->get('path'));
 
         return new Filesystem($adapter);
     },
