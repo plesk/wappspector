@@ -35,7 +35,7 @@ class Typo3Matcher implements WappMatcherInterface
 
             if (preg_match($version['regexp'], $fs->read($versionFile), $matches) && count($matches) > 1) {
                 return [
-                    'matcher' => 'typo3 CMS',
+                    'matcher' => 'typo3',
                     'version' => $matches[1],
                     'path' => $path,
                 ];
