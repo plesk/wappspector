@@ -7,7 +7,11 @@ use Throwable;
 
 final class Wappspector
 {
-    public function __construct(private FileSystemFactory $fsFactory, private array $matchers)
+    /**
+     * @param callable $fsFactory
+     * @param array $matchers
+     */
+    public function __construct(private $fsFactory, private array $matchers)
     {
     }
 
@@ -16,7 +20,7 @@ final class Wappspector
      */
     public function run(string $path): iterable
     {
-        $fs = $this->fsFactory->create($path);
+        $fs = ($this->fsFactory)($path);
 
         $result = [];
 

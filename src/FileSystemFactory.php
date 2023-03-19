@@ -7,7 +7,7 @@ use League\Flysystem\Local\LocalFilesystemAdapter;
 
 class FileSystemFactory
 {
-    public function create(string $path): Filesystem
+    public function __invoke(string $path): Filesystem
     {
         $adapter = new LocalFilesystemAdapter($path);
 
