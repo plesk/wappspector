@@ -7,19 +7,24 @@ use League\Flysystem\FilesystemException;
 
 class ComposerMatcher implements WappMatcherInterface
 {
+    use UpLevelMatcherTrait;
+
+    private function getPath(string $path): string
+    {
+        return rtrim($path, '/') . '/composer.json';
+    }
+
     /**
      * @throws FilesystemException
      */
-    public function match(Filesystem $fs, string $path): iterable
+    protected function doMatch(Filesystem $fs, string $path): array
     {
-        $composerJson = $this->findComposerJson($fs, $path);
-        if ($composerJson === null) {
-            $composerJson = $this->findComposerJson($fs, rtrim($path, '/') . '/../');
-        }
-
-        if ($composerJson === null) {
+        $composerJsonFile = $this->getPath($path);
+        if (!$fs->fileExists($composerJsonFile)) {
             return [];
         }
+
+        $composerJson = json_decode($fs->read($composerJsonFile), JSON_FORCE_OBJECT | JSON_THROW_ON_ERROR);
 
         return [
             'matcher' => 'composer',
@@ -27,23 +32,5 @@ class ComposerMatcher implements WappMatcherInterface
             'application' => $composerJson['name'] ?? 'unknown',
             'version' => $composerJson['version'] ?? 'dev',
         ];
-    }
-
-    /**
-     * @throws FilesystemException
-     */
-    public function findComposerJson(Filesystem $fs, string $path): ?array
-    {
-        $composerJsonFile = $this->getPath($path);
-        if (!$fs->fileExists($composerJsonFile)) {
-            return null;
-        }
-
-        return json_decode($fs->read($composerJsonFile), JSON_FORCE_OBJECT | JSON_THROW_ON_ERROR);
-    }
-
-    private function getPath(string $path): string
-    {
-        return rtrim($path, '/') . '/composer.json';
     }
 }

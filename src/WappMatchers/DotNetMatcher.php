@@ -8,25 +8,14 @@ use League\Flysystem\StorageAttributes;
 
 class DotNetMatcher implements WappMatcherInterface
 {
+    use UpLevelMatcherTrait;
+
     private const HEX_SIGNATURE = '4d5a';
-
+    
     /**
      * @throws FilesystemException
      */
-    public function match(Filesystem $fs, string $path): iterable
-    {
-        $result = $this->matchDotNet($fs, $path);
-        if (!$result) {
-            return $this->matchDotNet($fs, rtrim($path) . '/../');
-        }
-
-        return $result;
-    }
-
-    /**
-     * @throws FilesystemException
-     */
-    public function matchDotNet(Filesystem $fs, string $path): array
+    public function doMatch(Filesystem $fs, string $path): array
     {
         $list = $fs->listContents($path);
 

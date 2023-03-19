@@ -7,26 +7,15 @@ use League\Flysystem\FilesystemException;
 
 class LaravelMatcher implements WappMatcherInterface
 {
+    use UpLevelMatcherTrait;
+
     private const COMPOSER_JSON = 'composer.json';
     private const ARTISAN = 'artisan';
 
     /**
      * @throws FilesystemException
      */
-    public function match(Filesystem $fs, string $path): iterable
-    {
-        $result = $this->getLaravelVersion($fs, $path);
-        if (!$result) {
-            return $this->getLaravelVersion($fs, rtrim($path) . '/../');
-        }
-
-        return $result;
-    }
-
-    /**
-     * @throws FilesystemException
-     */
-    private function getLaravelVersion(Filesystem $fs, string $path): ?array
+    protected function doMatch(Filesystem $fs, string $path): array
     {
         if (!$fs->fileExists(rtrim($path, '/') . '/' . self::ARTISAN)) {
             return [];
