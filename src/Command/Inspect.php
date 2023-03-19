@@ -7,6 +7,7 @@ use Plesk\Wappspector\Wappspector;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
@@ -19,8 +20,8 @@ class Inspect extends Command
     public function __construct(private Wappspector $wappspector)
     {
         parent::__construct();
+        $this->addArgument('path', InputArgument::OPTIONAL, 'Root path', getcwd());
         $this->addOption('json', '', InputOption::VALUE_NONE, 'JSON output');
-        $this->addOption('path', '', InputOption::VALUE_OPTIONAL, 'Root path', getcwd());
         $this->addOption('recursive', '', InputOption::VALUE_NEGATABLE, 'Traverse directories recursive', true);
         $this->addOption('depth', '', InputOption::VALUE_OPTIONAL, 'Depth of recurse', 1);
     }
@@ -35,6 +36,7 @@ class Inspect extends Command
             foreach ($this->getPath($input) as $path) {
                 $result = [...$result, ...$this->wappspector->run($path)];
             }
+            $result = $this->filterResults($result);
 
             if ($isJson) {
                 $this->jsonOutput($output, $result);
@@ -75,7 +77,8 @@ class Inspect extends Command
 
     private function getPath(InputInterface $input): iterable
     {
-        $path = $input->getOption('path');
+        $path = $input->getArgument('path');
+        $path = realpath($path);
         if (!$input->getOption('recursive')) {
             yield $path;
             return;
@@ -99,5 +102,49 @@ class Inspect extends Command
             }
             yield $path;
         }
+    }
+
+    private function filterResults(array $result): array
+    {
+        foreach ($result as &$match) {
+            $match['path'] = $this->normalizePath($match['path']);
+        }
+        $result = array_values(array_filter($result, static function ($match) {
+            static $uniq = [];
+            if (isset($uniq[$match['matcher'] . $match['path']])) {
+                return false;
+            }
+            $uniq[$match['matcher'] . $match['path']] = true;
+            return true;
+        }));
+        return $result;
+    }
+
+    private function normalizePath(string $path): string
+    {
+        $parts = [];
+
+        foreach (explode('/', $path) as $part) {
+            switch ($part) {
+                case '':
+                case '.':
+                    break;
+
+                case '..':
+                    if (empty($parts)) {
+                        // invalid case
+                        $parts[] = $part;
+                        break;
+                    }
+                    array_pop($parts);
+                    break;
+
+                default:
+                    $parts[] = $part;
+                    break;
+            }
+        }
+
+        return implode('/', $parts);
     }
 }
