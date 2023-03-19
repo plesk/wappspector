@@ -11,14 +11,14 @@ use Symfony\Component\Console\Application;
 return [
     Wappspector::class => static function (Container $container): Wappspector {
         return new Wappspector($container->get(FileSystemFactory::class), [
-            $container->get(WappMatchers\PhpMatcher::class),
             $container->get(WappMatchers\JoomlaMatcher::class),
-            $container->get(WappMatchers\ComposerMatcher::class),
             $container->get(WappMatchers\WordpressMatcher::class),
             $container->get(WappMatchers\DrupalMatcher::class),
             $container->get(WappMatchers\PrestashopMatcher::class),
             $container->get(WappMatchers\Typo3Matcher::class),
             $container->get(WappMatchers\LaravelMatcher::class),
+            $container->get(WappMatchers\ComposerMatcher::class),
+            $container->get(WappMatchers\PhpMatcher::class),
         ]);
     },
     Inspect::class => static function (ContainerInterface $container): Inspect {
