@@ -4,32 +4,16 @@ Command-line interface utility to analyze the file structure of a web hosting se
 ### Technology & Framework
 
 -   PHP
-    -   Laravel
-    -   Symfony
-    -   CodeIgniter
-    -   Yii
--   Node.js
-    -   Express.js
-    -   React
-    -   Next.js
+-   Laravel
+-   Composer
 -   Ruby
-    -   Ruby on Rails
 -   Python
-    -   Django
-    -   Flask
--   .Net
-    -   .Net framework
+-   .NET
 
 ### CMS
 
 -   WordPress
--   Joomla
--   WooCommerce (WordPress)
+-   Joomla!
 -   Drupal
--   Magento
--   Prestashop
--   Typo3
--   OpenCart
--   Moodle
--   nextcloud
-
+-   PrestaShop
+-   TYPO3
