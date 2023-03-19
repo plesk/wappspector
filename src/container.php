@@ -18,6 +18,7 @@ return [
             $container->get(WappMatchers\Typo3Matcher::class),
             $container->get(WappMatchers\LaravelMatcher::class),
             $container->get(WappMatchers\DotNetMatcher::class),
+            $container->get(WappMatchers\PythonMatcher::class),
 
             // Low priority wrappers. Should go last.
             $container->get(WappMatchers\ComposerMatcher::class),
