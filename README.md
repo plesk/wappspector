@@ -17,3 +17,11 @@ Command-line interface utility to analyze the file structure of a web hosting se
 -   Drupal
 -   PrestaShop
 -   TYPO3
+
+## How to build phar
+
+* composer global require clue/phar-composer
+* composer install --no-dev
+* php -d phar.readonly=off ~/.composer/vendor/bin/phar-composer build .
+* ./wappspector.phar
+
