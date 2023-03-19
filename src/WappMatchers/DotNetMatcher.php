@@ -20,13 +20,13 @@ class DotNetMatcher implements WappMatcherInterface
             return $this->matchDotNet($fs, rtrim($path) . '/../');
         }
 
-        return [];
+        return $result;
     }
 
     /**
      * @throws FilesystemException
      */
-    public function matchDotNet(Filesystem $fs, string $path): ?array
+    public function matchDotNet(Filesystem $fs, string $path): array
     {
         $list = $fs->listContents($path);
 
