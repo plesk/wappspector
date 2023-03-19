@@ -14,7 +14,6 @@ class PhpMatcher implements WappMatcherInterface
     public function match(Filesystem $fs, string $path): iterable
     {
         $list = $fs->listContents($path);
-        
         foreach ($list as $item) {
             /** @var StorageAttributes $item */
             if ($item->isFile() && str_ends_with($item->path(), '.php')) {
@@ -22,6 +21,10 @@ class PhpMatcher implements WappMatcherInterface
                     'matcher' => 'php',
                     'path' => $path,
                 ];
+            }
+
+            if ($item->isDir() && $item->path() === 'src') {
+                return $this->match($fs, rtrim($path, '/') . '/src');
             }
         }
 
