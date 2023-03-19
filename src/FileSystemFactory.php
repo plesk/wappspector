@@ -9,7 +9,7 @@ class FileSystemFactory
 {
     public function __invoke(string $path): Filesystem
     {
-        $adapter = new LocalFilesystemAdapter($path);
+        $adapter = new LocalFilesystemAdapter($path, null, LOCK_EX, LocalFilesystemAdapter::SKIP_LINKS);
 
         return new Filesystem($adapter);
     }
