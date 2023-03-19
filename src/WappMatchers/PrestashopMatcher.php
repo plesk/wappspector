@@ -26,15 +26,18 @@ class PrestashopMatcher implements WappMatcherInterface
                 continue;
             }
 
+            $result = [
+                'matcher' => 'prestashop',
+                'path' => $path,
+            ];
+
             if (preg_match($version['regexp'], $fs->read($versionFile), $matches)) {
                 if (count($matches) > 1) {
-                    return [
-                        'matcher' => 'prestashop',
-                        'version' => $matches[1],
-                        'path' => $path,
-                    ];
+                    $result['version'] = $matches[1];
                 }
             }
+
+            return $result;
         }
 
         return [];
