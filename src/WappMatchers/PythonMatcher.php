@@ -8,10 +8,12 @@ use League\Flysystem\StorageAttributes;
 
 class PythonMatcher implements WappMatcherInterface
 {
+    use UpLevelMatcherTrait;
+
     /**
      * @throws FilesystemException
      */
-    public function match(Filesystem $fs, string $path): iterable
+    protected function doMatch(Filesystem $fs, string $path): array
     {
         $list = $fs->listContents($path);
         foreach ($list as $item) {
