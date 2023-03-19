@@ -84,8 +84,7 @@ class Inspect extends Command
             return;
         }
 
-        $flags = \FilesystemIterator::FOLLOW_SYMLINKS
-            | \FilesystemIterator::KEY_AS_PATHNAME
+        $flags = \FilesystemIterator::KEY_AS_PATHNAME
             | \FilesystemIterator::CURRENT_AS_FILEINFO
             | \FilesystemIterator::SKIP_DOTS;
         $itFlags = \RecursiveIteratorIterator::SELF_FIRST;
