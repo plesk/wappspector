@@ -20,13 +20,13 @@ final class Wappspector
      */
     public function run(string $path): iterable
     {
-        $fs = ($this->fsFactory)($path);
+        $fs = ($this->fsFactory)('/');
 
         $result = [];
 
         /** @var WappMatcherInterface $matcher */
         foreach ($this->matchers as $matcher) {
-            if ($match = $matcher->match($fs, '/')) {
+            if ($match = $matcher->match($fs, $path)) {
                 $result[] = $match;
             }
         }

@@ -12,9 +12,10 @@ class WordpressMatcher implements WappMatcherInterface
     /**
      * @throws FilesystemException
      */
-    private function detectVersion(Filesystem $fs): ?string
+    private function detectVersion(Filesystem $fs, string $path): ?string
     {
-        preg_match("/\\\$wp_version\\s*=\\s*'([^']+)'/", $fs->read(self::VERSION_FILE), $matches);
+        $versionFile = rtrim($path, '/') . '/' . self::VERSION_FILE;
+        preg_match("/\\\$wp_version\\s*=\\s*'([^']+)'/", $fs->read($versionFile), $matches);
 
         if (count($matches)) {
             return $matches[1];
@@ -26,13 +27,15 @@ class WordpressMatcher implements WappMatcherInterface
     /**
      * @throws FilesystemException
      */
-    private function isWordpress(Filesystem $fs): bool
+    private function isWordpress(Filesystem $fs, string $path): bool
     {
-        if (!$fs->fileExists(self::VERSION_FILE)) {
+        $versionFile = rtrim($path, '/') . '/' . self::VERSION_FILE;
+
+        if (!$fs->fileExists($versionFile)) {
             return false;
         }
 
-        $fileContents = $fs->read(self::VERSION_FILE);
+        $fileContents = $fs->read($versionFile);
 
         if (stripos($fileContents, '$wp_version =') === false) {
             return false;
@@ -46,13 +49,13 @@ class WordpressMatcher implements WappMatcherInterface
      */
     public function match(Filesystem $fs, string $path): iterable
     {
-        if (!$this->isWordpress($fs)) {
+        if (!$this->isWordpress($fs, $path)) {
             return [];
         }
 
         return [
             'matcher' => 'wordpress',
-            'version' => $this->detectVersion($fs),
+            'version' => $this->detectVersion($fs, $path),
             'path' => $path,
         ];
     }

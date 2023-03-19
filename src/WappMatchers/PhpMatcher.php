@@ -23,7 +23,7 @@ class PhpMatcher implements WappMatcherInterface
                 ];
             }
 
-            if ($item->isDir() && $item->path() === 'src') {
+            if ($item->isDir() && $item->path() === ltrim(rtrim($path, '/') . '/src', '/')) {
                 return $this->match($fs, rtrim($path, '/') . '/src');
             }
         }

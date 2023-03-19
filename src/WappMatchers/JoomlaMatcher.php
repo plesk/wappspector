@@ -30,13 +30,15 @@ class JoomlaMatcher implements WappMatcherInterface
     /**
      * @throws FilesystemException
      */
-    private function isJoomla(Filesystem $fs): bool
+    private function isJoomla(Filesystem $fs, string $path): bool
     {
-        if (!$fs->fileExists(self::CONFIG_FILE)) {
+        $configFile = rtrim($path, '/') . '/' . self::CONFIG_FILE;
+        
+        if (!$fs->fileExists($configFile)) {
             return false;
         }
 
-        $configContents = $fs->read(self::CONFIG_FILE);
+        $configContents = $fs->read($configFile);
 
         if (stripos($configContents, 'JConfig') === false
             && stripos($configContents, 'mosConfig') === false) {
@@ -68,7 +70,7 @@ class JoomlaMatcher implements WappMatcherInterface
     {
         // Iterate through version files
         foreach (self::VERSION['files'] as $file) {
-            $versionFile = basename($path) . $file;
+            $versionFile = rtrim($path, '/') . '/' . $file;
 
             if (!$fs->fileExists($versionFile)) {
                 continue;
@@ -113,7 +115,7 @@ class JoomlaMatcher implements WappMatcherInterface
      */
     public function match(Filesystem $fs, string $path): iterable
     {
-        if (!$this->isJoomla($fs)) {
+        if (!$this->isJoomla($fs, $path)) {
             return [];
         }
 

@@ -28,7 +28,7 @@ class DrupalMatcher implements WappMatcherInterface
     {
         // Iterate through version patterns
         foreach (self::VERSIONS as $version) {
-            $versionFile = $version['file'];
+            $versionFile = rtrim($path, '/') . '/' . $version['file'];
 
             if (!$fs->fileExists($versionFile)) {
                 continue;

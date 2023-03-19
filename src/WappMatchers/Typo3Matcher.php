@@ -27,7 +27,7 @@ class Typo3Matcher implements WappMatcherInterface
     public function match(Filesystem $fs, string $path): iterable
     {
         foreach (self::VERSIONS as $version) {
-            $versionFile = $version['filename'];
+            $versionFile = rtrim($path, '/') . '/' . $version['filename'];
 
             if (!$fs->fileExists($versionFile)) {
                 return [];

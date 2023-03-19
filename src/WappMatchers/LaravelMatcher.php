@@ -15,11 +15,11 @@ class LaravelMatcher implements WappMatcherInterface
      */
     public function match(Filesystem $fs, string $path): iterable
     {
-        if (!$fs->fileExists(self::ARTISAN)) {
+        if (!$fs->fileExists(rtrim($path, '/') . '/' . self::ARTISAN)) {
             return [];
         }
 
-        $laravelPackage = $this->getLaravelVersion($fs);
+        $laravelPackage = $this->getLaravelVersion($fs, $path);
         if ($laravelPackage) {
             return [
                 'matcher' => 'laravel',
@@ -31,9 +31,9 @@ class LaravelMatcher implements WappMatcherInterface
         return [];
     }
 
-    private function getLaravelVersion(Filesystem $fs): ?string
+    private function getLaravelVersion(Filesystem $fs, string $path): ?string
     {
-        $composerJson = json_decode($fs->read(self::COMPOSER_JSON), JSON_FORCE_OBJECT | JSON_THROW_ON_ERROR);
+        $composerJson = json_decode($fs->read(rtrim($path, '/') . '/' . self::COMPOSER_JSON), JSON_FORCE_OBJECT | JSON_THROW_ON_ERROR);
         $laravelPackage = $composerJson['require']['laravel/framework'] ?? null;
 
         if ($laravelPackage !== null) {
