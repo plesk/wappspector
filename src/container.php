@@ -17,6 +17,9 @@ return [
             $container->get(WappMatchers\PrestashopMatcher::class),
             $container->get(WappMatchers\Typo3Matcher::class),
             $container->get(WappMatchers\LaravelMatcher::class),
+            $container->get(WappMatchers\DotNetMatcher::class),
+
+            // Low priority wrappers. Should go last.
             $container->get(WappMatchers\ComposerMatcher::class),
             $container->get(WappMatchers\PhpMatcher::class),
         ]);
