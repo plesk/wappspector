@@ -20,6 +20,7 @@ return [
             $container->get(WappMatchers\DotNetMatcher::class),
             $container->get(WappMatchers\RubyMatcher::class),
             $container->get(WappMatchers\PythonMatcher::class),
+            $container->get(WappMatchers\NodeJsMatcher::class),
 
             // Low priority wrappers. Should go last.
             $container->get(WappMatchers\ComposerMatcher::class),
