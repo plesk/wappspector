@@ -4,6 +4,7 @@ namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
+use Plesk\Wappspector\Matchers;
 
 class ComposerMatcher implements WappMatcherInterface
 {
@@ -27,7 +28,7 @@ class ComposerMatcher implements WappMatcherInterface
         $composerJson = json_decode($fs->read($composerJsonFile), JSON_FORCE_OBJECT | JSON_THROW_ON_ERROR);
 
         return [
-            'matcher' => 'composer',
+            'matcher' => Matchers::COMPOSER,
             'path' => $path,
             'application' => $composerJson['name'] ?? 'unknown',
             'version' => $composerJson['version'] ?? 'dev',

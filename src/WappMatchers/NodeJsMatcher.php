@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
+use Plesk\Wappspector\Matchers;
 
 class NodeJsMatcher implements WappMatcherInterface
 {
@@ -19,7 +20,7 @@ class NodeJsMatcher implements WappMatcherInterface
         $json = json_decode($fs->read($packageFile), false, 512, JSON_THROW_ON_ERROR);
 
         return [
-            'matcher' => 'nodejs',
+            'matcher' => Matchers::NODEJS,
             'path' => $path,
             'application' => $json->name ?? null,
             'version' => $json->version ?? null,

@@ -4,6 +4,7 @@ namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
+use Plesk\Wappspector\Matchers;
 
 class LaravelMatcher implements WappMatcherInterface
 {
@@ -25,7 +26,7 @@ class LaravelMatcher implements WappMatcherInterface
         $laravelPackage = $composerJson['require']['laravel/framework'] ?? null;
 
         return [
-            'matcher' => 'laravel',
+            'matcher' => Matchers::LARAVEL,
             'path' => $path,
             'version' => $laravelPackage !== null ? str_replace('^', '', $laravelPackage) : null,
         ];

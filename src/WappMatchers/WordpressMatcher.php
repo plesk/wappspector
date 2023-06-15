@@ -4,6 +4,7 @@ namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
+use Plesk\Wappspector\Matchers;
 
 class WordpressMatcher implements WappMatcherInterface
 {
@@ -54,7 +55,7 @@ class WordpressMatcher implements WappMatcherInterface
         }
 
         return [
-            'matcher' => 'wordpress',
+            'matcher' => Matchers::WORDPRESS,
             'version' => $this->detectVersion($fs, $path),
             'path' => $path,
         ];

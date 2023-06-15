@@ -5,6 +5,7 @@ namespace Plesk\Wappspector\WappMatchers;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\StorageAttributes;
+use Plesk\Wappspector\Matchers;
 
 class PhpMatcher implements WappMatcherInterface
 {
@@ -18,7 +19,7 @@ class PhpMatcher implements WappMatcherInterface
             /** @var StorageAttributes $item */
             if ($item->isFile() && str_ends_with($item->path(), '.php')) {
                 return [
-                    'matcher' => 'php',
+                    'matcher' => Matchers::PHP,
                     'path' => $path,
                 ];
             }

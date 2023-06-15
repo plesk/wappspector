@@ -4,6 +4,7 @@ namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
+use Plesk\Wappspector\Matchers;
 
 class Typo3Matcher implements WappMatcherInterface
 {
@@ -35,7 +36,7 @@ class Typo3Matcher implements WappMatcherInterface
 
             if (preg_match($version['regexp'], $fs->read($versionFile), $matches) && count($matches) > 1) {
                 return [
-                    'matcher' => 'typo3',
+                    'matcher' => Matchers::TYPO3,
                     'version' => $matches[1],
                     'path' => $path,
                 ];

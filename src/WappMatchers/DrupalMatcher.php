@@ -4,6 +4,7 @@ namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
+use Plesk\Wappspector\Matchers;
 
 class DrupalMatcher implements WappMatcherInterface
 {
@@ -41,7 +42,7 @@ class DrupalMatcher implements WappMatcherInterface
             }
 
             return [
-                'matcher' => 'drupal',
+                'matcher' => Matchers::DRUPAL,
                 'version' => $matches[1],
                 'path' => $path,
             ];

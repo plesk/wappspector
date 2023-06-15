@@ -4,6 +4,7 @@ namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
+use Plesk\Wappspector\Matchers;
 
 class PrestashopMatcher implements WappMatcherInterface
 {
@@ -27,7 +28,7 @@ class PrestashopMatcher implements WappMatcherInterface
             }
 
             $result = [
-                'matcher' => 'prestashop',
+                'matcher' => Matchers::PRESTASHOP,
                 'path' => $path,
             ];
 

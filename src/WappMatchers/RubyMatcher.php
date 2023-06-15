@@ -4,6 +4,7 @@ namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
+use Plesk\Wappspector\Matchers;
 
 class RubyMatcher implements WappMatcherInterface
 {
@@ -21,7 +22,7 @@ class RubyMatcher implements WappMatcherInterface
         }
 
         return [
-            'matcher' => 'ruby',
+            'matcher' => Matchers::RUBY,
             'path' => $path,
             'version' => null,
         ];
