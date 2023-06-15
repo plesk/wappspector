@@ -4,6 +4,7 @@ namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
+use Plesk\Wappspector\Matchers;
 
 class JoomlaMatcher implements WappMatcherInterface
 {
@@ -120,7 +121,7 @@ class JoomlaMatcher implements WappMatcherInterface
         }
 
         return [
-            'matcher' => 'joomla',
+            'matcher' => Matchers::JOOMLA,
             'version' => $this->detectVersion($fs, $path),
             'path' => $path,
         ];

@@ -5,6 +5,7 @@ namespace Plesk\Wappspector\WappMatchers;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\StorageAttributes;
+use Plesk\Wappspector\Matchers;
 
 class PythonMatcher implements WappMatcherInterface
 {
@@ -20,7 +21,7 @@ class PythonMatcher implements WappMatcherInterface
             /** @var StorageAttributes $item */
             if ($item->isFile() && str_ends_with($item->path(), '.py')) {
                 return [
-                    'matcher' => 'python',
+                    'matcher' => Matchers::PYTHON,
                     'path' => $path,
                 ];
             }

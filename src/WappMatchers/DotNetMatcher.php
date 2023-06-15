@@ -5,6 +5,7 @@ namespace Plesk\Wappspector\WappMatchers;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\StorageAttributes;
+use Plesk\Wappspector\Matchers;
 
 class DotNetMatcher implements WappMatcherInterface
 {
@@ -26,7 +27,7 @@ class DotNetMatcher implements WappMatcherInterface
                 $hex = bin2hex(fread($handle, 4));
                 if (str_contains($hex, self::HEX_SIGNATURE)) {
                     return [
-                        'matcher' => 'dotnet',
+                        'matcher' => Matchers::DOTNET,
                         'path' => $path,
                     ];
                 }
