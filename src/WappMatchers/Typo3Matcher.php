@@ -14,11 +14,11 @@ class Typo3Matcher implements WappMatcherInterface
     protected const VERSIONS = [
         [
             'filename' => '/typo3/sysext/core/Classes/Core/SystemEnvironmentBuilder.php',
-            'regexp' => '/define\\(\'TYPO3_version\', \'(.*?)\'\\)/'
+            'regexp' => '/define\\(\'TYPO3_version\', \'(.*?)\'\\)/',
         ],
         [
             'filename' => '/t3lib/config_default.php',
-            'regexp' => '/TYPO_VERSION = \'(.*?)\'/'
+            'regexp' => '/TYPO_VERSION = \'(.*?)\'/',
         ],
     ];
 

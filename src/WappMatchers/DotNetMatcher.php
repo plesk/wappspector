@@ -12,7 +12,7 @@ class DotNetMatcher implements WappMatcherInterface
     use UpLevelMatcherTrait;
 
     private const HEX_SIGNATURE = '4d5a';
-    
+
     /**
      * @throws FilesystemException
      */
@@ -22,15 +22,17 @@ class DotNetMatcher implements WappMatcherInterface
 
         foreach ($list as $item) {
             /** @var StorageAttributes $item */
-            if ($item->isFile() && str_ends_with($item->path(), '.dll')) {
-                $handle = $fs->readStream($item->path());
-                $hex = bin2hex(fread($handle, 4));
-                if (str_contains($hex, self::HEX_SIGNATURE)) {
-                    return [
-                        'matcher' => Matchers::DOTNET,
-                        'path' => $path,
-                    ];
-                }
+            if (!$item->isFile() || !str_ends_with($item->path(), '.dll')) {
+                continue;
+            }
+
+            $handle = $fs->readStream($item->path());
+            $hex = bin2hex(fread($handle, 4));
+            if (str_contains($hex, self::HEX_SIGNATURE)) {
+                return [
+                    'matcher' => Matchers::DOTNET,
+                    'path' => $path,
+                ];
             }
         }
 

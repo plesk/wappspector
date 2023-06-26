@@ -11,7 +11,7 @@ class PrestashopMatcher implements WappMatcherInterface
     protected const VERSIONS = [
         [
             'filename' => '/config/settings.inc.php',
-            'regexp' => '/define\\(\'_PS_VERSION_\', \'(.+)\'\\)/'
+            'regexp' => '/define\\(\'_PS_VERSION_\', \'(.+)\'\\)/',
         ],
     ];
 

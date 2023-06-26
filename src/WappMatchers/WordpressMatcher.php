@@ -38,11 +38,7 @@ class WordpressMatcher implements WappMatcherInterface
 
         $fileContents = $fs->read($versionFile);
 
-        if (stripos($fileContents, '$wp_version =') === false) {
-            return false;
-        }
-
-        return true;
+        return stripos($fileContents, '$wp_version =') !== false;
     }
 
     /**

@@ -19,7 +19,7 @@ class DrupalMatcher implements WappMatcherInterface
         [
             'file' => '/core/modules/system/system.info.yml',
             'regex' => "/version:\\s*'(\\d\\.[^']+)'[\\s\\S]*project:\\s*'drupal'/",
-        ]
+        ],
     ];
 
     /**

@@ -26,9 +26,11 @@ final class Wappspector
 
         /** @var WappMatcherInterface $matcher */
         foreach ($this->matchers as $matcher) {
-            if ($match = $matcher->match($fs, $path)) {
-                $result[] = $match;
+            if (!$match = $matcher->match($fs, $path)) {
+                continue;
             }
+
+            $result[] = $match;
         }
 
         return $result;
