@@ -2,8 +2,12 @@
 
 namespace Plesk\Wappspector\Command;
 
+use FilesystemIterator;
 use JsonException;
 use Plesk\Wappspector\Wappspector;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use SplFileInfo;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -84,15 +88,15 @@ class Inspect extends Command
             return;
         }
 
-        $flags = \FilesystemIterator::KEY_AS_PATHNAME
-            | \FilesystemIterator::CURRENT_AS_FILEINFO
-            | \FilesystemIterator::SKIP_DOTS;
-        $itFlags = \RecursiveIteratorIterator::SELF_FIRST;
-        $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, $flags), $itFlags);
+        $flags = FilesystemIterator::KEY_AS_PATHNAME
+            | FilesystemIterator::CURRENT_AS_FILEINFO
+            | FilesystemIterator::SKIP_DOTS;
+        $itFlags = RecursiveIteratorIterator::SELF_FIRST;
+        $it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, $flags), $itFlags);
         $it->setMaxDepth((int)$input->getOption('depth'));
 
         foreach ($it as $path => $item) {
-            /** @var \SplFileInfo $item */
+            /** @var SplFileInfo $item */
             if (str_contains($path, '/.')) {
                 continue;
             }

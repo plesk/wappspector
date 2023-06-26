@@ -12,7 +12,6 @@ class JoomlaMatcher implements WappMatcherInterface
 
     /**
      * Joomla has changed the way how the version number is stored multiple times, so we need this comprehensive array
-     * @var array
      */
     private const VERSION = [
         "files" => [
@@ -34,15 +33,17 @@ class JoomlaMatcher implements WappMatcherInterface
     private function isJoomla(Filesystem $fs, string $path): bool
     {
         $configFile = rtrim($path, '/') . '/' . self::CONFIG_FILE;
-        
+
         if (!$fs->fileExists($configFile)) {
             return false;
         }
 
         $configContents = $fs->read($configFile);
 
-        if (stripos($configContents, 'JConfig') === false
-            && stripos($configContents, 'mosConfig') === false) {
+        if (
+            stripos($configContents, 'JConfig') === false
+            && stripos($configContents, 'mosConfig') === false
+        ) {
             return false;
         }
 
@@ -57,11 +58,7 @@ class JoomlaMatcher implements WappMatcherInterface
         }
 
         // False positive mock file in unit test folder
-        if (stripos($configContents, "Joomla\Framework\Test") !== false) {
-            return false;
-        }
-
-        return true;
+        return stripos($configContents, "Joomla\Framework\Test") === false;
     }
 
     /**
