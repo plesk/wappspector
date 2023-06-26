@@ -1,6 +1,6 @@
 {
   "name": "plesk/wappspector",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Command-line interface utility to analyze the file structure of a web hosting server and identify the frameworks and CMS used in the websites hosted on it.",
   "type": "project",
   "license": "Apache-2.0",
@@ -27,8 +27,8 @@
     "php": ">=8.0",
     "league/flysystem": "^3.0",
     "monolog/monolog": "^2.9.1",
-    "php-di/php-di": "^7.0",
-    "symfony/console": "^v5.4.21"
+    "php-di/php-di": "^6.0",
+    "symfony/console": "^v5.0"
   },
   "config": {
     "platform": {
