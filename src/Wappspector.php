@@ -18,9 +18,9 @@ final class Wappspector
     /**
      * @throws Throwable
      */
-    public function run(string $path): iterable
+    public function run(string $path, string $basePath = '/'): iterable
     {
-        $fs = ($this->fsFactory)('/');
+        $fs = ($this->fsFactory)($basePath);
 
         $result = [];
 
