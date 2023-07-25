@@ -23,4 +23,25 @@ class Matchers
 
     public const UNKNOWN = 'unknown';
     public const NO_HOSTING = 'nohosting';
+
+    private static array $names = [
+        self::COMPOSER => 'Composer',
+        self::DOTNET => '.NET',
+        self::DRUPAL => 'Drupal',
+        self::JOOMLA => 'Joomla!',
+        self::LARAVEL => 'Laravel',
+        self::PRESTASHOP => 'PrestaShop',
+        self::TYPO3 => 'TYPO3',
+        self::WORDPRESS => 'WordPress',
+        self::RUBY => 'Ruby',
+        self::PHP => 'PHP',
+        self::NODEJS => 'Node.js',
+        self::PYTHON => 'Python',
+        self::UNKNOWN => 'Unknown',
+    ];
+
+    public static function getName(string $matcher): ?string
+    {
+        return self::$names[$matcher] ?? null;
+    }
 }

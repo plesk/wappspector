@@ -4,6 +4,7 @@ namespace Plesk\Wappspector\Command;
 
 use FilesystemIterator;
 use JsonException;
+use Plesk\Wappspector\Matchers;
 use Plesk\Wappspector\Wappspector;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -69,12 +70,12 @@ class Inspect extends Command
         $rows = [];
 
         foreach ($result as $item) {
-            $rows[] = [$item['matcher'], $item['path'], $item['version'] ?? '-'];
+            $rows[] = [$item['matcher'], Matchers::getName($item['matcher']), $item['path'], $item['version'] ?? '-'];
         }
 
         $table = new Table($output);
         $table
-            ->setHeaders(['Technology', 'Path', 'Version'])
+            ->setHeaders(['Matcher', 'Technology name', 'Path', 'Version'])
             ->setRows($rows);
         $table->render();
     }
