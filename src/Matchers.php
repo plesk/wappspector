@@ -12,6 +12,10 @@ class Matchers
     public const DRUPAL = 'drupal';
     public const JOOMLA = 'joomla';
     public const LARAVEL = 'laravel';
+    public const SYMFONY = 'symfony';
+    public const CODEIGNITER = 'codeigniter';
+    public const CAKEPHP = 'cakephp';
+    public const YII = 'yii';
     public const PRESTASHOP = 'prestashop';
     public const TYPO3 = 'typo3';
     public const WORDPRESS = 'wordpress';
@@ -36,6 +40,10 @@ class Matchers
         self::RUBY => 'Ruby',
         self::PHP => 'PHP',
         self::NODEJS => 'Node.js',
+        self::SYMFONY => 'Symfony',
+        self::CODEIGNITER => 'CodeIgniter',
+        self::CAKEPHP => 'CakePHP',
+        self::YII => 'Yii',
         self::PYTHON => 'Python',
         self::UNKNOWN => 'Unknown',
     ];
