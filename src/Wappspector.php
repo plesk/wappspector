@@ -18,7 +18,7 @@ final class Wappspector
     /**
      * @throws Throwable
      */
-    public function run(string $path, string $basePath = '/'): iterable
+    public function run(string $path, string $basePath = '/', int $matchersLimit = 0): iterable
     {
         $fs = ($this->fsFactory)($basePath);
 
@@ -31,6 +31,9 @@ final class Wappspector
             }
 
             $result[] = $match;
+            if ($matchersLimit > 0 && count($result) >= $matchersLimit) {
+                break;
+            }
         }
 
         return $result;
