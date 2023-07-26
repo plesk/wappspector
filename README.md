@@ -5,6 +5,10 @@ Command-line interface utility to analyze the file structure of a web hosting se
 
 -   PHP
 -   Laravel
+-   Symfony
+-   CodeIgniter
+-   CakePHP
+-   Yii
 -   Composer
 -   Ruby
 -   Python
