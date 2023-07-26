@@ -29,6 +29,7 @@ class Inspect extends Command
         $this->addOption('json', '', InputOption::VALUE_NONE, 'JSON output');
         $this->addOption('recursive', '', InputOption::VALUE_NEGATABLE, 'Traverse directories recursive', true);
         $this->addOption('depth', '', InputOption::VALUE_OPTIONAL, 'Depth of recurse', 1);
+        $this->addOption('max', '', InputOption::VALUE_REQUIRED, 'Maximum number of technologies that can be found for directory. Default = 0 (no limit)', 0);
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -36,10 +37,11 @@ class Inspect extends Command
         $isJson = (bool)$input->getOption('json');
         $logger = new ConsoleLogger($output);
         $result = [];
+        $matchersLimit = (int)$input->getOption('max');
 
         try {
             foreach ($this->getPath($input) as $path) {
-                $result = [...$result, ...$this->wappspector->run($path)];
+                $result = [...$result, ...$this->wappspector->run($path, '/', $matchersLimit)];
             }
             $result = $this->filterResults($result);
 
