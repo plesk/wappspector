@@ -1,27 +1,31 @@
 # wappspector
 Command-line interface utility to analyze the file structure of a web hosting server and identify the frameworks and CMS used in the websites hosted on it.
 
-### Technology & Framework
+## Matchers
+### Technology & Frameworks
 
--   PHP
--   Laravel
--   Symfony
--   CodeIgniter
--   CakePHP
--   Yii
--   Composer
--   Ruby
--   Python
--   .NET
--   Node.js
+| Technology  | Version    | Check type                       |
+|-------------|------------|----------------------------------|
+| PHP         | -          | Any `*.php` file                 |
+| Ruby        | 2, 3       | `Rakefile` in root dir           |
+| Python      | 2, 3       | Any `*.py` file                  |
+| Laravel     | 8, 9, 10   | `artisan` file in root dir       |
+| Symfony     | 3, 4, 5, 6 | `symfony.lock` file in root dir  |
+| CodeIgniter | 4          | `spark` file in root dir         |
+| CakePHP     | 3, 4       | `bin/cake` file                  |
+| Yii         | 2          | `yii` file in root dir           |
+| Composer    | -          | `composer.json` file in root dir |
+| .NET        | -          | Any `*.dll` file                 |
+| Node.js     | -          | `package.json` file in root dir  |
 
 ### CMS
-
--   WordPress
--   Joomla!
--   Drupal
--   PrestaShop
--   TYPO3
+| Name       | Major version           | Check type                                                                                                             |
+|------------|-------------------------|------------------------------------------------------------------------------------------------------------------------|
+| WordPress  | 2 - 6                   | Existence and contents of `wp-includes/version.php`                                                     |
+| Joomla!    | 1 - 4                   | Existence and contents of `configuration.php` in root dir                                                              |
+| Drupal     | 6 - 10                  | Existence and contents of `/modules/system/system.info` or `/core/modules/system/system.info.yml`                      |
+| PrestaShop | 1.6, 1.7.8, 8.0         | Existence and contents of `/config/settings.inc.php`                                                                   |
+| TYPO3      | 7.6, 8.7, 9, 10, 11, 12 | Existence and contents of `/typo3/sysext/core/Classes/Core/SystemEnvironmentBuilder.php` or `/t3lib/config_default.php` |
 
 ## How to build phar
 
