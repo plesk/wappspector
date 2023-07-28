@@ -1,0 +1,12 @@
+name: System
+type: module
+description: 'Provides user interfaces for core systems.'
+package: Core
+# version: VERSION
+required: true
+configure: system.admin_config_system
+
+# Information added by Drupal.org packaging script on 2023-07-06
+version: '10.1.1'
+project: 'drupal'
+datestamp: 1688633026
