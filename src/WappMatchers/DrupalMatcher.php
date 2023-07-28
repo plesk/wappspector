@@ -13,12 +13,12 @@ class DrupalMatcher implements WappMatcherInterface
      */
     private const VERSIONS = [
         [
-            'file' => '/modules/system/system.info',
+            'file' => 'modules/system/system.info',
             'regex' => "/version\\s*=\\s*\"(\\d\\.[^']+)\"[\\s\\S]*project\\s*=\\s*\"drupal\"/",
         ],
         [
-            'file' => '/core/modules/system/system.info.yml',
-            'regex' => "/version:\\s*'(\\d\\.[^']+)'[\\s\\S]*project:\\s*'drupal'/",
+            'file' => 'core/modules/system/system.info.yml',
+            'regex' => "/version:\\s*'(\\d+\\.[^']+)'[\\s\\S]*project:\\s*'drupal'/",
         ],
     ];
 
@@ -35,19 +35,21 @@ class DrupalMatcher implements WappMatcherInterface
                 continue;
             }
 
-            preg_match($version['regex'], $fs->read($versionFile), $matches);
-
-            if (!count($matches)) {
-                continue;
-            }
-
+            $version = $this->detectVersion($version['regex'], $versionFile, $fs);
             return [
                 'matcher' => Matchers::DRUPAL,
-                'version' => $matches[1],
+                'version' => $version,
                 'path' => $path,
             ];
         }
 
         return [];
+    }
+
+    private function detectVersion(string $regexPattern, string $versionFile, Filesystem $fs): ?string
+    {
+        preg_match($regexPattern, $fs->read($versionFile), $matches);
+
+        return count($matches) ? $matches[1] : null;
     }
 }
