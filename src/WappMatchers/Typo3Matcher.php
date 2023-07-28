@@ -13,11 +13,15 @@ class Typo3Matcher implements WappMatcherInterface
      */
     protected const VERSIONS = [
         [
-            'filename' => '/typo3/sysext/core/Classes/Core/SystemEnvironmentBuilder.php',
+            'filename' => 'typo3/sysext/core/Classes/Information/Typo3Version.php',
+            'regexp' => '/VERSION = \'(.*?)\'/',
+        ],
+        [
+            'filename' => 'typo3/sysext/core/Classes/Core/SystemEnvironmentBuilder.php',
             'regexp' => '/define\\(\'TYPO3_version\', \'(.*?)\'\\)/',
         ],
         [
-            'filename' => '/t3lib/config_default.php',
+            'filename' => 't3lib/config_default.php',
             'regexp' => '/TYPO_VERSION = \'(.*?)\'/',
         ],
     ];
@@ -31,18 +35,24 @@ class Typo3Matcher implements WappMatcherInterface
             $versionFile = rtrim($path, '/') . '/' . $version['filename'];
 
             if (!$fs->fileExists($versionFile)) {
-                return [];
+                continue;
             }
 
-            if (preg_match($version['regexp'], $fs->read($versionFile), $matches) && count($matches) > 1) {
+            if ($version = $this->detectVersion($version['regexp'], $versionFile, $fs)) {
                 return [
                     'matcher' => Matchers::TYPO3,
-                    'version' => $matches[1],
+                    'version' => $version,
                     'path' => $path,
                 ];
             }
         }
 
         return [];
+    }
+
+    public function detectVersion(string $regexPattern, string $versionFile, Filesystem $fs): ?string
+    {
+        preg_match($regexPattern, $fs->read($versionFile), $matches);
+        return count($matches) > 1 ? $matches[1] : null;
     }
 }

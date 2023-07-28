@@ -19,13 +19,13 @@ Command-line interface utility to analyze the file structure of a web hosting se
 | Node.js     | -          | `package.json` file in root dir  |
 
 ### CMS
-| Name       | Major version           | Check type                                                                                                             |
-|------------|-------------------------|------------------------------------------------------------------------------------------------------------------------|
-| WordPress  | 2 - 6                   | Existence and contents of `wp-includes/version.php`                                                     |
-| Joomla!    | 1 - 4                   | Existence and contents of `configuration.php` in root dir                                                              |
-| Drupal     | 6 - 10                  | Existence and contents of `/modules/system/system.info` or `/core/modules/system/system.info.yml`                      |
-| PrestaShop | 1.6, 1.7.8, 8.0         | Existence and contents of `/config/settings.inc.php`                                                                   |
-| TYPO3      | 7.6, 8.7, 9, 10, 11, 12 | Existence and contents of `/typo3/sysext/core/Classes/Core/SystemEnvironmentBuilder.php` or `/t3lib/config_default.php` |
+| Name       | Major version           | Check type                                                                                                                                                                           |
+|------------|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| WordPress  | 2 - 6                   | Existence and contents of `wp-includes/version.php`                                                                                                                                  |
+| Joomla!    | 1 - 4                   | Existence and contents of `configuration.php` in root dir                                                                                                                            |
+| Drupal     | 6 - 10                  | Existence and contents of `/modules/system/system.info` or `/core/modules/system/system.info.yml`                                                                                    |
+| PrestaShop | 1.6, 1.7.8, 8.0         | Existence and contents of `/config/settings.inc.php`                                                                                                                                 |
+| TYPO3      | 7.6, 8.7, 9, 10, 11, 12 | Existence and contents of `/typo3/sysext/core/Classes/Core/SystemEnvironmentBuilder.php` or `/typo3/sysext/core/Classes/Information/Typo3Version.php` or `/t3lib/config_default.php` |
 
 ## How to build phar
 
