@@ -28,11 +28,16 @@ Command-line interface utility to analyze the file structure of a web hosting se
 | TYPO3      | 7.6, 8.7, 9, 10, 11, 12 | Existence and contents of `/typo3/sysext/core/Classes/Core/SystemEnvironmentBuilder.php` or `/typo3/sysext/core/Classes/Information/Typo3Version.php` or `/t3lib/config_default.php` |
 
 ## How to build phar
+```shell
+composer global require clue/phar-composer
+composer install
+php -d phar.readonly=off ~/.composer/vendor/bin/phar-composer build .
+```
 
-* composer global require clue/phar-composer
-* composer install --no-dev
-* php -d phar.readonly=off ~/.composer/vendor/bin/phar-composer build .
-* ./wappspector.phar
+Run the created `wappspector.phar`:
+```shell
+./wappspector.phar ./test-data
+```
 
 ## Changing matchers order
 To change the matchers order or to disable some of them, you should override `matchers` entry of DI container.
