@@ -10,6 +10,7 @@ class LaravelMatcher implements WappMatcherInterface
 {
     use UpLevelMatcherTrait;
 
+    private const VERSION_FILE = 'vendor/laravel/framework/src/Illuminate/Foundation/Application.php';
     private const COMPOSER_JSON = 'composer.json';
     private const ARTISAN = 'artisan';
 
@@ -23,18 +24,36 @@ class LaravelMatcher implements WappMatcherInterface
             return [];
         }
 
-        $json = [];
-        try {
-            $json = json_decode($fs->read($path . '/' . self::COMPOSER_JSON), true, 512, JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
-            // ignore composer.json errors
-        }
-        $laravelPackage = $json['require']['laravel/framework'] ?? null;
-
         return [
             'matcher' => Matchers::LARAVEL,
             'path' => $path,
-            'version' => $laravelPackage !== null ? str_replace('^', '', $laravelPackage) : null,
+            'version' => $this->detectVersion($path, $fs),
         ];
+    }
+
+    private function detectVersion(string $path, Filesystem $fs): ?string
+    {
+        $result = null;
+        $versionFile = $path . '/' . self::VERSION_FILE;
+        if ($fs->fileExists($versionFile)) {
+            preg_match("/VERSION\\s*=\\s*'([^']+)'/", $fs->read($versionFile), $matches);
+            if (count($matches)) {
+                $result = $matches[1];
+            }
+        } else {
+            $composerJsonFile = $path . '/' . self::COMPOSER_JSON;
+            if ($fs->fileExists($composerJsonFile)) {
+                try {
+                    $json = json_decode($fs->read($composerJsonFile), true, 512, JSON_THROW_ON_ERROR);
+                    if ($laravelPackage = $json['require']['laravel/framework'] ?? null) {
+                        $result = str_replace('^', '', $laravelPackage);
+                    }
+                } catch (\JsonException $e) {
+                    // ignore composer.json errors
+                }
+            }
+        }
+
+        return $result;
     }
 }
