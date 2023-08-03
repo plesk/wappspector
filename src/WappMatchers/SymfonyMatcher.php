@@ -20,7 +20,12 @@ class SymfonyMatcher implements WappMatcherInterface
             return [];
         }
 
-        $json = json_decode($fs->read($symfonyLockFile), true, 512, JSON_THROW_ON_ERROR);
+        $json = [];
+        try {
+            $json = json_decode($fs->read($symfonyLockFile), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            // ignore symfony.lock errors
+        }
 
         return [
             'matcher' => Matchers::SYMFONY,

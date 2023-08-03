@@ -25,13 +25,18 @@ class ComposerMatcher implements WappMatcherInterface
             return [];
         }
 
-        $composerJson = json_decode($fs->read($composerJsonFile), JSON_FORCE_OBJECT | JSON_THROW_ON_ERROR);
+        $json = [];
+        try {
+            $json = json_decode($fs->read($composerJsonFile), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            // ignore composer.json errors
+        }
 
         return [
             'matcher' => Matchers::COMPOSER,
             'path' => $path,
-            'application' => $composerJson['name'] ?? 'unknown',
-            'version' => $composerJson['version'] ?? 'dev',
+            'application' => $json['name'] ?? 'unknown',
+            'version' => $json['version'] ?? 'dev',
         ];
     }
 }

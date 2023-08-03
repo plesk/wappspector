@@ -17,13 +17,19 @@ class NodeJsMatcher implements WappMatcherInterface
         if (!$fs->fileExists($packageFile)) {
             return [];
         }
-        $json = json_decode($fs->read($packageFile), false, 512, JSON_THROW_ON_ERROR);
+
+        $json = [];
+        try {
+            $json = json_decode($fs->read($packageFile), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            // ignore package.json errors
+        }
 
         return [
             'matcher' => Matchers::NODEJS,
             'path' => $path,
-            'application' => $json->name ?? null,
-            'version' => $json->version ?? null,
+            'application' => $json['name'] ?? null,
+            'version' => $json['version'] ?? null,
         ];
     }
 }
