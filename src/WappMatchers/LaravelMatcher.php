@@ -18,12 +18,18 @@ class LaravelMatcher implements WappMatcherInterface
      */
     protected function doMatch(Filesystem $fs, string $path): array
     {
-        if (!$fs->fileExists(rtrim($path, '/') . '/' . self::ARTISAN)) {
+        $path = rtrim($path, '/');
+        if (!$fs->fileExists($path . '/' . self::ARTISAN)) {
             return [];
         }
 
-        $composerJson = json_decode($fs->read(rtrim($path, '/') . '/' . self::COMPOSER_JSON), JSON_FORCE_OBJECT | JSON_THROW_ON_ERROR);
-        $laravelPackage = $composerJson['require']['laravel/framework'] ?? null;
+        $json = [];
+        try {
+            $json = json_decode($fs->read($path . '/' . self::COMPOSER_JSON), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            // ignore composer.json errors
+        }
+        $laravelPackage = $json['require']['laravel/framework'] ?? null;
 
         return [
             'matcher' => Matchers::LARAVEL,
