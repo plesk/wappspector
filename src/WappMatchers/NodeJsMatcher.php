@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace Plesk\Wappspector\WappMatchers;
 
+use JsonException;
 use League\Flysystem\Filesystem;
 use Plesk\Wappspector\Matchers;
 
@@ -21,7 +22,7 @@ class NodeJsMatcher implements WappMatcherInterface
         $json = [];
         try {
             $json = json_decode($fs->read($packageFile), true, 512, JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
+        } catch (JsonException $e) {
             // ignore package.json errors
         }
 
