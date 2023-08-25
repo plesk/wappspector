@@ -23,6 +23,7 @@ class PythonMatcher implements WappMatcherInterface
                 return [
                     'matcher' => Matchers::PYTHON,
                     'path' => $path,
+                    'version' => null,
                 ];
             }
         }
