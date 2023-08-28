@@ -15,7 +15,7 @@ jobs:
         uses: php-actions/phpunit@v3
         with:
           php_extensions: xdebug
-          bootstrap: vendor/autoload.php
+          bootstrap: tests/bootstrap.php
           configuration: phpunit.xml
           args: --coverage-text
         env:
