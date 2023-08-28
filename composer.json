@@ -8,7 +8,7 @@
     "bin/wappspector.php"
   ],
   "scripts": {
-    "test": "phpunit --coverage-html ./src",
+    "test": "phpunit",
     "lint": "phpcs -s --parallel=4",
     "lint:fix": "phpcbf"
   },
