@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Test\WappMatchers;
 
 use League\Flysystem\Filesystem;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Plesk\Wappspector\FileSystemFactory;
 use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 
+#[CoversClass(FileSystemFactory::class)]
 abstract class AbstractMatcherTestCase extends TestCase
 {
     protected function getFsObject(): Filesystem
