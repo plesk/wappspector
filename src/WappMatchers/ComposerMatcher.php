@@ -2,6 +2,7 @@
 
 namespace Plesk\Wappspector\WappMatchers;
 
+use JsonException;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use Plesk\Wappspector\Matchers;
@@ -28,7 +29,7 @@ class ComposerMatcher implements WappMatcherInterface
         $json = [];
         try {
             $json = json_decode($fs->read($composerJsonFile), true, 512, JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
+        } catch (JsonException $e) {
             // ignore composer.json errors
         }
 

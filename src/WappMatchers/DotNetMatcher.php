@@ -32,6 +32,7 @@ class DotNetMatcher implements WappMatcherInterface
                 return [
                     'matcher' => Matchers::DOTNET,
                     'path' => $path,
+                    'version' => null,
                 ];
             }
         }

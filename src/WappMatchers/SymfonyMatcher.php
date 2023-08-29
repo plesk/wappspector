@@ -5,12 +5,12 @@ declare(strict_types=1);
 
 namespace Plesk\Wappspector\WappMatchers;
 
+use JsonException;
 use League\Flysystem\Filesystem;
 use Plesk\Wappspector\Matchers;
 
 class SymfonyMatcher implements WappMatcherInterface
 {
-
     public function match(Filesystem $fs, string $path): iterable
     {
 
@@ -23,7 +23,7 @@ class SymfonyMatcher implements WappMatcherInterface
         $json = [];
         try {
             $json = json_decode($fs->read($symfonyLockFile), true, 512, JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
+        } catch (JsonException $e) {
             // ignore symfony.lock errors
         }
 

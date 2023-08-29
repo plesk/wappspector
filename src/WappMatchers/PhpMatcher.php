@@ -21,6 +21,7 @@ class PhpMatcher implements WappMatcherInterface
                 return [
                     'matcher' => Matchers::PHP,
                     'path' => $path,
+                    'version' => null,
                 ];
             }
 

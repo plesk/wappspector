@@ -2,6 +2,7 @@
 
 namespace Plesk\Wappspector\WappMatchers;
 
+use JsonException;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use Plesk\Wappspector\Matchers;
@@ -48,7 +49,7 @@ class LaravelMatcher implements WappMatcherInterface
                     if ($laravelPackage = $json['require']['laravel/framework'] ?? null) {
                         $result = str_replace('^', '', $laravelPackage);
                     }
-                } catch (\JsonException $e) {
+                } catch (JsonException $e) {
                     // ignore composer.json errors
                 }
             }

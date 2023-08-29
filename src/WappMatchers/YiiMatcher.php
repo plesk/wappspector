@@ -10,7 +10,6 @@ use Plesk\Wappspector\Matchers;
 
 class YiiMatcher implements WappMatcherInterface
 {
-
     public function match(Filesystem $fs, string $path): iterable
     {
         $path = rtrim($path, '/');

@@ -1,6 +1,8 @@
 # wappspector
 Command-line interface utility to analyze the file structure of a web hosting server and identify the frameworks and CMS used in the websites hosted on it.
 
+[![unit-test](https://github.com/plesk/wappspector/actions/workflows/unit-test.yml/badge.svg)](https://github.com/plesk/wappspector/actions/workflows/unit-test.yml)
+
 ## Matchers
 ### Technology & Frameworks
 
@@ -55,4 +57,9 @@ or
 // only detect WordPress installs
 $diContainer = \Plesk\Wappspector\DIContainer::build();
 $diContainer->set('matchers', [\Plesk\Wappspector\WappMatchers\WordpressMatcher::class]);
+```
+
+## Testing
+```shell
+./vendor/bin/phpunit
 ```
