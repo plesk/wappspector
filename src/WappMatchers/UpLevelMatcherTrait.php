@@ -3,7 +3,9 @@
 namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
+use League\Flysystem\PathTraversalDetected;
 use League\Flysystem\UnableToListContents;
+use League\Flysystem\WhitespacePathNormalizer;
 
 trait UpLevelMatcherTrait
 {
@@ -11,7 +13,8 @@ trait UpLevelMatcherTrait
 
     public function match(Filesystem $fs, string $path): array
     {
-        return $this->safeScanDir($fs, $path) ?: $this->safeScanDir($fs, rtrim($path) . '/../');
+        $matcher = $this->safeScanDir($fs, $path) ?: $this->safeScanDir($fs, rtrim($path) . '/../');
+        return $this->normalizeMatcherPath($matcher);
     }
 
     private function safeScanDir(Filesystem $fs, string $path): array
@@ -19,10 +22,19 @@ trait UpLevelMatcherTrait
         $result = [];
         try {
             $result = $this->doMatch($fs, $path);
-        } catch (UnableToListContents) {
-            // skip dir if it is inaccessible
+        } catch (UnableToListContents | PathTraversalDetected) {
+//             skip dir if it is inaccessible
         }
 
         return $result;
+    }
+
+    private function normalizeMatcherPath(array $matcher): array
+    {
+        if (array_key_exists('path', $matcher)) {
+            $matcher['path'] = (new WhitespacePathNormalizer())->normalizePath($matcher['path']);
+        }
+
+        return $matcher;
     }
 }
