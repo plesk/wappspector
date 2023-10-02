@@ -114,4 +114,25 @@ class UpLevelMatcherTraitTest extends TestCase
         $this->assertArrayHasKey('path', $result);
         $this->assertStringNotContainsString('..', $result['path']);
     }
+
+    public function testEmptyDir(): void
+    {
+        vfsStream::create([
+            'parent' => [
+                'child' => [
+                ],
+            ],
+        ]);
+
+        $result = $this->getTestMatcher()->match($this->fs, 'parent/child');
+        $this->assertIsArray($result);
+        $this->assertEmpty($result);
+    }
+
+    public function testNonexistentDir(): void
+    {
+        $result = $this->getTestMatcher()->match($this->fs, 'no-parent-dir/no-child-dir');
+        $this->assertIsArray($result);
+        $this->assertEmpty($result);
+    }
 }
