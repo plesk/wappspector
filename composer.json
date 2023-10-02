@@ -22,6 +22,7 @@
     }
   },
   "require-dev": {
+    "mikey179/vfsstream": "^1.6",
     "phpunit/phpunit": "^10",
     "psr/log": "^2.0",
     "slevomat/coding-standard": "^8.8.0",
