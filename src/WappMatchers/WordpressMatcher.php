@@ -4,7 +4,9 @@ namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\EmptyMatchResult;
+use Plesk\Wappspector\MatchResult\MatchResultInterface;
+use Plesk\Wappspector\MatchResult\WordpressMatchResult;
 
 class WordpressMatcher implements WappMatcherInterface
 {
@@ -44,16 +46,12 @@ class WordpressMatcher implements WappMatcherInterface
     /**
      * @throws FilesystemException
      */
-    public function match(Filesystem $fs, string $path): iterable
+    public function match(Filesystem $fs, string $path): MatchResultInterface
     {
         if (!$this->isWordpress($fs, $path)) {
-            return [];
+            return new EmptyMatchResult();
         }
 
-        return [
-            'matcher' => Matchers::WORDPRESS,
-            'version' => $this->detectVersion($fs, $path),
-            'path' => $path,
-        ];
+        return new WordpressMatchResult($path, $this->detectVersion($fs, $path));
     }
 }

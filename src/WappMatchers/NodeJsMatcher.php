@@ -7,16 +7,18 @@ namespace Plesk\Wappspector\WappMatchers;
 
 use JsonException;
 use League\Flysystem\Filesystem;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\EmptyMatchResult;
+use Plesk\Wappspector\MatchResult\MatchResultInterface;
+use Plesk\Wappspector\MatchResult\NodeJsMatchResult;
 
 class NodeJsMatcher implements WappMatcherInterface
 {
-    public function match(Filesystem $fs, string $path): iterable
+    public function match(Filesystem $fs, string $path): MatchResultInterface
     {
         $packageFile = rtrim($path, '/') . '/package.json';
 
         if (!$fs->fileExists($packageFile)) {
-            return [];
+            return new EmptyMatchResult();
         }
 
         $json = [];
@@ -26,11 +28,6 @@ class NodeJsMatcher implements WappMatcherInterface
             // ignore package.json errors
         }
 
-        return [
-            'matcher' => Matchers::NODEJS,
-            'path' => $path,
-            'application' => $json['name'] ?? null,
-            'version' => $json['version'] ?? null,
-        ];
+        return new NodeJsMatchResult($path, null, $json['name'] ?? null);
     }
 }

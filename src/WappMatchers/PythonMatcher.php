@@ -3,31 +3,24 @@
 namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
-use League\Flysystem\FilesystemException;
 use League\Flysystem\StorageAttributes;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\EmptyMatchResult;
+use Plesk\Wappspector\MatchResult\MatchResultInterface;
+use Plesk\Wappspector\MatchResult\PythonMatchResult;
 
 class PythonMatcher implements WappMatcherInterface
 {
     use UpLevelMatcherTrait;
 
-    /**
-     * @throws FilesystemException
-     */
-    protected function doMatch(Filesystem $fs, string $path): array
+    protected function doMatch(Filesystem $fs, string $path): MatchResultInterface
     {
-        $list = $fs->listContents($path);
-        foreach ($list as $item) {
+        foreach ($fs->listContents($path) as $item) {
             /** @var StorageAttributes $item */
             if ($item->isFile() && str_ends_with($item->path(), '.py')) {
-                return [
-                    'matcher' => Matchers::PYTHON,
-                    'path' => $path,
-                    'version' => null,
-                ];
+                return new PythonMatchResult($path);
             }
         }
 
-        return [];
+        return new EmptyMatchResult();
     }
 }

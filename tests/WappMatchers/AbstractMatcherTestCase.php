@@ -9,6 +9,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Plesk\Wappspector\FileSystemFactory;
+use Plesk\Wappspector\MatchResult\MatchResultInterface;
 use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 
 #[CoversClass(FileSystemFactory::class)]
@@ -24,11 +25,9 @@ abstract class AbstractMatcherTestCase extends TestCase
     {
         $result = $this->getMatch($path);
 
-        $this->assertIsArray($result);
-        $this->assertArrayHasKey('matcher', $result);
-        $this->assertEquals($result['matcher'], $this->getMatcherName());
-        $this->assertArrayHasKey('version', $result);
-        $this->assertEquals($result['version'], $version);
+        $this->assertInstanceOf(MatchResultInterface::class, $result);
+        $this->assertEquals($result->getMatcher(), $this->getMatcherName());
+        $this->assertEquals($result->getVersion(), $version);
     }
 
     abstract protected function getMatcherObj(): WappMatcherInterface;
@@ -40,11 +39,7 @@ abstract class AbstractMatcherTestCase extends TestCase
      */
     abstract public static function detectablePathsProvider(): array;
 
-    /**
-     * @param string $path
-     * @return iterable
-     */
-    protected function getMatch(string $path): iterable
+    protected function getMatch(string $path): MatchResultInterface
     {
         return $this->getMatcherObj()->match($this->getFsObject(), $path);
     }

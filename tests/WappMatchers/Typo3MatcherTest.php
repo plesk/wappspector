@@ -7,6 +7,7 @@ namespace Test\WappMatchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\WappMatchers\Typo3Matcher;
 use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 
@@ -16,8 +17,7 @@ class Typo3MatcherTest extends AbstractMatcherTestCase
     public function testBroken(): void
     {
         $match = $this->getMatch('typo3cms/typo3_broken');
-        $this->assertIsArray($match);
-        $this->assertEmpty($match);
+        $this->assertInstanceOf(EmptyMatchResult::class, $match);
     }
 
     protected function getMatcherObj(): WappMatcherInterface

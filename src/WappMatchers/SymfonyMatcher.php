@@ -7,17 +7,18 @@ namespace Plesk\Wappspector\WappMatchers;
 
 use JsonException;
 use League\Flysystem\Filesystem;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\EmptyMatchResult;
+use Plesk\Wappspector\MatchResult\MatchResultInterface;
+use Plesk\Wappspector\MatchResult\SymfonyMatchResult;
 
 class SymfonyMatcher implements WappMatcherInterface
 {
-    public function match(Filesystem $fs, string $path): iterable
+    public function match(Filesystem $fs, string $path): MatchResultInterface
     {
-
         $symfonyLockFile = rtrim($path, '/') . '/symfony.lock';
 
         if (!$fs->fileExists($symfonyLockFile)) {
-            return [];
+            return new EmptyMatchResult();
         }
 
         $json = [];
@@ -27,10 +28,6 @@ class SymfonyMatcher implements WappMatcherInterface
             // ignore symfony.lock errors
         }
 
-        return [
-            'matcher' => Matchers::SYMFONY,
-            'path' => $path,
-            'version' => $json["symfony/framework-bundle"]["version"] ?? null,
-        ];
+        return new SymfonyMatchResult($path, $json["symfony/framework-bundle"]["version"] ?? null);
     }
 }

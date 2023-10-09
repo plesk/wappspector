@@ -5,7 +5,9 @@ namespace Plesk\Wappspector\WappMatchers;
 use JsonException;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\ComposerMatchResult;
+use Plesk\Wappspector\MatchResult\EmptyMatchResult;
+use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
 class ComposerMatcher implements WappMatcherInterface
 {
@@ -19,11 +21,11 @@ class ComposerMatcher implements WappMatcherInterface
     /**
      * @throws FilesystemException
      */
-    protected function doMatch(Filesystem $fs, string $path): array
+    protected function doMatch(Filesystem $fs, string $path): MatchResultInterface
     {
         $composerJsonFile = $this->getPath($path);
         if (!$fs->fileExists($composerJsonFile)) {
-            return [];
+            return new EmptyMatchResult();
         }
 
         $json = [];
@@ -33,11 +35,6 @@ class ComposerMatcher implements WappMatcherInterface
             // ignore composer.json errors
         }
 
-        return [
-            'matcher' => Matchers::COMPOSER,
-            'path' => $path,
-            'application' => $json['name'] ?? 'unknown',
-            'version' => $json['version'] ?? 'dev',
-        ];
+        return new ComposerMatchResult($path, $json['version'] ?? 'dev', $json['name'] ?? 'unknown');
     }
 }

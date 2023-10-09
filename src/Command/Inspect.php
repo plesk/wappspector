@@ -5,6 +5,7 @@ namespace Plesk\Wappspector\Command;
 use FilesystemIterator;
 use JsonException;
 use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\MatchResultInterface;
 use Plesk\Wappspector\Wappspector;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -29,7 +30,13 @@ class Inspect extends Command
         $this->addOption('json', '', InputOption::VALUE_NONE, 'JSON output');
         $this->addOption('recursive', '', InputOption::VALUE_NEGATABLE, 'Traverse directories recursive', true);
         $this->addOption('depth', '', InputOption::VALUE_OPTIONAL, 'Depth of recurse', 1);
-        $this->addOption('max', '', InputOption::VALUE_REQUIRED, 'Maximum number of technologies that can be found for directory. Default = 0 (no limit)', 0);
+        $this->addOption(
+            'max',
+            '',
+            InputOption::VALUE_REQUIRED,
+            'Maximum number of technologies that can be found for directory. Default = 0 (no limit)',
+            0
+        );
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -67,12 +74,22 @@ class Inspect extends Command
         $output->writeln(json_encode($result, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR));
     }
 
-    private function tableOutput(OutputInterface $output, array $result): void
+    /**
+     * @param OutputInterface $output
+     * @param MatchResultInterface[] $matchers
+     * @return void
+     */
+    private function tableOutput(OutputInterface $output, array $matchers): void
     {
         $rows = [];
 
-        foreach ($result as $item) {
-            $rows[] = [$item['matcher'], Matchers::getName($item['matcher']), $item['path'], $item['version'] ?? '-'];
+        foreach ($matchers as $matchResult) {
+            $rows[] = [
+                $matchResult->getMatcher(),
+                Matchers::getName($matchResult->getMatcher()),
+                $matchResult->getPath(),
+                $matchResult->getVersion() ?? '-',
+            ];
         }
 
         $table = new Table($output);
@@ -110,47 +127,22 @@ class Inspect extends Command
         }
     }
 
+    /**
+     * @param MatchResultInterface[] $result
+     * @return MatchResultInterface[]
+     */
     private function filterResults(array $result): array
     {
-        foreach ($result as &$match) {
-            $match['path'] = $this->normalizePath($match['path']);
-        }
-        $result = array_values(array_filter($result, static function ($match) {
-            static $uniq = [];
-            if (isset($uniq[$match['matcher'] . $match['path']])) {
-                return false;
-            }
-            $uniq[$match['matcher'] . $match['path']] = true;
-            return true;
-        }));
-        return $result;
-    }
-
-    private function normalizePath(string $path): string
-    {
-        $parts = [];
-
-        foreach (explode('/', $path) as $part) {
-            switch ($part) {
-                case '':
-                case '.':
-                    break;
-
-                case '..':
-                    if (empty($parts)) {
-                        // invalid case
-                        $parts[] = $part;
-                        break;
-                    }
-                    array_pop($parts);
-                    break;
-
-                default:
-                    $parts[] = $part;
-                    break;
-            }
-        }
-
-        return implode('/', $parts);
+        return array_values(
+            array_filter($result, static function (MatchResultInterface $matcher) {
+                static $uniq = [];
+                $key = $matcher->getMatcher() . $matcher->getPath();
+                if (array_key_exists($key, $uniq)) {
+                    return false;
+                }
+                $uniq[$key] = true;
+                return true;
+            })
+        );
     }
 }

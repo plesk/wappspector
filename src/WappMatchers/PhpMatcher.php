@@ -5,36 +5,30 @@ namespace Plesk\Wappspector\WappMatchers;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\StorageAttributes;
-use League\Flysystem\UnableToListContents;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\EmptyMatchResult;
+use Plesk\Wappspector\MatchResult\MatchResultInterface;
+use Plesk\Wappspector\MatchResult\PhpMatchResult;
 
 class PhpMatcher implements WappMatcherInterface
 {
-    /**
-     * @throws FilesystemException
-     */
-    public function match(Filesystem $fs, string $path): iterable
+    public function match(Filesystem $fs, string $path): MatchResultInterface
     {
         try {
             $list = $fs->listContents($path);
             foreach ($list as $item) {
                 /** @var StorageAttributes $item */
                 if ($item->isFile() && str_ends_with($item->path(), '.php')) {
-                    return [
-                        'matcher' => Matchers::PHP,
-                        'path' => $path,
-                        'version' => null,
-                    ];
+                    return new PhpMatchResult($path);
                 }
 
                 if ($item->isDir() && $item->path() === ltrim(rtrim($path, '/') . '/src', '/')) {
                     return $this->match($fs, rtrim($path, '/') . '/src');
                 }
             }
-        } catch (UnableToListContents) {
+        } catch (FilesystemException) {
             // skip dir if it is inaccessible
         }
 
-        return [];
+        return new EmptyMatchResult();
     }
 }

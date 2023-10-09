@@ -7,24 +7,20 @@ namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\CodeIgniterMatchResult;
+use Plesk\Wappspector\MatchResult\EmptyMatchResult;
+use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
 class CodeIgniterMatcher implements WappMatcherInterface
 {
-    public function match(Filesystem $fs, string $path): iterable
+    public function match(Filesystem $fs, string $path): MatchResultInterface
     {
         $path = rtrim($path, '/');
         if (!$fs->fileExists($path . '/spark')) {
-            return [];
+            return new EmptyMatchResult();
         }
 
-        $version = $this->detectVersion($fs, $path);
-
-        return [
-            'matcher' => Matchers::CODEIGNITER,
-            'path' => $path,
-            'version' => $version,
-        ];
+        return new CodeIgniterMatchResult($path, $this->detectVersion($fs, $path));
     }
 
     /**
@@ -32,7 +28,6 @@ class CodeIgniterMatcher implements WappMatcherInterface
      */
     private function detectVersion(Filesystem $fs, string $path): ?string
     {
-
         $versionFile = $path . '/vendor/codeigniter4/framework/system/CodeIgniter.php';
         if (!$fs->fileExists($versionFile)) {
             return null;

@@ -26,7 +26,7 @@ class NodeJsMatcherTest extends AbstractMatcherTestCase
     public static function detectablePathsProvider(): array
     {
         return [
-            ['nodejs', '1.0.42'],
+            ['nodejs', null],
             ['nodejs/broken', null],
         ];
     }

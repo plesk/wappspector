@@ -4,7 +4,9 @@ namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\DrupalMatchResult;
+use Plesk\Wappspector\MatchResult\EmptyMatchResult;
+use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
 class DrupalMatcher implements WappMatcherInterface
 {
@@ -25,7 +27,7 @@ class DrupalMatcher implements WappMatcherInterface
     /**
      * @throws FilesystemException
      */
-    public function match(Filesystem $fs, string $path): iterable
+    public function match(Filesystem $fs, string $path): MatchResultInterface
     {
         // Iterate through version patterns
         foreach (self::VERSIONS as $version) {
@@ -36,14 +38,10 @@ class DrupalMatcher implements WappMatcherInterface
             }
 
             $version = $this->detectVersion($version['regex'], $versionFile, $fs);
-            return [
-                'matcher' => Matchers::DRUPAL,
-                'version' => $version,
-                'path' => $path,
-            ];
+            return new DrupalMatchResult($path, $version);
         }
 
-        return [];
+        return new EmptyMatchResult();
     }
 
     private function detectVersion(string $regexPattern, string $versionFile, Filesystem $fs): ?string

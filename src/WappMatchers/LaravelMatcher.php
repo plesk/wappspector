@@ -5,7 +5,9 @@ namespace Plesk\Wappspector\WappMatchers;
 use JsonException;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\EmptyMatchResult;
+use Plesk\Wappspector\MatchResult\LaravelMatchResult;
+use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
 class LaravelMatcher implements WappMatcherInterface
 {
@@ -18,18 +20,14 @@ class LaravelMatcher implements WappMatcherInterface
     /**
      * @throws FilesystemException
      */
-    protected function doMatch(Filesystem $fs, string $path): array
+    protected function doMatch(Filesystem $fs, string $path): MatchResultInterface
     {
         $path = rtrim($path, '/');
         if (!$fs->fileExists($path . '/' . self::ARTISAN)) {
-            return [];
+            return new EmptyMatchResult();
         }
 
-        return [
-            'matcher' => Matchers::LARAVEL,
-            'path' => $path,
-            'version' => $this->detectVersion($path, $fs),
-        ];
+        return new LaravelMatchResult($path, $this->detectVersion($path, $fs));
     }
 
     private function detectVersion(string $path, Filesystem $fs): ?string

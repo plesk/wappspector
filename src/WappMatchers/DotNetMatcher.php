@@ -5,7 +5,9 @@ namespace Plesk\Wappspector\WappMatchers;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\StorageAttributes;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\DotNetMatchResult;
+use Plesk\Wappspector\MatchResult\EmptyMatchResult;
+use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
 class DotNetMatcher implements WappMatcherInterface
 {
@@ -16,11 +18,9 @@ class DotNetMatcher implements WappMatcherInterface
     /**
      * @throws FilesystemException
      */
-    public function doMatch(Filesystem $fs, string $path): array
+    public function doMatch(Filesystem $fs, string $path): MatchResultInterface
     {
-        $list = $fs->listContents($path);
-
-        foreach ($list as $item) {
+        foreach ($fs->listContents($path) as $item) {
             /** @var StorageAttributes $item */
             if (!$item->isFile() || !str_ends_with($item->path(), '.dll')) {
                 continue;
@@ -29,14 +29,10 @@ class DotNetMatcher implements WappMatcherInterface
             $handle = $fs->readStream($item->path());
             $hex = bin2hex(fread($handle, 4));
             if (str_contains($hex, self::HEX_SIGNATURE)) {
-                return [
-                    'matcher' => Matchers::DOTNET,
-                    'path' => $path,
-                    'version' => null,
-                ];
+                return new DotNetMatchResult($path);
             }
         }
 
-        return [];
+        return new EmptyMatchResult();
     }
 }

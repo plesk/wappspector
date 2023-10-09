@@ -4,7 +4,9 @@ namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\EmptyMatchResult;
+use Plesk\Wappspector\MatchResult\MatchResultInterface;
+use Plesk\Wappspector\MatchResult\Typo3MatchResult;
 
 class Typo3Matcher implements WappMatcherInterface
 {
@@ -26,10 +28,7 @@ class Typo3Matcher implements WappMatcherInterface
         ],
     ];
 
-    /**
-     * @throws FilesystemException
-     */
-    public function match(Filesystem $fs, string $path): iterable
+    public function match(Filesystem $fs, string $path): MatchResultInterface
     {
         foreach (self::VERSIONS as $version) {
             $versionFile = rtrim($path, '/') . '/' . $version['filename'];
@@ -39,20 +38,21 @@ class Typo3Matcher implements WappMatcherInterface
             }
 
             if ($version = $this->detectVersion($version['regexp'], $versionFile, $fs)) {
-                return [
-                    'matcher' => Matchers::TYPO3,
-                    'version' => $version,
-                    'path' => $path,
-                ];
+                return new Typo3MatchResult($path, $version);
             }
         }
 
-        return [];
+        return new EmptyMatchResult();
     }
 
     public function detectVersion(string $regexPattern, string $versionFile, Filesystem $fs): ?string
     {
-        preg_match($regexPattern, $fs->read($versionFile), $matches);
-        return count($matches) > 1 ? $matches[1] : null;
+        try {
+            preg_match($regexPattern, $fs->read($versionFile), $matches);
+            return count($matches) > 1 ? $matches[1] : null;
+        } catch (FilesystemException) {
+            // ignore file reading problem
+            return null;
+        }
     }
 }

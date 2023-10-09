@@ -4,7 +4,9 @@ namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\EmptyMatchResult;
+use Plesk\Wappspector\MatchResult\MatchResultInterface;
+use Plesk\Wappspector\MatchResult\PrestashopMatchResult;
 
 class PrestashopMatcher implements WappMatcherInterface
 {
@@ -18,7 +20,7 @@ class PrestashopMatcher implements WappMatcherInterface
     /**
      * @throws FilesystemException
      */
-    public function match(Filesystem $fs, string $path): iterable
+    public function match(Filesystem $fs, string $path): MatchResultInterface
     {
         foreach (self::VERSIONS as $version) {
             $versionFile = rtrim($path, '/') . '/' . $version['filename'];
@@ -27,20 +29,27 @@ class PrestashopMatcher implements WappMatcherInterface
                 continue;
             }
 
-            $result = [
-                'matcher' => Matchers::PRESTASHOP,
-                'path' => $path,
-            ];
-
-            if (preg_match($version['regexp'], $fs->read($versionFile), $matches)) {
-                if (count($matches) > 1) {
-                    $result['version'] = $matches[1];
-                }
-            }
-
-            return $result;
+            return new PrestashopMatchResult($path, $this->getVersion($version, $fs, $versionFile));
         }
 
-        return [];
+        return new EmptyMatchResult();
+    }
+
+    /**
+     * @param array $version
+     * @param Filesystem $fs
+     * @param string $versionFile
+     */
+    public function getVersion(array $version, Filesystem $fs, string $versionFile): ?string
+    {
+        $result = null;
+        try {
+            if (preg_match($version['regexp'], $fs->read($versionFile), $matches) && count($matches) > 1) {
+                $result = $matches[1];
+            }
+        } catch (FilesystemException) {
+            // ignore filesystem extensions
+        }
+        return $result;
     }
 }

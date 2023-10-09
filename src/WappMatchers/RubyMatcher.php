@@ -4,7 +4,9 @@ namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\EmptyMatchResult;
+use Plesk\Wappspector\MatchResult\MatchResultInterface;
+use Plesk\Wappspector\MatchResult\RubyMatchResult;
 
 class RubyMatcher implements WappMatcherInterface
 {
@@ -15,16 +17,12 @@ class RubyMatcher implements WappMatcherInterface
     /**
      * @throws FilesystemException
      */
-    protected function doMatch(Filesystem $fs, string $path): array
+    protected function doMatch(Filesystem $fs, string $path): MatchResultInterface
     {
         if (!$fs->fileExists(rtrim($path, '/') . '/' . self::RAKEFILE)) {
-            return [];
+            return new EmptyMatchResult();
         }
 
-        return [
-            'matcher' => Matchers::RUBY,
-            'path' => $path,
-            'version' => null,
-        ];
+        return new RubyMatchResult($path);
     }
 }

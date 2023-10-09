@@ -7,6 +7,7 @@ namespace Test\WappMatchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 use Plesk\Wappspector\WappMatchers\WordpressMatcher;
 
@@ -16,8 +17,7 @@ class WordpressMatcherTest extends AbstractMatcherTestCase
     public function testEmptyConfig(): void
     {
         $match = $this->getMatch('wordpress/emptyconfig');
-        $this->assertIsArray($match);
-        $this->assertEmpty($match);
+        $this->assertInstanceOf(EmptyMatchResult::class, $match);
     }
 
     protected function getMatcherObj(): WappMatcherInterface
