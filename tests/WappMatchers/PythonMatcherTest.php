@@ -27,6 +27,7 @@ class PythonMatcherTest extends AbstractMatcherTestCase
     {
         return [
             ['python', null],
+            ['python/nested', null],
         ];
     }
 }
