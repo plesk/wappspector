@@ -20,7 +20,7 @@ class WordpressMatcher implements WappMatcherInterface
         $versionFile = rtrim($path, '/') . '/' . self::VERSION_FILE;
         preg_match("/\\\$wp_version\\s*=\\s*'([^']+)'/", $fs->read($versionFile), $matches);
 
-        if (count($matches)) {
+        if ($matches !== []) {
             return $matches[1];
         }
 

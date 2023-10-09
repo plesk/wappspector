@@ -35,11 +35,6 @@ class PrestashopMatcher implements WappMatcherInterface
         return new EmptyMatchResult();
     }
 
-    /**
-     * @param array $version
-     * @param Filesystem $fs
-     * @param string $versionFile
-     */
     public function getVersion(array $version, Filesystem $fs, string $versionFile): ?string
     {
         $result = null;

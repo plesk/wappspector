@@ -75,7 +75,6 @@ class Inspect extends Command
     }
 
     /**
-     * @param OutputInterface $output
      * @param MatchResultInterface[] $matchers
      * @return void
      */

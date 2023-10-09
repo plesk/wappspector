@@ -10,7 +10,6 @@ final class Wappspector
 {
     /**
      * @param callable $fsFactory
-     * @param array $matchers
      */
     public function __construct(private $fsFactory, private array $matchers)
     {

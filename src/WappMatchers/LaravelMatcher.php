@@ -36,7 +36,7 @@ class LaravelMatcher implements WappMatcherInterface
         $versionFile = $path . '/' . self::VERSION_FILE;
         if ($fs->fileExists($versionFile)) {
             preg_match("/VERSION\\s*=\\s*'([^']+)'/", $fs->read($versionFile), $matches);
-            if (count($matches)) {
+            if ($matches !== []) {
                 $result = $matches[1];
             }
         } else {
@@ -47,7 +47,7 @@ class LaravelMatcher implements WappMatcherInterface
                     if ($laravelPackage = $json['require']['laravel/framework'] ?? null) {
                         $result = str_replace('^', '', $laravelPackage);
                     }
-                } catch (JsonException $e) {
+                } catch (JsonException) {
                     // ignore composer.json errors
                 }
             }

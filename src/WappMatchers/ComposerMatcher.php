@@ -31,7 +31,7 @@ class ComposerMatcher implements WappMatcherInterface
         $json = [];
         try {
             $json = json_decode($fs->read($composerJsonFile), true, 512, JSON_THROW_ON_ERROR);
-        } catch (JsonException $e) {
+        } catch (JsonException) {
             // ignore composer.json errors
         }
 

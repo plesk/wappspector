@@ -24,7 +24,7 @@ class SymfonyMatcher implements WappMatcherInterface
         $json = [];
         try {
             $json = json_decode($fs->read($symfonyLockFile), true, 512, JSON_THROW_ON_ERROR);
-        } catch (JsonException $e) {
+        } catch (JsonException) {
             // ignore symfony.lock errors
         }
 

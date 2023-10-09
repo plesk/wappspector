@@ -34,7 +34,7 @@ class CodeIgniterMatcher implements WappMatcherInterface
         }
         preg_match("/CI_VERSION\\s*=\\s*'([^']+)'/", $fs->read($versionFile), $matches);
 
-        if (count($matches)) {
+        if ($matches !== []) {
             return $matches[1];
         }
 

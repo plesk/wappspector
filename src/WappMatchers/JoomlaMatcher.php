@@ -90,7 +90,7 @@ class JoomlaMatcher implements WappMatcherInterface
                 return $major[1] . '.' . $minor[1] . 'x';
             }
 
-            if (count($major)) {
+            if ($major !== []) {
                 return $major[1] . '.x.x';
             }
 
@@ -102,7 +102,7 @@ class JoomlaMatcher implements WappMatcherInterface
                 return $release[1] . '.' . $devlevel[1];
             }
 
-            if (count($release)) {
+            if ($release !== []) {
                 return $release[1] . '.x';
             }
         }
