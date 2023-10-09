@@ -22,7 +22,7 @@ class Yii implements MatcherInterface
         return new MatchResult($path, $this->detectVersion($fs, $path));
     }
 
-    private function detectVersion(Filesystem $fs, string $path)
+    private function detectVersion(Filesystem $fs, string $path): ?string
     {
         $version = null;
 
