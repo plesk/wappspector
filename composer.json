@@ -9,6 +9,8 @@
   ],
   "scripts": {
     "test": "phpunit",
+    "rector": "rector --dry-run",
+    "rector:fix": "rector",
     "lint": "phpcs -s --parallel=4",
     "lint:fix": "phpcbf"
   },
@@ -25,6 +27,7 @@
     "mikey179/vfsstream": "^1.6",
     "phpunit/phpunit": "^10",
     "psr/log": "^2.0",
+    "rector/rector": "^0.18.5",
     "slevomat/coding-standard": "^8.8.0",
     "squizlabs/php_codesniffer": "^3.7.2",
     "symfony/console": "^5.0"
