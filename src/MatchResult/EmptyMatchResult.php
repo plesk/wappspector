@@ -5,14 +5,8 @@ declare(strict_types=1);
 
 namespace Plesk\Wappspector\MatchResult;
 
-use Plesk\Wappspector\Matchers;
-
 class EmptyMatchResult implements MatchResultInterface
 {
-    public function getMatcher(): string
-    {
-        return Matchers::UNKNOWN;
-    }
 
     public function getPath(): string
     {
