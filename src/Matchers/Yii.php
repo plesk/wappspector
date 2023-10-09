@@ -8,9 +8,9 @@ namespace Plesk\Wappspector\Matchers;
 use League\Flysystem\Filesystem;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\MatchResult\Yii;
+use Plesk\Wappspector\MatchResult\Yii as MatchResult;
 
-class YiiMatcher implements MatcherInterface
+class Yii implements MatcherInterface
 {
     public function match(Filesystem $fs, string $path): MatchResultInterface
     {
@@ -19,7 +19,7 @@ class YiiMatcher implements MatcherInterface
             return new EmptyMatchResult();
         }
 
-        return new Yii($path, $this->detectVersion($fs, $path));
+        return new MatchResult($path, $this->detectVersion($fs, $path));
     }
 
     private function detectVersion(Filesystem $fs, string $path)

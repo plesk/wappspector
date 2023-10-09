@@ -7,10 +7,10 @@ namespace Test\Matchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use Plesk\Wappspector\Matchers\MatcherInterface;
-use Plesk\Wappspector\Matchers\YiiMatcher;
+use Plesk\Wappspector\Matchers\Yii;
 use Plesk\Wappspector\MatchResult\Yii as MatchResult;
 
-#[CoversClass(YiiMatcher::class)]
+#[CoversClass(Yii::class)]
 class YiiTest extends AbstractMatcherTestCase
 {
     public static function detectablePathsProvider(): array
@@ -22,7 +22,7 @@ class YiiTest extends AbstractMatcherTestCase
 
     protected function getMatcherObj(): MatcherInterface
     {
-        return new YiiMatcher();
+        return new Yii();
     }
 
     protected function getMatchResultClassname(): string

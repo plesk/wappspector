@@ -19,7 +19,7 @@ return [
         Matchers\Symfony::class,
         Matchers\CodeIgniter::class,
         Matchers\CakePHP::class,
-        Matchers\YiiMatcher::class,
+        Matchers\Yii::class,
         Matchers\DotNet::class,
         Matchers\Ruby::class,
         Matchers\Python::class,
