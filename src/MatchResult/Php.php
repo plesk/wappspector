@@ -7,7 +7,7 @@ namespace Plesk\Wappspector\MatchResult;
 
 use Plesk\Wappspector\Matchers;
 
-class PhpMatchResult extends AbstractMatchResult
+class Php extends AbstractMatchResult
 {
     public function getMatcher(): string
     {

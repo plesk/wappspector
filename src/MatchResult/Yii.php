@@ -7,10 +7,10 @@ namespace Plesk\Wappspector\MatchResult;
 
 use Plesk\Wappspector\Matchers;
 
-class LaravelMatchResult extends AbstractMatchResult
+class Yii extends AbstractMatchResult
 {
     public function getMatcher(): string
     {
-        return Matchers::LARAVEL;
+        return Matchers::YII;
     }
 }

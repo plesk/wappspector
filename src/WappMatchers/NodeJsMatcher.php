@@ -9,7 +9,7 @@ use JsonException;
 use League\Flysystem\Filesystem;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\MatchResult\NodeJsMatchResult;
+use Plesk\Wappspector\MatchResult\NodeJs;
 
 class NodeJsMatcher implements WappMatcherInterface
 {
@@ -28,6 +28,6 @@ class NodeJsMatcher implements WappMatcherInterface
             // ignore package.json errors
         }
 
-        return new NodeJsMatchResult($path, null, $json['name'] ?? null);
+        return new NodeJs($path, null, $json['name'] ?? null);
     }
 }

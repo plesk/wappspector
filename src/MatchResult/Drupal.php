@@ -7,10 +7,10 @@ namespace Plesk\Wappspector\MatchResult;
 
 use Plesk\Wappspector\Matchers;
 
-class RubyMatchResult extends AbstractMatchResult
+class Drupal extends AbstractMatchResult
 {
     public function getMatcher(): string
     {
-        return Matchers::RUBY;
+        return Matchers::DRUPAL;
     }
 }

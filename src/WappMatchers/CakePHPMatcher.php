@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
-use Plesk\Wappspector\MatchResult\CakePHPMatchResult;
+use Plesk\Wappspector\MatchResult\CakePHP;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
@@ -21,7 +21,7 @@ class CakePHPMatcher implements WappMatcherInterface
 
         $version = $this->detectVersion($fs, $path);
 
-        return new CakePHPMatchResult($path, $version);
+        return new CakePHP($path, $version);
     }
 
     private function detectVersion(Filesystem $fs, string $path): ?string

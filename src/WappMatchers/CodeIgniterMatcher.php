@@ -7,7 +7,7 @@ namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
-use Plesk\Wappspector\MatchResult\CodeIgniterMatchResult;
+use Plesk\Wappspector\MatchResult\CodeIgniter;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
@@ -20,7 +20,7 @@ class CodeIgniterMatcher implements WappMatcherInterface
             return new EmptyMatchResult();
         }
 
-        return new CodeIgniterMatchResult($path, $this->detectVersion($fs, $path));
+        return new CodeIgniter($path, $this->detectVersion($fs, $path));
     }
 
     /**

@@ -7,10 +7,10 @@ namespace Plesk\Wappspector\MatchResult;
 
 use Plesk\Wappspector\Matchers;
 
-class SymfonyMatchResult extends AbstractMatchResult
+class Joomla extends AbstractMatchResult
 {
     public function getMatcher(): string
     {
-        return Matchers::SYMFONY;
+        return Matchers::JOOMLA;
     }
 }

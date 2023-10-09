@@ -6,7 +6,7 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\StorageAttributes;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\MatchResult\PythonMatchResult;
+use Plesk\Wappspector\MatchResult\Python;
 
 class PythonMatcher implements WappMatcherInterface
 {
@@ -17,7 +17,7 @@ class PythonMatcher implements WappMatcherInterface
         foreach ($fs->listContents($path) as $item) {
             /** @var StorageAttributes $item */
             if ($item->isFile() && str_ends_with($item->path(), '.py')) {
-                return new PythonMatchResult($path);
+                return new Python($path);
             }
         }
 

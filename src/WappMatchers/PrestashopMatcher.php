@@ -6,7 +6,7 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\MatchResult\PrestashopMatchResult;
+use Plesk\Wappspector\MatchResult\Prestashop;
 
 class PrestashopMatcher implements WappMatcherInterface
 {
@@ -29,7 +29,7 @@ class PrestashopMatcher implements WappMatcherInterface
                 continue;
             }
 
-            return new PrestashopMatchResult($path, $this->getVersion($version, $fs, $versionFile));
+            return new Prestashop($path, $this->getVersion($version, $fs, $versionFile));
         }
 
         return new EmptyMatchResult();

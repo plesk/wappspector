@@ -7,7 +7,7 @@ namespace Plesk\Wappspector\MatchResult;
 
 use Plesk\Wappspector\Matchers;
 
-class PythonMatchResult extends AbstractMatchResult
+class Python extends AbstractMatchResult
 {
     public function getMatcher(): string
     {

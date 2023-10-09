@@ -7,7 +7,7 @@ use League\Flysystem\FilesystemException;
 use League\Flysystem\StorageAttributes;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\MatchResult\PhpMatchResult;
+use Plesk\Wappspector\MatchResult\Php;
 
 class PhpMatcher implements WappMatcherInterface
 {
@@ -18,7 +18,7 @@ class PhpMatcher implements WappMatcherInterface
             foreach ($list as $item) {
                 /** @var StorageAttributes $item */
                 if ($item->isFile() && str_ends_with($item->path(), '.php')) {
-                    return new PhpMatchResult($path);
+                    return new Php($path);
                 }
 
                 if ($item->isDir() && $item->path() === ltrim(rtrim($path, '/') . '/src', '/')) {

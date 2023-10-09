@@ -7,10 +7,10 @@ namespace Plesk\Wappspector\MatchResult;
 
 use Plesk\Wappspector\Matchers;
 
-class PrestashopMatchResult extends AbstractMatchResult
+class NodeJs extends AbstractMatchResult
 {
     public function getMatcher(): string
     {
-        return Matchers::PRESTASHOP;
+        return Matchers::NODEJS;
     }
 }

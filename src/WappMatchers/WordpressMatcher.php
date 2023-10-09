@@ -6,7 +6,7 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\MatchResult\WordpressMatchResult;
+use Plesk\Wappspector\MatchResult\Wordpress;
 
 class WordpressMatcher implements WappMatcherInterface
 {
@@ -52,6 +52,6 @@ class WordpressMatcher implements WappMatcherInterface
             return new EmptyMatchResult();
         }
 
-        return new WordpressMatchResult($path, $this->detectVersion($fs, $path));
+        return new Wordpress($path, $this->detectVersion($fs, $path));
     }
 }

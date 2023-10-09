@@ -5,7 +5,7 @@ namespace Plesk\Wappspector\WappMatchers;
 use JsonException;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
-use Plesk\Wappspector\MatchResult\ComposerMatchResult;
+use Plesk\Wappspector\MatchResult\Composer;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
@@ -35,6 +35,6 @@ class ComposerMatcher implements WappMatcherInterface
             // ignore composer.json errors
         }
 
-        return new ComposerMatchResult($path, $json['version'] ?? 'dev', $json['name'] ?? 'unknown');
+        return new Composer($path, $json['version'] ?? 'dev', $json['name'] ?? 'unknown');
     }
 }

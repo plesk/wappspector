@@ -6,7 +6,7 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\MatchResult\Typo3MatchResult;
+use Plesk\Wappspector\MatchResult\Typo3;
 
 class Typo3Matcher implements WappMatcherInterface
 {
@@ -38,7 +38,7 @@ class Typo3Matcher implements WappMatcherInterface
             }
 
             if ($version = $this->detectVersion($version['regexp'], $versionFile, $fs)) {
-                return new Typo3MatchResult($path, $version);
+                return new Typo3($path, $version);
             }
         }
 

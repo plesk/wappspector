@@ -7,10 +7,10 @@ namespace Plesk\Wappspector\MatchResult;
 
 use Plesk\Wappspector\Matchers;
 
-class CakePHPMatchResult extends AbstractMatchResult
+class DotNet extends AbstractMatchResult
 {
     public function getMatcher(): string
     {
-        return Matchers::CAKEPHP;
+        return Matchers::DOTNET;
     }
 }

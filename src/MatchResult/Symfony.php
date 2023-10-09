@@ -7,10 +7,10 @@ namespace Plesk\Wappspector\MatchResult;
 
 use Plesk\Wappspector\Matchers;
 
-class CodeIgniterMatchResult extends AbstractMatchResult
+class Symfony extends AbstractMatchResult
 {
     public function getMatcher(): string
     {
-        return Matchers::CODEIGNITER;
+        return Matchers::SYMFONY;
     }
 }

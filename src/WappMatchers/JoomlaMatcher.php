@@ -5,7 +5,7 @@ namespace Plesk\Wappspector\WappMatchers;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
-use Plesk\Wappspector\MatchResult\JoomlaMatchResult;
+use Plesk\Wappspector\MatchResult\Joomla;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
 class JoomlaMatcher implements WappMatcherInterface
@@ -119,6 +119,6 @@ class JoomlaMatcher implements WappMatcherInterface
             return new EmptyMatchResult();
         }
 
-        return new JoomlaMatchResult($path, $this->detectVersion($fs, $path));
+        return new Joomla($path, $this->detectVersion($fs, $path));
     }
 }

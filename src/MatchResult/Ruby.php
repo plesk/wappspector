@@ -7,10 +7,10 @@ namespace Plesk\Wappspector\MatchResult;
 
 use Plesk\Wappspector\Matchers;
 
-class Typo3MatchResult extends AbstractMatchResult
+class Ruby extends AbstractMatchResult
 {
     public function getMatcher(): string
     {
-        return Matchers::TYPO3;
+        return Matchers::RUBY;
     }
 }

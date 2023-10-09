@@ -8,7 +8,7 @@ namespace Plesk\Wappspector\WappMatchers;
 use League\Flysystem\Filesystem;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\MatchResult\YiiMatchResult;
+use Plesk\Wappspector\MatchResult\Yii;
 
 class YiiMatcher implements WappMatcherInterface
 {
@@ -19,7 +19,7 @@ class YiiMatcher implements WappMatcherInterface
             return new EmptyMatchResult();
         }
 
-        return new YiiMatchResult($path, $this->detectVersion($fs, $path));
+        return new Yii($path, $this->detectVersion($fs, $path));
     }
 
     private function detectVersion(Filesystem $fs, string $path)

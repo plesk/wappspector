@@ -6,7 +6,7 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\MatchResult\RubyMatchResult;
+use Plesk\Wappspector\MatchResult\Ruby;
 
 class RubyMatcher implements WappMatcherInterface
 {
@@ -23,6 +23,6 @@ class RubyMatcher implements WappMatcherInterface
             return new EmptyMatchResult();
         }
 
-        return new RubyMatchResult($path);
+        return new Ruby($path);
     }
 }

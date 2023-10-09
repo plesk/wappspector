@@ -4,7 +4,7 @@ namespace Plesk\Wappspector\WappMatchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
-use Plesk\Wappspector\MatchResult\DrupalMatchResult;
+use Plesk\Wappspector\MatchResult\Drupal;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
@@ -38,7 +38,7 @@ class DrupalMatcher implements WappMatcherInterface
             }
 
             $version = $this->detectVersion($version['regex'], $versionFile, $fs);
-            return new DrupalMatchResult($path, $version);
+            return new Drupal($path, $version);
         }
 
         return new EmptyMatchResult();
