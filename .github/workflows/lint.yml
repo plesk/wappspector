@@ -1,0 +1,23 @@
+name: lint
+on: [ push ]
+
+jobs:
+  run-linters:
+    name: Run linters
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - uses: php-actions/composer@v6
+        name: Install composer dependencies
+
+      - uses: php-actions/composer@v6
+        name: Run rector
+        with:
+          command: ci:rector
+
+      - uses: php-actions/composer@v6
+        name: Run standards
+        with:
+          command: ci:standards
