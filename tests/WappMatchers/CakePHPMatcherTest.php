@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace Test\WappMatchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\CakePHP;
 use Plesk\Wappspector\WappMatchers\CakePHPMatcher;
 use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 
@@ -26,8 +26,8 @@ class CakePHPMatcherTest extends AbstractMatcherTestCase
         ];
     }
 
-    protected function getMatcherName(): string
+    protected function getMatchResultClassname(): string
     {
-        return Matchers::CAKEPHP;
+        return CakePHP::class;
     }
 }

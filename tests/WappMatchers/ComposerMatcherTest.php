@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace Test\WappMatchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\Composer;
 use Plesk\Wappspector\WappMatchers\ComposerMatcher;
 use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 
@@ -18,9 +18,9 @@ class ComposerMatcherTest extends AbstractMatcherTestCase
         return new ComposerMatcher();
     }
 
-    protected function getMatcherName(): string
+    protected function getMatchResultClassname(): string
     {
-        return Matchers::COMPOSER;
+        return Composer::class;
     }
 
     public static function detectablePathsProvider(): array

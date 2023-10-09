@@ -6,8 +6,8 @@ declare(strict_types=1);
 namespace Test\WappMatchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use Plesk\Wappspector\Matchers;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
+use Plesk\Wappspector\MatchResult\Wordpress;
 use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 use Plesk\Wappspector\WappMatchers\WordpressMatcher;
 
@@ -36,8 +36,8 @@ class WordpressMatcherTest extends AbstractMatcherTestCase
         ];
     }
 
-    protected function getMatcherName(): string
+    protected function getMatchResultClassname(): string
     {
-        return Matchers::WORDPRESS;
+        return Wordpress::class;
     }
 }

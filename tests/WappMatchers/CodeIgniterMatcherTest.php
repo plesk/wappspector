@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace Test\WappMatchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\CodeIgniter;
 use Plesk\Wappspector\WappMatchers\CodeIgniterMatcher;
 use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 
@@ -18,9 +18,9 @@ class CodeIgniterMatcherTest extends AbstractMatcherTestCase
         return new CodeIgniterMatcher();
     }
 
-    protected function getMatcherName(): string
+    protected function getMatchResultClassname(): string
     {
-        return Matchers::CODEIGNITER;
+        return CodeIgniter::class;
     }
 
     public static function detectablePathsProvider(): array

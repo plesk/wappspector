@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace Test\WappMatchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\Yii;
 use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 use Plesk\Wappspector\WappMatchers\YiiMatcher;
 
@@ -25,8 +25,8 @@ class YiiMatcherTest extends AbstractMatcherTestCase
         return new YiiMatcher();
     }
 
-    protected function getMatcherName(): string
+    protected function getMatchResultClassname(): string
     {
-        return Matchers::YII;
+        return Yii::class;
     }
 }

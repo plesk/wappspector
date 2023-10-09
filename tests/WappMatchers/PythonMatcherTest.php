@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace Test\WappMatchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\Python;
 use Plesk\Wappspector\WappMatchers\PythonMatcher;
 use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 
@@ -18,9 +18,9 @@ class PythonMatcherTest extends AbstractMatcherTestCase
         return new PythonMatcher();
     }
 
-    protected function getMatcherName(): string
+    protected function getMatchResultClassname(): string
     {
-        return Matchers::PYTHON;
+        return Python::class;
     }
 
     public static function detectablePathsProvider(): array

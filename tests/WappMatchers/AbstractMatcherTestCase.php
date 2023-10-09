@@ -25,14 +25,13 @@ abstract class AbstractMatcherTestCase extends TestCase
     {
         $result = $this->getMatch($path);
 
-        $this->assertInstanceOf(MatchResultInterface::class, $result);
-        $this->assertEquals($result->getMatcher(), $this->getMatcherName());
+        $this->assertInstanceOf($this->getMatchResultClassname(), $result);
         $this->assertEquals($result->getVersion(), $version);
     }
 
     abstract protected function getMatcherObj(): WappMatcherInterface;
 
-    abstract protected function getMatcherName(): string;
+    abstract protected function getMatchResultClassname(): string;
 
     /**
      * @return array Each element is an array with two elements: 1. path inside `test-data` 2. version

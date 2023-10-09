@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace Test\WappMatchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\Ruby;
 use Plesk\Wappspector\WappMatchers\RubyMatcher;
 use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 
@@ -18,9 +18,9 @@ class RubyMatcherTest extends AbstractMatcherTestCase
         return new RubyMatcher();
     }
 
-    protected function getMatcherName(): string
+    protected function getMatchResultClassname(): string
     {
-        return Matchers::RUBY;
+        return Ruby::class;
     }
 
     public static function detectablePathsProvider(): array

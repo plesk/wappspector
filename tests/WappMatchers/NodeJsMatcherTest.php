@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace Test\WappMatchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\NodeJs;
 use Plesk\Wappspector\WappMatchers\NodeJsMatcher;
 use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 
@@ -18,9 +18,9 @@ class NodeJsMatcherTest extends AbstractMatcherTestCase
         return new NodeJsMatcher();
     }
 
-    protected function getMatcherName(): string
+    protected function getMatchResultClassname(): string
     {
-        return Matchers::NODEJS;
+        return NodeJs::class;
     }
 
     public static function detectablePathsProvider(): array

@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace Test\WappMatchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\Laravel;
 use Plesk\Wappspector\WappMatchers\LaravelMatcher;
 use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 
@@ -18,9 +18,9 @@ class LaravelMatcherTest extends AbstractMatcherTestCase
         return new LaravelMatcher();
     }
 
-    protected function getMatcherName(): string
+    protected function getMatchResultClassname(): string
     {
-        return Matchers::LARAVEL;
+        return Laravel::class;
     }
 
     public static function detectablePathsProvider(): array

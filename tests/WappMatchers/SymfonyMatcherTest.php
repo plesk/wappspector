@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace Test\WappMatchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\Symfony;
 use Plesk\Wappspector\WappMatchers\SymfonyMatcher;
 use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 
@@ -18,16 +18,16 @@ class SymfonyMatcherTest extends AbstractMatcherTestCase
         return new SymfonyMatcher();
     }
 
-    protected function getMatcherName(): string
+    protected function getMatchResultClassname(): string
     {
-        return Matchers::SYMFONY;
+        return Symfony::class;
     }
 
     public static function detectablePathsProvider(): array
     {
         return [
-            ['symfony/5.4','5.4'],
-            ['symfony/6.3','6.3'],
+            ['symfony/5.4', '5.4'],
+            ['symfony/6.3', '6.3'],
             ['symfony/broken', null],
         ];
     }

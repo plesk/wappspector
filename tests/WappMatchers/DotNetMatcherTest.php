@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace Test\WappMatchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\DotNet;
 use Plesk\Wappspector\WappMatchers\DotNetMatcher;
 use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 
@@ -18,9 +18,9 @@ class DotNetMatcherTest extends AbstractMatcherTestCase
         return new DotNetMatcher();
     }
 
-    protected function getMatcherName(): string
+    protected function getMatchResultClassname(): string
     {
-        return Matchers::DOTNET;
+        return DotNet::class;
     }
 
     public static function detectablePathsProvider(): array

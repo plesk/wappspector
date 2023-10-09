@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace Test\WappMatchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use Plesk\Wappspector\Matchers;
+use Plesk\Wappspector\MatchResult\Drupal;
 use Plesk\Wappspector\WappMatchers\DrupalMatcher;
 use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 
@@ -18,9 +18,9 @@ class DrupalMatcherTest extends AbstractMatcherTestCase
         return new DrupalMatcher();
     }
 
-    protected function getMatcherName(): string
+    protected function getMatchResultClassname(): string
     {
-        return Matchers::DRUPAL;
+        return Drupal::class;
     }
 
     public static function detectablePathsProvider(): array
