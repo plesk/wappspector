@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Test\WappMatchers;
+namespace Test\Matchers;
 
 use League\Flysystem\Filesystem;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Plesk\Wappspector\FileSystemFactory;
+use Plesk\Wappspector\Matchers\MatcherInterface;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 
 #[CoversClass(FileSystemFactory::class)]
 abstract class AbstractMatcherTestCase extends TestCase
@@ -29,7 +29,7 @@ abstract class AbstractMatcherTestCase extends TestCase
         $this->assertEquals($result->getVersion(), $version);
     }
 
-    abstract protected function getMatcherObj(): WappMatcherInterface;
+    abstract protected function getMatcherObj(): MatcherInterface;
 
     abstract protected function getMatchResultClassname(): string;
 

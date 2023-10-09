@@ -3,24 +3,24 @@
 declare(strict_types=1);
 
 
-namespace Test\WappMatchers;
+namespace Test\Matchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use Plesk\Wappspector\MatchResult\Drupal;
-use Plesk\Wappspector\WappMatchers\DrupalMatcher;
-use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
+use Plesk\Wappspector\Matchers\Drupal;
+use Plesk\Wappspector\Matchers\MatcherInterface;
+use Plesk\Wappspector\MatchResult\Drupal as MatchResult;
 
-#[CoversClass(DrupalMatcher::class)]
-class DrupalMatcherTest extends AbstractMatcherTestCase
+#[CoversClass(Drupal::class)]
+class DrupalTest extends AbstractMatcherTestCase
 {
-    protected function getMatcherObj(): WappMatcherInterface
+    protected function getMatcherObj(): MatcherInterface
     {
-        return new DrupalMatcher();
+        return new Drupal();
     }
 
     protected function getMatchResultClassname(): string
     {
-        return Drupal::class;
+        return MatchResult::class;
     }
 
     public static function detectablePathsProvider(): array

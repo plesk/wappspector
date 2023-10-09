@@ -3,16 +3,16 @@
 declare(strict_types=1);
 
 
-namespace Test\WappMatchers;
+namespace Test\Matchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use Plesk\Wappspector\Matchers\Joomla;
+use Plesk\Wappspector\Matchers\MatcherInterface;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
-use Plesk\Wappspector\MatchResult\Joomla;
-use Plesk\Wappspector\WappMatchers\JoomlaMatcher;
-use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
+use Plesk\Wappspector\MatchResult\Joomla as MatchResult;
 
-#[CoversClass(JoomlaMatcher::class)]
-class JoomlaMatcherTest extends AbstractMatcherTestCase
+#[CoversClass(Joomla::class)]
+class JoomlaTest extends AbstractMatcherTestCase
 {
     public function testUnitTestConfigClass(): void
     {
@@ -20,14 +20,14 @@ class JoomlaMatcherTest extends AbstractMatcherTestCase
         $this->assertInstanceOf(EmptyMatchResult::class, $match);
     }
 
-    protected function getMatcherObj(): WappMatcherInterface
+    protected function getMatcherObj(): MatcherInterface
     {
-        return new JoomlaMatcher();
+        return new Joomla();
     }
 
     protected function getMatchResultClassname(): string
     {
-        return Joomla::class;
+        return MatchResult::class;
     }
 
     public static function detectablePathsProvider(): array

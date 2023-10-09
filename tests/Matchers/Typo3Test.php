@@ -3,16 +3,16 @@
 declare(strict_types=1);
 
 
-namespace Test\WappMatchers;
+namespace Test\Matchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use Plesk\Wappspector\Matchers\MatcherInterface;
+use Plesk\Wappspector\Matchers\Typo3;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
-use Plesk\Wappspector\MatchResult\Typo3;
-use Plesk\Wappspector\WappMatchers\Typo3Matcher;
-use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
+use Plesk\Wappspector\MatchResult\Typo3 as MatchResult;
 
-#[CoversClass(Typo3Matcher::class)]
-class Typo3MatcherTest extends AbstractMatcherTestCase
+#[CoversClass(Typo3::class)]
+class Typo3Test extends AbstractMatcherTestCase
 {
     public function testBroken(): void
     {
@@ -20,14 +20,14 @@ class Typo3MatcherTest extends AbstractMatcherTestCase
         $this->assertInstanceOf(EmptyMatchResult::class, $match);
     }
 
-    protected function getMatcherObj(): WappMatcherInterface
+    protected function getMatcherObj(): MatcherInterface
     {
-        return new Typo3Matcher();
+        return new Typo3();
     }
 
     protected function getMatchResultClassname(): string
     {
-        return Typo3::class;
+        return MatchResult::class;
     }
 
     public static function detectablePathsProvider(): array
