@@ -23,7 +23,6 @@ abstract class AbstractMatchResult implements MatchResultInterface, JsonSerializ
         }
     }
 
-
     public function getPath(): string
     {
         return $this->path;
