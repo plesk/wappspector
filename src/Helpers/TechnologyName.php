@@ -31,6 +31,6 @@ class TechnologyName
 
     public static function fromResult(MatchResult\MatchResultInterface $matchResult): ?string
     {
-        return self::$names[get_class($matchResult)] ?? self::$names[MatchResult\EmptyMatchResult::class];
+        return self::$names[$matchResult::class] ?? self::$names[MatchResult\EmptyMatchResult::class];
     }
 }

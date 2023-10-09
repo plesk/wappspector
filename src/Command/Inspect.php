@@ -134,7 +134,7 @@ class Inspect extends Command
         return array_values(
             array_filter($result, static function (MatchResultInterface $matcher) {
                 static $uniq = [];
-                $key = get_class($matcher) . $matcher->getPath();
+                $key = $matcher::class . $matcher->getPath();
                 if (array_key_exists($key, $uniq)) {
                     return false;
                 }

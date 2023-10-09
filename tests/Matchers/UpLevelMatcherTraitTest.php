@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace Test\WappMatchers;
+namespace Test\Matchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\StorageAttributes;
@@ -12,11 +12,11 @@ use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Plesk\Wappspector\FileSystemFactory;
+use Plesk\Wappspector\Matchers\MatcherInterface;
+use Plesk\Wappspector\Matchers\UpLevelMatcherTrait;
 use Plesk\Wappspector\MatchResult\AbstractMatchResult;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\WappMatchers\UpLevelMatcherTrait;
-use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 
 #[CoversClass(UpLevelMatcherTrait::class)]
 class UpLevelMatcherTraitTest extends TestCase
@@ -37,9 +37,9 @@ class UpLevelMatcherTraitTest extends TestCase
         $this->fs = (new FileSystemFactory())($this->root->url());
     }
 
-    public function getTestMatcher(): WappMatcherInterface
+    public function getTestMatcher(): MatcherInterface
     {
-        return new class () implements WappMatcherInterface {
+        return new class () implements MatcherInterface {
             use UpLevelMatcherTrait;
 
             protected function doMatch(Filesystem $fs, string $path): MatchResultInterface

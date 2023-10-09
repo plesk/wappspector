@@ -3,16 +3,16 @@
 declare(strict_types=1);
 
 
-namespace Test\WappMatchers;
+namespace Test\Matchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use Plesk\Wappspector\Matchers\MatcherInterface;
+use Plesk\Wappspector\Matchers\Wordpress;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
-use Plesk\Wappspector\MatchResult\Wordpress;
-use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
-use Plesk\Wappspector\WappMatchers\WordpressMatcher;
+use Plesk\Wappspector\MatchResult\Wordpress as MatchResult;
 
-#[CoversClass(WordpressMatcher::class)]
-class WordpressMatcherTest extends AbstractMatcherTestCase
+#[CoversClass(Wordpress::class)]
+class WordpressTest extends AbstractMatcherTestCase
 {
     public function testEmptyConfig(): void
     {
@@ -20,9 +20,9 @@ class WordpressMatcherTest extends AbstractMatcherTestCase
         $this->assertInstanceOf(EmptyMatchResult::class, $match);
     }
 
-    protected function getMatcherObj(): WappMatcherInterface
+    protected function getMatcherObj(): MatcherInterface
     {
-        return new WordpressMatcher();
+        return new Wordpress();
     }
 
     public static function detectablePathsProvider(): array
@@ -38,6 +38,6 @@ class WordpressMatcherTest extends AbstractMatcherTestCase
 
     protected function getMatchResultClassname(): string
     {
-        return Wordpress::class;
+        return MatchResult::class;
     }
 }

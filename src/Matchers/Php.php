@@ -1,15 +1,15 @@
 <?php
 
-namespace Plesk\Wappspector\WappMatchers;
+namespace Plesk\Wappspector\Matchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\StorageAttributes;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\MatchResult\Php;
+use Plesk\Wappspector\MatchResult\Php as MatchResult;
 
-class PhpMatcher implements WappMatcherInterface
+class Php implements MatcherInterface
 {
     public function match(Filesystem $fs, string $path): MatchResultInterface
     {
@@ -18,7 +18,7 @@ class PhpMatcher implements WappMatcherInterface
             foreach ($list as $item) {
                 /** @var StorageAttributes $item */
                 if ($item->isFile() && str_ends_with($item->path(), '.php')) {
-                    return new Php($path);
+                    return new MatchResult($path);
                 }
 
                 if ($item->isDir() && $item->path() === ltrim(rtrim($path, '/') . '/src', '/')) {

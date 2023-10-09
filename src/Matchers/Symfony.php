@@ -3,15 +3,15 @@
 declare(strict_types=1);
 
 
-namespace Plesk\Wappspector\WappMatchers;
+namespace Plesk\Wappspector\Matchers;
 
 use JsonException;
 use League\Flysystem\Filesystem;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\MatchResult\Symfony;
+use Plesk\Wappspector\MatchResult\Symfony as MatchResult;
 
-class SymfonyMatcher implements WappMatcherInterface
+class Symfony implements MatcherInterface
 {
     public function match(Filesystem $fs, string $path): MatchResultInterface
     {
@@ -28,6 +28,6 @@ class SymfonyMatcher implements WappMatcherInterface
             // ignore symfony.lock errors
         }
 
-        return new Symfony($path, $json["symfony/framework-bundle"]["version"] ?? null);
+        return new MatchResult($path, $json["symfony/framework-bundle"]["version"] ?? null);
     }
 }

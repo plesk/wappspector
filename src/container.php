@@ -3,31 +3,31 @@
 use DI\Container;
 use Plesk\Wappspector\Command\Inspect;
 use Plesk\Wappspector\FileSystemFactory;
-use Plesk\Wappspector\WappMatchers;
+use Plesk\Wappspector\Matchers;
 use Plesk\Wappspector\Wappspector;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Application;
 
 return [
     'matchers' => [
-        WappMatchers\JoomlaMatcher::class,
-        WappMatchers\WordpressMatcher::class,
-        WappMatchers\DrupalMatcher::class,
-        WappMatchers\PrestashopMatcher::class,
-        WappMatchers\Typo3Matcher::class,
-        WappMatchers\LaravelMatcher::class,
-        WappMatchers\SymfonyMatcher::class,
-        WappMatchers\CodeIgniterMatcher::class,
-        WappMatchers\CakePHPMatcher::class,
-        WappMatchers\YiiMatcher::class,
-        WappMatchers\DotNetMatcher::class,
-        WappMatchers\RubyMatcher::class,
-        WappMatchers\PythonMatcher::class,
-        WappMatchers\NodeJsMatcher::class,
+        Matchers\Joomla::class,
+        Matchers\Wordpress::class,
+        Matchers\Drupal::class,
+        Matchers\Prestashop::class,
+        Matchers\Typo3::class,
+        Matchers\Laravel::class,
+        Matchers\Symfony::class,
+        Matchers\CodeIgniter::class,
+        Matchers\CakePHP::class,
+        Matchers\YiiMatcher::class,
+        Matchers\DotNet::class,
+        Matchers\Ruby::class,
+        Matchers\Python::class,
+        Matchers\NodeJs::class,
 
         // Low priority wrappers. Should go last.
-        WappMatchers\ComposerMatcher::class,
-        WappMatchers\PhpMatcher::class,
+        Matchers\Composer::class,
+        Matchers\Php::class,
     ],
     Wappspector::class => static function (Container $container): Wappspector {
         $matchers = [];

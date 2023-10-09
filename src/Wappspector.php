@@ -2,8 +2,8 @@
 
 namespace Plesk\Wappspector;
 
+use Plesk\Wappspector\Matchers\MatcherInterface;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
-use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
 use Throwable;
 
 final class Wappspector
@@ -24,7 +24,7 @@ final class Wappspector
 
         $result = [];
 
-        /** @var WappMatcherInterface $matcher */
+        /** @var MatcherInterface $matcher */
         foreach ($this->matchers as $matcher) {
             if (($match = $matcher->match($fs, $path)) instanceof EmptyMatchResult) {
                 continue;

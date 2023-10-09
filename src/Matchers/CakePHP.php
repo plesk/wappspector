@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 
-namespace Plesk\Wappspector\WappMatchers;
+namespace Plesk\Wappspector\Matchers;
 
 use League\Flysystem\Filesystem;
-use Plesk\Wappspector\MatchResult\CakePHP;
+use Plesk\Wappspector\MatchResult\CakePHP as MatchResult;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
-class CakePHPMatcher implements WappMatcherInterface
+class CakePHP implements MatcherInterface
 {
     public function match(Filesystem $fs, string $path): MatchResultInterface
     {
@@ -21,7 +21,7 @@ class CakePHPMatcher implements WappMatcherInterface
 
         $version = $this->detectVersion($fs, $path);
 
-        return new CakePHP($path, $version);
+        return new MatchResult($path, $version);
     }
 
     private function detectVersion(Filesystem $fs, string $path): ?string

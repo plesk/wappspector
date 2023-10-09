@@ -7,7 +7,6 @@ namespace Plesk\Wappspector\MatchResult;
 
 class EmptyMatchResult implements MatchResultInterface
 {
-
     public function getPath(): string
     {
         return '';

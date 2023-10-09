@@ -1,14 +1,14 @@
 <?php
 
-namespace Plesk\Wappspector\WappMatchers;
+namespace Plesk\Wappspector\Matchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\MatchResult\Ruby;
+use Plesk\Wappspector\MatchResult\Ruby as MatchResult;
 
-class RubyMatcher implements WappMatcherInterface
+class Ruby implements MatcherInterface
 {
     use UpLevelMatcherTrait;
 
@@ -23,6 +23,6 @@ class RubyMatcher implements WappMatcherInterface
             return new EmptyMatchResult();
         }
 
-        return new Ruby($path);
+        return new MatchResult($path);
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace Plesk\Wappspector\WappMatchers;
+namespace Plesk\Wappspector\Matchers;
 
 use League\Flysystem\Filesystem;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
-interface WappMatcherInterface
+interface MatcherInterface
 {
     /**
      * Checks filesystem by provided path and returns the list of found objects.

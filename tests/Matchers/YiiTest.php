@@ -3,15 +3,15 @@
 declare(strict_types=1);
 
 
-namespace Test\WappMatchers;
+namespace Test\Matchers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use Plesk\Wappspector\MatchResult\Yii;
-use Plesk\Wappspector\WappMatchers\WappMatcherInterface;
-use Plesk\Wappspector\WappMatchers\YiiMatcher;
+use Plesk\Wappspector\Matchers\MatcherInterface;
+use Plesk\Wappspector\Matchers\YiiMatcher;
+use Plesk\Wappspector\MatchResult\Yii as MatchResult;
 
 #[CoversClass(YiiMatcher::class)]
-class YiiMatcherTest extends AbstractMatcherTestCase
+class YiiTest extends AbstractMatcherTestCase
 {
     public static function detectablePathsProvider(): array
     {
@@ -20,13 +20,13 @@ class YiiMatcherTest extends AbstractMatcherTestCase
         ];
     }
 
-    protected function getMatcherObj(): WappMatcherInterface
+    protected function getMatcherObj(): MatcherInterface
     {
         return new YiiMatcher();
     }
 
     protected function getMatchResultClassname(): string
     {
-        return Yii::class;
+        return MatchResult::class;
     }
 }

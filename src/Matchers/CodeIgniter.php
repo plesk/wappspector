@@ -3,15 +3,15 @@
 declare(strict_types=1);
 
 
-namespace Plesk\Wappspector\WappMatchers;
+namespace Plesk\Wappspector\Matchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
-use Plesk\Wappspector\MatchResult\CodeIgniter;
+use Plesk\Wappspector\MatchResult\CodeIgniter as MatchResult;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
-class CodeIgniterMatcher implements WappMatcherInterface
+class CodeIgniter implements MatcherInterface
 {
     public function match(Filesystem $fs, string $path): MatchResultInterface
     {
@@ -20,7 +20,7 @@ class CodeIgniterMatcher implements WappMatcherInterface
             return new EmptyMatchResult();
         }
 
-        return new CodeIgniter($path, $this->detectVersion($fs, $path));
+        return new MatchResult($path, $this->detectVersion($fs, $path));
     }
 
     /**

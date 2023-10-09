@@ -1,6 +1,6 @@
 <?php
 
-namespace Plesk\Wappspector\WappMatchers;
+namespace Plesk\Wappspector\Matchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;

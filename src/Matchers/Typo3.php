@@ -1,14 +1,14 @@
 <?php
 
-namespace Plesk\Wappspector\WappMatchers;
+namespace Plesk\Wappspector\Matchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\MatchResult\Typo3;
+use Plesk\Wappspector\MatchResult\Typo3 as MatchResult;
 
-class Typo3Matcher implements WappMatcherInterface
+class Typo3 implements MatcherInterface
 {
     /**
      * Version detection information for TYPO3 CMS 4.x and 6.x
@@ -38,7 +38,7 @@ class Typo3Matcher implements WappMatcherInterface
             }
 
             if ($version = $this->detectVersion($version['regexp'], $versionFile, $fs)) {
-                return new Typo3($path, $version);
+                return new MatchResult($path, $version);
             }
         }
 

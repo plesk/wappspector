@@ -1,15 +1,15 @@
 <?php
 
-namespace Plesk\Wappspector\WappMatchers;
+namespace Plesk\Wappspector\Matchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\StorageAttributes;
-use Plesk\Wappspector\MatchResult\DotNet;
+use Plesk\Wappspector\MatchResult\DotNet as MatchResult;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
-class DotNetMatcher implements WappMatcherInterface
+class DotNet implements MatcherInterface
 {
     use UpLevelMatcherTrait;
 
@@ -29,7 +29,7 @@ class DotNetMatcher implements WappMatcherInterface
             $handle = $fs->readStream($item->path());
             $hex = bin2hex(fread($handle, 4));
             if (str_contains($hex, self::HEX_SIGNATURE)) {
-                return new DotNet($path);
+                return new MatchResult($path);
             }
         }
 

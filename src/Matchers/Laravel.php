@@ -1,15 +1,15 @@
 <?php
 
-namespace Plesk\Wappspector\WappMatchers;
+namespace Plesk\Wappspector\Matchers;
 
 use JsonException;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
-use Plesk\Wappspector\MatchResult\Laravel;
+use Plesk\Wappspector\MatchResult\Laravel as MatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
-class LaravelMatcher implements WappMatcherInterface
+class Laravel implements MatcherInterface
 {
     use UpLevelMatcherTrait;
 
@@ -27,7 +27,7 @@ class LaravelMatcher implements WappMatcherInterface
             return new EmptyMatchResult();
         }
 
-        return new Laravel($path, $this->detectVersion($path, $fs));
+        return new MatchResult($path, $this->detectVersion($path, $fs));
     }
 
     private function detectVersion(string $path, Filesystem $fs): ?string

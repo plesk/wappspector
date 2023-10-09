@@ -3,15 +3,15 @@
 declare(strict_types=1);
 
 
-namespace Plesk\Wappspector\WappMatchers;
+namespace Plesk\Wappspector\Matchers;
 
 use JsonException;
 use League\Flysystem\Filesystem;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\MatchResult\NodeJs;
+use Plesk\Wappspector\MatchResult\NodeJs as MatchResult;
 
-class NodeJsMatcher implements WappMatcherInterface
+class NodeJs implements MatcherInterface
 {
     public function match(Filesystem $fs, string $path): MatchResultInterface
     {
@@ -28,6 +28,6 @@ class NodeJsMatcher implements WappMatcherInterface
             // ignore package.json errors
         }
 
-        return new NodeJs($path, null, $json['name'] ?? null);
+        return new MatchResult($path, null, $json['name'] ?? null);
     }
 }

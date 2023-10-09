@@ -1,14 +1,14 @@
 <?php
 
-namespace Plesk\Wappspector\WappMatchers;
+namespace Plesk\Wappspector\Matchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\MatchResult\Prestashop;
+use Plesk\Wappspector\MatchResult\Prestashop as MatchResult;
 
-class PrestashopMatcher implements WappMatcherInterface
+class Prestashop implements MatcherInterface
 {
     protected const VERSIONS = [
         [
@@ -29,7 +29,7 @@ class PrestashopMatcher implements WappMatcherInterface
                 continue;
             }
 
-            return new Prestashop($path, $this->getVersion($version, $fs, $versionFile));
+            return new MatchResult($path, $this->getVersion($version, $fs, $versionFile));
         }
 
         return new EmptyMatchResult();

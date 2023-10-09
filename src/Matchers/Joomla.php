@@ -1,14 +1,14 @@
 <?php
 
-namespace Plesk\Wappspector\WappMatchers;
+namespace Plesk\Wappspector\Matchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
-use Plesk\Wappspector\MatchResult\Joomla;
+use Plesk\Wappspector\MatchResult\Joomla as MatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
-class JoomlaMatcher implements WappMatcherInterface
+class Joomla implements MatcherInterface
 {
     private const CONFIG_FILE = 'configuration.php';
 
@@ -119,6 +119,6 @@ class JoomlaMatcher implements WappMatcherInterface
             return new EmptyMatchResult();
         }
 
-        return new Joomla($path, $this->detectVersion($fs, $path));
+        return new MatchResult($path, $this->detectVersion($fs, $path));
     }
 }

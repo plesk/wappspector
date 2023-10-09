@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 
-namespace Plesk\Wappspector\WappMatchers;
+namespace Plesk\Wappspector\Matchers;
 
 use League\Flysystem\Filesystem;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 use Plesk\Wappspector\MatchResult\Yii;
 
-class YiiMatcher implements WappMatcherInterface
+class YiiMatcher implements MatcherInterface
 {
     public function match(Filesystem $fs, string $path): MatchResultInterface
     {
@@ -30,7 +30,7 @@ class YiiMatcher implements WappMatcherInterface
         if ($fs->fileExists($yii2VersionFile)) {
             // Use regular expression to match the getVersion method content
             preg_match(
-                '/public static function getVersion\(\)\s*\{\s*return \'([^\']+)\'\;\s*\}/',
+                '/public static function getVersion\(\)\s*\{\s*return \'([^\']+)\';\s*}/',
                 $fs->read($yii2VersionFile),
                 $matches
             );

@@ -1,14 +1,14 @@
 <?php
 
-namespace Plesk\Wappspector\WappMatchers;
+namespace Plesk\Wappspector\Matchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\StorageAttributes;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\MatchResult\Python;
+use Plesk\Wappspector\MatchResult\Python as MatchResult;
 
-class PythonMatcher implements WappMatcherInterface
+class Python implements MatcherInterface
 {
     use UpLevelMatcherTrait;
 
@@ -17,7 +17,7 @@ class PythonMatcher implements WappMatcherInterface
         foreach ($fs->listContents($path) as $item) {
             /** @var StorageAttributes $item */
             if ($item->isFile() && str_ends_with($item->path(), '.py')) {
-                return new Python($path);
+                return new MatchResult($path);
             }
         }
 

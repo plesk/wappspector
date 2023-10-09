@@ -1,15 +1,15 @@
 <?php
 
-namespace Plesk\Wappspector\WappMatchers;
+namespace Plesk\Wappspector\Matchers;
 
 use JsonException;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
-use Plesk\Wappspector\MatchResult\Composer;
+use Plesk\Wappspector\MatchResult\Composer as MatchResult;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
-class ComposerMatcher implements WappMatcherInterface
+class Composer implements MatcherInterface
 {
     use UpLevelMatcherTrait;
 
@@ -35,6 +35,6 @@ class ComposerMatcher implements WappMatcherInterface
             // ignore composer.json errors
         }
 
-        return new Composer($path, $json['version'] ?? 'dev', $json['name'] ?? 'unknown');
+        return new MatchResult($path, $json['version'] ?? 'dev', $json['name'] ?? 'unknown');
     }
 }

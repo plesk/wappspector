@@ -56,7 +56,7 @@ or
 ```php
 // only detect WordPress installs
 $diContainer = \Plesk\Wappspector\DIContainer::build();
-$diContainer->set('matchers', [\Plesk\Wappspector\WappMatchers\WordpressMatcher::class]);
+$diContainer->set('matchers', [\Plesk\Wappspector\Matchers\Wordpress::class]);
 ```
 
 ## Testing

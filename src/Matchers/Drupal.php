@@ -1,14 +1,14 @@
 <?php
 
-namespace Plesk\Wappspector\WappMatchers;
+namespace Plesk\Wappspector\Matchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
-use Plesk\Wappspector\MatchResult\Drupal;
+use Plesk\Wappspector\MatchResult\Drupal as MatchResult;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
-class DrupalMatcher implements WappMatcherInterface
+class Drupal implements MatcherInterface
 {
     /**
      * Drupal has changed the way how the version number is stored multiple times, so we need this comprehensive array
@@ -38,7 +38,7 @@ class DrupalMatcher implements WappMatcherInterface
             }
 
             $version = $this->detectVersion($version['regex'], $versionFile, $fs);
-            return new Drupal($path, $version);
+            return new MatchResult($path, $version);
         }
 
         return new EmptyMatchResult();

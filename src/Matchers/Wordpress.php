@@ -1,14 +1,14 @@
 <?php
 
-namespace Plesk\Wappspector\WappMatchers;
+namespace Plesk\Wappspector\Matchers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
-use Plesk\Wappspector\MatchResult\Wordpress;
+use Plesk\Wappspector\MatchResult\Wordpress as MatchResult;
 
-class WordpressMatcher implements WappMatcherInterface
+class Wordpress implements MatcherInterface
 {
     private const VERSION_FILE = 'wp-includes/version.php';
 
@@ -52,6 +52,6 @@ class WordpressMatcher implements WappMatcherInterface
             return new EmptyMatchResult();
         }
 
-        return new Wordpress($path, $this->detectVersion($fs, $path));
+        return new MatchResult($path, $this->detectVersion($fs, $path));
     }
 }
