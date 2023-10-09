@@ -12,16 +12,20 @@ use Plesk\Wappspector\MatchResult\AbstractMatchResult;
 #[CoversClass(AbstractMatchResult::class)]
 class MatchResultTest extends TestCase
 {
-
     /**
      * @dataProvider pathDataProvider
      */
     public function testParentDirNormalization($originalPath, $normalizedPath): void
     {
         $matchResult = new class ($originalPath) extends AbstractMatchResult {
-            public function getMatcher(): string
+            public function getId(): string
             {
-                return '';
+                return 'mock';
+            }
+
+            public function getName(): string
+            {
+                return 'Mock matcher';
             }
         };
 

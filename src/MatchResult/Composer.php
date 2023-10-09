@@ -7,4 +7,13 @@ namespace Plesk\Wappspector\MatchResult;
 
 class Composer extends AbstractMatchResult
 {
+    public function getId(): string
+    {
+        return 'composer';
+    }
+
+    public function getName(): string
+    {
+        return 'Composer';
+    }
 }

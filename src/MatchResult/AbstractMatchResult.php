@@ -42,7 +42,8 @@ abstract class AbstractMatchResult implements MatchResultInterface, JsonSerializ
     public function jsonSerialize(): array
     {
         return [
-            'matcher' => $this->getMatcher(),
+            'id' => $this->getId(),
+            'name' => $this->getName(),
             'path' => $this->getPath(),
             'version' => $this->getVersion(),
             'application' => $this->getApplication(),

@@ -4,6 +4,7 @@ namespace Plesk\Wappspector;
 
 use Plesk\Wappspector\Matchers\MatcherInterface;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
+use Plesk\Wappspector\MatchResult\MatchResultInterface;
 use Throwable;
 
 final class Wappspector
@@ -16,6 +17,7 @@ final class Wappspector
     }
 
     /**
+     * @return MatchResultInterface[]
      * @throws Throwable
      */
     public function run(string $path, string $basePath = '/', int $matchersLimit = 0): iterable

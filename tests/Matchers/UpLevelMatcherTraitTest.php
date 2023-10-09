@@ -21,14 +21,14 @@ use Plesk\Wappspector\MatchResult\MatchResultInterface;
 #[CoversClass(UpLevelMatcherTrait::class)]
 class UpLevelMatcherTraitTest extends TestCase
 {
-    public const MATCHER = 'markdown';
+    public const ID = 'markdown';
     protected vfsStreamDirectory $root;
     protected Filesystem $fs;
 
     private function hasMatcher(MatchResultInterface $result): void
     {
         $this->assertInstanceOf(MatchResultInterface::class, $result);
-        $this->assertEquals($result->getMatcher(), self::MATCHER);
+        $this->assertEquals($result->getId(), self::ID);
     }
 
     protected function setUp(): void
@@ -49,9 +49,14 @@ class UpLevelMatcherTraitTest extends TestCase
                     /** @var StorageAttributes $item */
                     if ($item->isFile() && str_ends_with($item->path(), '.md')) {
                         return new class ($path) extends AbstractMatchResult {
-                            public function getMatcher(): string
+                            public function getId(): string
                             {
                                 return 'markdown';
+                            }
+
+                            public function getName(): string
+                            {
+                                return 'MarkDown';
                             }
                         };
                     }

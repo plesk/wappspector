@@ -4,7 +4,6 @@ namespace Plesk\Wappspector\Command;
 
 use FilesystemIterator;
 use JsonException;
-use Plesk\Wappspector\Helpers\TechnologyName;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 use Plesk\Wappspector\Wappspector;
 use RecursiveDirectoryIterator;
@@ -84,7 +83,8 @@ class Inspect extends Command
 
         foreach ($matchers as $matchResult) {
             $rows[] = [
-                TechnologyName::fromResult($matchResult),
+                $matchResult->getId(),
+                $matchResult->getName(),
                 $matchResult->getPath(),
                 $matchResult->getVersion() ?? '-',
             ];
@@ -92,7 +92,7 @@ class Inspect extends Command
 
         $table = new Table($output);
         $table
-            ->setHeaders(['Technology', 'Path', 'Version'])
+            ->setHeaders(['ID', 'Technology', 'Path', 'Version'])
             ->setRows($rows);
         $table->render();
     }
@@ -134,7 +134,7 @@ class Inspect extends Command
         return array_values(
             array_filter($result, static function (MatchResultInterface $matcher) {
                 static $uniq = [];
-                $key = $matcher::class . $matcher->getPath();
+                $key = $matcher->getId() . ':' . $matcher->getPath();
                 if (array_key_exists($key, $uniq)) {
                     return false;
                 }

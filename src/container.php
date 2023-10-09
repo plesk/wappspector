@@ -10,8 +10,8 @@ use Symfony\Component\Console\Application;
 
 return [
     'matchers' => [
-        Matchers\Joomla::class,
         Matchers\Wordpress::class,
+        Matchers\Joomla::class,
         Matchers\Drupal::class,
         Matchers\Prestashop::class,
         Matchers\Typo3::class,
