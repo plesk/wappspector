@@ -7,13 +7,6 @@ namespace Plesk\Wappspector\MatchResult;
 
 class Php extends AbstractMatchResult
 {
-    public function getId(): string
-    {
-        return 'php';
-    }
-
-    public function getName(): string
-    {
-        return 'PHP';
-    }
+    public const ID = 'php';
+    public const NAME = 'PHP';
 }

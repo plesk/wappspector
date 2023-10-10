@@ -7,13 +7,6 @@ namespace Plesk\Wappspector\MatchResult;
 
 class Yii extends AbstractMatchResult
 {
-    public function getId(): string
-    {
-        return 'yii';
-    }
-
-    public function getName(): string
-    {
-        return 'Yii';
-    }
+    public const ID = 'yii';
+    public const NAME = 'Yii';
 }

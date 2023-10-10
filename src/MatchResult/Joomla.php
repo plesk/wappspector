@@ -7,13 +7,6 @@ namespace Plesk\Wappspector\MatchResult;
 
 class Joomla extends AbstractMatchResult
 {
-    public function getId(): string
-    {
-        return 'joomla';
-    }
-
-    public function getName(): string
-    {
-        return 'Joomla!';
-    }
+    public const ID = 'joomla';
+    public const NAME = 'Joomla!';
 }
