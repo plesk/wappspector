@@ -14,8 +14,8 @@ use PHPUnit\Framework\TestCase;
 use Plesk\Wappspector\FileSystemFactory;
 use Plesk\Wappspector\Matchers\MatcherInterface;
 use Plesk\Wappspector\Matchers\UpLevelMatcherTrait;
-use Plesk\Wappspector\MatchResult\AbstractMatchResult;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
+use Plesk\Wappspector\MatchResult\MatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 
 #[CoversClass(UpLevelMatcherTrait::class)]
@@ -48,7 +48,7 @@ class UpLevelMatcherTraitTest extends TestCase
                 foreach ($list as $item) {
                     /** @var StorageAttributes $item */
                     if ($item->isFile() && str_ends_with($item->path(), '.md')) {
-                        return new class ($path) extends AbstractMatchResult {
+                        return new class ($path) extends MatchResult {
                             public function getId(): string
                             {
                                 return 'markdown';
