@@ -11,6 +11,9 @@ use League\Flysystem\WhitespacePathNormalizer;
 
 abstract class AbstractMatchResult implements MatchResultInterface, JsonSerializable
 {
+    public const ID = null;
+    public const NAME = null;
+
     public function __construct(
         protected string $path,
         protected ?string $version = null,
@@ -21,6 +24,16 @@ abstract class AbstractMatchResult implements MatchResultInterface, JsonSerializ
         } catch (PathTraversalDetected) {
             $this->path = '/';
         }
+    }
+
+    public function getId(): string
+    {
+        return static::ID;
+    }
+
+    public function getName(): string
+    {
+        return static::NAME;
     }
 
     public function getPath(): string

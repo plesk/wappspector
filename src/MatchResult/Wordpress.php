@@ -7,13 +7,6 @@ namespace Plesk\Wappspector\MatchResult;
 
 class Wordpress extends AbstractMatchResult
 {
-    public function getId(): string
-    {
-        return 'wordpress';
-    }
-
-    public function getName(): string
-    {
-        return 'WordPress';
-    }
+    public const ID = 'wordpress';
+    public const NAME = 'WordPress';
 }

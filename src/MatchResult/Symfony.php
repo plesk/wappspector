@@ -7,13 +7,6 @@ namespace Plesk\Wappspector\MatchResult;
 
 class Symfony extends AbstractMatchResult
 {
-    public function getId(): string
-    {
-        return 'symfony';
-    }
-
-    public function getName(): string
-    {
-        return 'Symfony';
-    }
+    public const ID = 'symfony';
+    public const NAME = 'Symfony';
 }
