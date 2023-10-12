@@ -9,7 +9,7 @@ use JsonSerializable;
 use League\Flysystem\PathTraversalDetected;
 use League\Flysystem\WhitespacePathNormalizer;
 
-abstract class AbstractMatchResult implements MatchResultInterface, JsonSerializable
+class MatchResult implements MatchResultInterface, JsonSerializable
 {
     public const ID = null;
     public const NAME = null;
@@ -60,5 +60,38 @@ abstract class AbstractMatchResult implements MatchResultInterface, JsonSerializ
             'version' => $this->getVersion(),
             'application' => $this->getApplication(),
         ];
+    }
+
+    public static function createById(
+        string $id,
+        ?string $path = null,
+        ?string $version = null,
+        ?string $application = null
+    ): MatchResultInterface {
+        $classname = match ($id) {
+            CakePHP::ID => CakePHP::class,
+            CodeIgniter::ID => CodeIgniter::class,
+            Composer::ID => Composer::class,
+            DotNet::ID => DotNet::class,
+            Drupal::ID => Drupal::class,
+            Joomla::ID => Joomla::class,
+            Laravel::ID => Laravel::class,
+            NodeJs::ID => NodeJs::class,
+            Php::ID => Php::class,
+            Prestashop::ID => Prestashop::class,
+            Python::ID => Python::class,
+            Ruby::ID => Ruby::class,
+            Symfony::ID => Symfony::class,
+            Typo3::ID => Typo3::class,
+            Wordpress::ID => Wordpress::class,
+            Yii::ID => Yii::class,
+            default => null,
+        };
+
+        if (!$classname) {
+            return new EmptyMatchResult();
+        }
+
+        return new $classname(path: $path ?? '', version: $version, application: $application);
     }
 }
