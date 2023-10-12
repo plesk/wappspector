@@ -12,30 +12,41 @@ use Plesk\Wappspector\MatchResult\Yii as MatchResult;
 
 class Yii implements MatcherInterface
 {
+    private const VERSIONS = [
+        [
+            'file' => 'yii',
+            'versionFile' => '/vendor/yiisoft/yii2/BaseYii.php',
+            'versionRegexp' => '/public static function getVersion\(\)\s*\{\s*return \'([^\']+)\';\s*}/',
+        ],
+        [
+            'file' => 'framework/yiic',
+            'versionFile' => '/framework/YiiBase.php',
+            'versionRegexp' => '/public static function getVersion\(\)\s*\{\s*return \'([^\']+)\';\s*}/',
+        ],
+    ];
+
     public function match(Filesystem $fs, string $path): MatchResultInterface
     {
         $path = rtrim($path, '/');
-        if (!$fs->fileExists($path . '/yii')) {
-            return new EmptyMatchResult();
+
+        foreach (self::VERSIONS as $version) {
+            if (!$fs->fileExists($path . '/' . $version['file'])) {
+                continue;
+            }
+            return new MatchResult($path, $this->detectVersion($fs, $path, $version));
         }
 
-        return new MatchResult($path, $this->detectVersion($fs, $path));
+        return new EmptyMatchResult();
     }
 
-    private function detectVersion(Filesystem $fs, string $path): ?string
+    private function detectVersion(Filesystem $fs, string $path, array $versionInfo): ?string
     {
         $version = null;
 
-        $yii2VersionFile = $path . '/vendor/yiisoft/yii2/BaseYii.php';
+        $yii2VersionFile = $path . $versionInfo['versionFile'];
         if ($fs->fileExists($yii2VersionFile)) {
-            // Use regular expression to match the getVersion method content
-            preg_match(
-                '/public static function getVersion\(\)\s*\{\s*return \'([^\']+)\';\s*}/',
-                $fs->read($yii2VersionFile),
-                $matches
-            );
+            preg_match($versionInfo['versionRegexp'], $fs->read($yii2VersionFile), $matches);
 
-            // Check if the match is found and return the version
             if (isset($matches[1])) {
                 $version = $matches[1];
             }

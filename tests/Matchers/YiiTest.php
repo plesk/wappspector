@@ -16,6 +16,7 @@ class YiiTest extends AbstractMatcherTestCase
     public static function detectablePathsProvider(): array
     {
         return [
+            ['yii/1', '1.1.28'],
             ['yii/2', '2.0.48.1'],
         ];
     }
