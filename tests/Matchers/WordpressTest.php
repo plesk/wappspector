@@ -32,7 +32,7 @@ class WordpressTest extends AbstractMatcherTestCase
             ['wordpress/wordpress2.2', '2.2.1'],
             ['wordpress/wordpress2.9', '2.9'],
             ['wordpress/wordpress3.7', '3.7.5'],
-            ['wordpress/wordpress4.0', '4.0'],
+            ['wordpress/wordpress4.0', '4.9.25'],
         ];
     }
 
