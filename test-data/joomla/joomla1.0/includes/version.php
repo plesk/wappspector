@@ -22,7 +22,7 @@ class joomlaVersion {
 	/** @var string Product */
 	var $PRODUCT 	= 'Joomla!';
 	/** @var int Main Release Level */
-	var $RELEASE 	= '1.0';
+	var $RELEASE 	= '1.999';
 	/** @var string Development Status */
 	var $DEV_STATUS = 'Stable';
 	/** @var int Sub Release Level */

@@ -7,6 +7,6 @@ required: true
 configure: system.admin_config_system
 
 # Information added by Drupal.org packaging script on 2023-07-05
-version: '9.5.10'
+version: '9.999.10'
 project: 'drupal'
 datestamp: 1688551056

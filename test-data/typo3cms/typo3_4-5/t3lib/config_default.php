@@ -1,2 +1,2 @@
 <?php
-$TYPO_VERSION = '4.5.30';
+$TYPO_VERSION = '4.999.30';
