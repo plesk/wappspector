@@ -20,7 +20,7 @@ class JVersion
 	/** @public string Product */
 	public $PRODUCT	= 'Joomla!';
 	/** @public int Main Release Level */
-	public $RELEASE	= '1.6';
+	public $RELEASE	= '1.999';
 	/** @public string Development Status */
 	public $DEV_STATUS	= 'Stable';
 	/** @public int Sub Release Level */

@@ -26,7 +26,7 @@ class PrestashopTest extends AbstractMatcherTestCase
     public static function detectablePathsProvider(): array
     {
         return [
-            ['prestashop/prestashop1.6', '1.6.0.14'],
+            ['prestashop/prestashop1.6', '1.999.0.14'],
         ];
     }
 }

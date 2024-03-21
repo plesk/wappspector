@@ -24,7 +24,7 @@
         ]
     },
     "symfony/framework-bundle": {
-        "version": "6.3",
+        "version": "6.999",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
