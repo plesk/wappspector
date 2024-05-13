@@ -29,10 +29,10 @@ class WordpressTest extends AbstractMatcherTestCase
     {
         return [
             ['wordpress/unreadableversion', null],
-            ['wordpress/wordpress2.2', '2.999.1'],
-            ['wordpress/wordpress2.9', '2.999'],
-            ['wordpress/wordpress3.7', '3.999.5'],
-            ['wordpress/wordpress4.0', '4.999.25'],
+            ['wordpress/wordpress2.2', '2.2.1'],
+            ['wordpress/wordpress2.9', '2.9'],
+            ['wordpress/wordpress3.7', '3.7.5'],
+            ['wordpress/wordpress4.0', '4.0'],
         ];
     }
 

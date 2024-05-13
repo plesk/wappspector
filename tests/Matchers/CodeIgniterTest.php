@@ -26,7 +26,7 @@ class CodeIgniterTest extends AbstractMatcherTestCase
     public static function detectablePathsProvider(): array
     {
         return [
-            ['codeigniter/4', '4.999.6'],
+            ['codeigniter/4', '4.3.6'],
         ];
     }
 }

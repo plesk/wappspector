@@ -10,7 +10,7 @@ define('_PS_CACHE_ENABLED_', '1');
 define('_COOKIE_KEY_', 'XXX');
 define('_COOKIE_IV_', 'YYY');
 define('_PS_CREATION_DATE_', '2015-01-26');
-define('_PS_VERSION_', '1.999.0.14');
+define('_PS_VERSION_', '1.6.0.14');
 define('_RIJNDAEL_KEY_', 'ZZZ');
 define('_RIJNDAEL_IV_', '4kdSkM6gHjYKzUu==');
 define('_PS_DIRECTORY_', '/../../');

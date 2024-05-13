@@ -26,8 +26,8 @@ class LaravelTest extends AbstractMatcherTestCase
     public static function detectablePathsProvider(): array
     {
         return [
-            ['laravel/laravel9', '999.999'],
-            ['laravel/laravel10', '999.999.999'],
+            ['laravel/laravel9', '9.19'],
+            ['laravel/laravel10', '10.17.1'],
             ['laravel/broken', null],
         ];
     }
