@@ -1,0 +1,7 @@
+/tests export-ignore
+/test-data export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/phpunit.xml export-ignore
+/phpcs.xml export-ignore
+/rector.php export-ignore
