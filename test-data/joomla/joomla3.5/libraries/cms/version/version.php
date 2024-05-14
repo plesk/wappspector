@@ -30,7 +30,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELEASE = '3.999';
+	const RELEASE = '3.5';
 
 	/**
 	 * Maintenance version.

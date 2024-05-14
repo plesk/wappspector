@@ -26,8 +26,8 @@ class SymfonyTest extends AbstractMatcherTestCase
     public static function detectablePathsProvider(): array
     {
         return [
-            ['symfony/5.4', '5.999'],
-            ['symfony/6.3', '6.999'],
+            ['symfony/5.4', '5.4'],
+            ['symfony/6.3', '6.3'],
             ['symfony/broken', null],
         ];
     }

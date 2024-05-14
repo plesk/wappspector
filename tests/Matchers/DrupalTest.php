@@ -26,11 +26,11 @@ class DrupalTest extends AbstractMatcherTestCase
     public static function detectablePathsProvider(): array
     {
         return [
-            ['drupal/drupal6', '6.999'],
-            ['drupal/drupal7', '7.999'],
-            ['drupal/drupal8', '8.999.0-beta3'],
-            ['drupal/drupal9', '9.999.10'],
-            ['drupal/drupal10', '10.999.1'],
+            ['drupal/drupal6', '6.34'],
+            ['drupal/drupal7', '7.33'],
+            ['drupal/drupal8', '8.0.0-beta3'],
+            ['drupal/drupal9', '9.5.10'],
+            ['drupal/drupal10', '10.1.1'],
             ['drupal/unreadableversion', null],
         ];
     }

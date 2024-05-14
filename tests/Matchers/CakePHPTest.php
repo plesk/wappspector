@@ -21,8 +21,8 @@ class CakePHPTest extends AbstractMatcherTestCase
     public static function detectablePathsProvider(): array
     {
         return [
-            ['cakephp/3', '3.999.5'],
-            ['cakephp/4', '4.999.15'],
+            ['cakephp/3', '3.10.5'],
+            ['cakephp/4', '4.4.15'],
         ];
     }
 

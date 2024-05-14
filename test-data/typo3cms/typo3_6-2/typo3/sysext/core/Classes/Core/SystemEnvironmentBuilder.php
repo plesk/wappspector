@@ -1,2 +1,2 @@
 <?php
-define('TYPO3_version', '6.999.10');
+define('TYPO3_version', '6.2.10');
