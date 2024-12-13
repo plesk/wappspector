@@ -29,6 +29,11 @@ Command-line interface utility to analyze the file structure of a web hosting se
 | PrestaShop | 1.6, 1.7.8, 8.0         | Existence and contents of `/config/settings.inc.php`                                                                                                                                 |
 | TYPO3      | 7.6, 8.7, 9, 10, 11, 12 | Existence and contents of `/typo3/sysext/core/Classes/Core/SystemEnvironmentBuilder.php` or `/typo3/sysext/core/Classes/Information/Typo3Version.php` or `/t3lib/config_default.php` |
 
+### Site builders
+| Name    | Check type                                                                                |
+|---------|-------------------------------------------------------------------------------------------|
+| Sitejet | The `index.html` file exists and contains the `ed-element` and `webcard.apiHost=` strings |
+
 ## How to build phar
 ```shell
 composer global require clue/phar-composer
