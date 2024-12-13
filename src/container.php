@@ -24,6 +24,7 @@ return [
         Matchers\Ruby::class,
         Matchers\Python::class,
         Matchers\NodeJs::class,
+        Matchers\Sitejet::class,
 
         // Low priority wrappers. Should go last.
         Matchers\Composer::class,
