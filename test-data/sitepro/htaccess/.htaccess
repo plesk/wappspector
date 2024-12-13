@@ -1,0 +1,48 @@
+# Powered by Site.pro
+
+<IfModule pagespeed_module>
+	ModPagespeed off
+</IfModule>
+
+<IfModule mod_expires.c>
+	ExpiresActive On
+	ExpiresDefault A0
+	ExpiresByType image/gif A691200
+	ExpiresByType image/png A691200
+	ExpiresByType image/jpeg A691200
+	ExpiresByType text/css A691200
+	ExpiresByType text/javascript A691200
+	ExpiresByType application/javascript A691200
+	ExpiresByType font/otf A691200
+	ExpiresByType font/ttf A691200
+	ExpiresByType font/woff A691200
+	ExpiresByType font/woff2 A691200
+</IfModule>
+
+<FilesMatch "^(web\.config)$">
+	<IfModule mod_authz_core.c>
+		Require all denied
+	</IfModule>
+	<IfModule !mod_authz_core.c>
+		Order allow,deny
+	</IfModule>
+</FilesMatch>
+ErrorDocument 401 "Unauthorized"
+ErrorDocument 403 "Forbidden"
+<IfModule mod_negotiation.c>
+	#Options -MultiViews
+</IfModule>
+RewriteEngine On
+RewriteBase /
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+RewriteCond %{HTTP:X-Server-Addr} ^(.*)
+RewriteRule .* - [e=HTTP_X_SERVER_ADDR:%1]
+RewriteRule ^\.well-known/.+ - [L]
+#### PERSISTENT CONTENT ####
+DirectoryIndex index.php index.cgi index.html
+RewriteCond %{REQUEST_FILENAME} !-f [OR]
+RewriteCond %{REQUEST_URI} ^\/(js\/(main\.js|bootstrap\.min\.js)|css\/([0-9a-f]+\.css|common\.css|site\.css|bootstrap\.min\.css)|sitemap\.xml)$
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ sitepro/$1 [L,QSA]
+
