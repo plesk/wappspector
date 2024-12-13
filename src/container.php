@@ -25,6 +25,7 @@ return [
         Matchers\Python::class,
         Matchers\NodeJs::class,
         Matchers\Sitejet::class,
+        Matchers\WebPresenceBuilder::class,
 
         // Low priority wrappers. Should go last.
         Matchers\Composer::class,
