@@ -7,6 +7,7 @@ namespace Plesk\Wappspector\Matchers;
 use DOMDocument;
 use DOMXPath;
 use League\Flysystem\Filesystem;
+use Plesk\Wappspector\Helper\InspectorHelper;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 use Plesk\Wappspector\MatchResult\WebPresenceBuilder as MatchResult;
@@ -23,17 +24,14 @@ class WebPresenceBuilder implements MatcherInterface
 
         $fileContent = $fs->read($indexHtmlPath);
 
-        return $this->fileContentContainsString(
+        $inspectorHelper = new InspectorHelper();
+
+        return $inspectorHelper->fileContentMatchesString(
             $fileContent,
             '/<meta name="generator" content="Web Presence Builder.*">/'
         ) || $this->fileContainsDOMStructure($fileContent)
             ? new MatchResult($path)
             : new EmptyMatchResult();
-    }
-
-    private function fileContentContainsString(string $fileContent, string $searchString): bool
-    {
-        return preg_match($searchString, $fileContent) === 1;
     }
 
     private function fileContainsDOMStructure(string $fileContent): bool
