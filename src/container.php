@@ -26,6 +26,7 @@ return [
         Matchers\NodeJs::class,
         Matchers\Sitejet::class,
         Matchers\WebPresenceBuilder::class,
+        Matchers\Sitepro::class,
 
         // Low priority wrappers. Should go last.
         Matchers\Composer::class,

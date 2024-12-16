@@ -30,10 +30,11 @@ Command-line interface utility to analyze the file structure of a web hosting se
 | TYPO3      | 7.6, 8.7, 9, 10, 11, 12 | Existence and contents of `/typo3/sysext/core/Classes/Core/SystemEnvironmentBuilder.php` or `/typo3/sysext/core/Classes/Information/Typo3Version.php` or `/t3lib/config_default.php` |
 
 ### Site builders
-| Name               | Check type                                                                                                                                                                                                                                       |
-|--------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Sitejet            | The `index.html` file exists and contains the `ed-element` and `webcard.apiHost=` strings                                                                                                                                                        |
-| WebPresenceBuilder | The `index.html` file contains the `<meta name="generator" content="Web Presence Builder <vesrion>">` tag or contains the following DOM structure: the `div` tag with the `page` ID contains the `div` tags with the `watermark` and `layout` IDs|
+| Name               | Check type                                                                                                                                                                                                                                        |
+|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Sitejet            | The `index.html` file exists and contains the `ed-element` and `webcard.apiHost=` strings                                                                                                                                                         |
+| WebPresenceBuilder | The `index.html` file contains the `<meta name="generator" content="Web Presence Builder <vesrion>">` tag or contains the following DOM structure: the `div` tag with the `page` ID contains the `div` tags with the `watermark` and `layout` IDs |
+| Site.pro           | The `sitepro` folder exists and `sitepro` string occurs in `web.config` or `.htaccess` file                                                                                                                                                       |                                                                                                                                                                                                         
 
 ## How to build phar
 ```shell
