@@ -28,6 +28,7 @@ return [
         Matchers\WebPresenceBuilder::class,
         Matchers\Sitepro::class,
         Matchers\Duda::class,
+        Matchers\Siteplus::class,
 
         // Low priority wrappers. Should go last.
         Matchers\Composer::class,

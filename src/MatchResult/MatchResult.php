@@ -85,6 +85,11 @@ class MatchResult implements MatchResultInterface, JsonSerializable
             Typo3::ID => Typo3::class,
             Wordpress::ID => Wordpress::class,
             Yii::ID => Yii::class,
+            Sitejet::ID => Sitejet::class,
+            WebPresenceBuilder::ID => WebPresenceBuilder::class,
+            Sitepro::ID => Sitepro::class,
+            Duda::ID => Duda::class,
+            Siteplus::ID => Siteplus::class,
             default => null,
         };
 
