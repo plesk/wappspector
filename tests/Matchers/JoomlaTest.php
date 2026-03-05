@@ -46,6 +46,8 @@ class JoomlaTest extends AbstractMatcherTestCase
             ['joomla/joomla3.5', '3.5.1'],
             ['joomla/joomla3.8', '3.8.0'],
             ['joomla/joomla4.0', '4.0.0'],
+            ['joomla/joomla5.4', '5.4.3'],
+            ['joomla/joomla6.0', '6.0.3'],
             ['joomla/unreadableversion', null],
         ];
     }
