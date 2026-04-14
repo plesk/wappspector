@@ -76,6 +76,7 @@ class MatchResult implements MatchResultInterface, JsonSerializable
             Drupal::ID => Drupal::class,
             Joomla::ID => Joomla::class,
             Laravel::ID => Laravel::class,
+            EmDash::ID => EmDash::class,
             NodeJs::ID => NodeJs::class,
             Php::ID => Php::class,
             Prestashop::ID => Prestashop::class,

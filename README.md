@@ -28,6 +28,7 @@ Command-line interface utility to analyze the file structure of a web hosting se
 | Drupal     | 6 - 10                  | Existence and contents of `/modules/system/system.info` or `/core/modules/system/system.info.yml`                                                                                    |
 | PrestaShop | 1.6, 1.7.8, 8.0         | Existence and contents of `/config/settings.inc.php`                                                                                                                                 |
 | TYPO3      | 7.6, 8.7, 9, 10, 11, 12 | Existence and contents of `/typo3/sysext/core/Classes/Core/SystemEnvironmentBuilder.php` or `/typo3/sysext/core/Classes/Information/Typo3Version.php` or `/t3lib/config_default.php` |
+| EmDash     | 0.0.3 - 0.4.0           | Existence and contents of `package.json`                                                                                                                 |
 
 ### Site builders
 | Name               | Check type                                                                                                                                                                                                                                        |

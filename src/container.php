@@ -23,6 +23,7 @@ return [
         Matchers\DotNet::class,
         Matchers\Ruby::class,
         Matchers\Python::class,
+        Matchers\EmDash::class,
         Matchers\NodeJs::class,
         Matchers\Sitejet::class,
         Matchers\WebPresenceBuilder::class,
