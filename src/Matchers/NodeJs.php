@@ -15,19 +15,24 @@ class NodeJs implements MatcherInterface
 {
     public function match(Filesystem $fs, string $path): MatchResultInterface
     {
-        $packageFile = rtrim($path, '/') . '/package.json';
-
-        if (!$fs->fileExists($packageFile)) {
-            return new EmptyMatchResult();
+        $basePath = rtrim($path, '/');
+        $packageJsonPath = $basePath . '/package.json';
+        if ($fs->fileExists($packageJsonPath)) {
+            $json = [];
+            try {
+                $json = json_decode($fs->read($packageJsonPath), true, 512, JSON_THROW_ON_ERROR);
+            } catch (JsonException) {
+                // ignore package.json errors
+            }
+            return new MatchResult($path, null, $json['name'] ?? null);
         }
 
-        $json = [];
-        try {
-            $json = json_decode($fs->read($packageFile), true, 512, JSON_THROW_ON_ERROR);
-        } catch (JsonException) {
-            // ignore package.json errors
+        $filesToCheck = ['server.js', 'app.js', 'index.js'];
+        foreach ($filesToCheck as $file) {
+            if ($fs->fileExists($basePath . '/' . $file)) {
+                return new MatchResult($path, null, null);
+            }
         }
-
-        return new MatchResult($path, null, $json['name'] ?? null);
+        return new EmptyMatchResult();
     }
 }
