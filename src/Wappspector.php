@@ -2,6 +2,7 @@
 
 namespace Plesk\Wappspector;
 
+use Plesk\Wappspector\Matchers\ExclusiveMatcherInterface;
 use Plesk\Wappspector\Matchers\MatcherInterface;
 use Plesk\Wappspector\MatchResult\EmptyMatchResult;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
@@ -27,7 +28,7 @@ final class Wappspector
         $result = [];
 
         /** @var MatcherInterface $matcher */
-        foreach ($this->matchers as $matcher) {
+        foreach ($this->matchersFor($path) as $matcher) {
             if (($match = $matcher->match($fs, $path)) instanceof EmptyMatchResult) {
                 continue;
             }
@@ -39,5 +40,24 @@ final class Wappspector
         }
 
         return $result;
+    }
+
+    /**
+     * The matchers that may describe `$path`.
+     *
+     * A matcher can claim sole authority over a path, in which case it is the only one
+     * asked about it — see ExclusiveMatcherInterface.
+     *
+     * @return MatcherInterface[]
+     */
+    private function matchersFor(string $path): array
+    {
+        $exclusive = array_filter(
+            $this->matchers,
+            static fn(MatcherInterface $matcher): bool => $matcher instanceof ExclusiveMatcherInterface
+                && $matcher->isExclusiveFor($path)
+        );
+
+        return $exclusive === [] ? $this->matchers : $exclusive;
     }
 }

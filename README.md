@@ -39,6 +39,38 @@ Command-line interface utility to analyze the file structure of a web hosting se
 | Duda.co            | The `Style` folder contains the `desktop.css`, `mobile.css`, or `tablet.css` files. The style file contains the `dmDudaonePreviewBody` or `dudaSnipcartProductGalleryId` strings, or the `Scripts/runtime.js` file contains the `duda` string     |
 | Siteplus           | The `index.html` file exists and contains the `edit.site` string, and the `/bundle/publish/<version>` directory exists and contains the `bundle.js` file. The `bundle.js` file contains the `siteplus` string                                     |
 
+### Web applications
+| Name           | Check type                                                                                                                                                                                                                                       |
+|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| cPanel Web App | The directory is listed as an application in the account's registry at `~/.cpanel/webapp/registry.json`, that is `~/ea-podman.d/<container>/webapp` for a deployed application or `~/.cpanel/webapp-staging/<name>/source` for a staged one |
+
+Detection does not depend on what the application is built with: the registry is the
+authority, so an application is reported whatever it contains, and an empty one is
+reported too. The registered application name is returned in the `application` field.
+
+A web application sits three directories below the account home, deeper than the
+default `--depth` of 1, so the scan always descends into `ea-podman.d` whatever the
+depth limit is. No flag is needed to find one:
+
+```shell
+# every web application on the server
+./wappspector.phar /home --json | grep -c '"id": "cpanelwebapp"'
+
+# one account
+./wappspector.phar /home/someuser
+```
+
+Exactly one row is reported per registered application, so the rows can simply be
+counted. A container is reported as the application it is and nothing else: the
+technologies inside it are not reported, and neither is anything in the `<container>.bak`
+directories a redeploy leaves behind, which are not registered applications. This is a
+property of the matcher rather than of the command (see `ExclusiveMatcherInterface`), so
+the library behaves the same way.
+
+A staged application lives under a dot-directory, which the CLI skips while traversing,
+so a scan counts deployed applications only; the matcher itself still detects a staged
+one when it is given its path directly.
+
 ## How to build phar
 ```shell
 composer global require clue/phar-composer
