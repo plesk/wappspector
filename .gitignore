@@ -3,6 +3,7 @@
 
 /vendor/
 wappspector.phar
+/build/
 .phpunit.cache
 .phpunit.result.cache
 

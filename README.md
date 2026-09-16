@@ -72,11 +72,31 @@ so a scan counts deployed applications only; the matcher itself still detects a 
 one when it is given its path directly.
 
 ## How to build phar
+
+phar-composer bundles the whole project directory and offers no way to exclude
+anything from it, so build from a clean export into a target outside that export:
+
 ```shell
 composer global require clue/phar-composer
-composer install
-php -d phar.readonly=off ~/.composer/vendor/bin/phar-composer build .
+
+rm -rf build
+git archive HEAD --prefix=build/ | tar -x
+cd build
+composer install --no-dev
+php -d phar.readonly=off ~/.composer/vendor/bin/phar-composer build . ../wappspector.phar
+cd ..
+rm -rf build
 ```
+
+`.gitattributes` keeps `tests/` and `test-data/` out of the export and `--no-dev`
+keeps the development tooling out of `vendor/`, which is the difference between a
+2 MB phar and a 200 MB one.
+
+Do not run `phar-composer build .` in the working directory. It has no exclude for
+the phar it is about to overwrite, so each build bundles the previous one inside
+itself and the phar doubles in size every time. Once it outgrows PHP's
+`memory_limit` it dies before reaching any code, printing nothing on either stream
+and exiting non-zero.
 
 Run the created `wappspector.phar`:
 ```shell
