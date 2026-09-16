@@ -9,6 +9,7 @@ use Plesk\Wappspector\Wappspector;
 use SplFileInfo;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -58,7 +59,9 @@ class Inspect extends Command
 
             return Command::SUCCESS;
         } catch (Throwable $exception) {
-            $logger->error($exception->getMessage());
+            // The class matters as much as the message here: some of these carry no
+            // message at all, which would otherwise report a bare empty line.
+            $logger->error(sprintf('%s: %s', $exception::class, $exception->getMessage()));
             return Command::FAILURE;
         }
     }
@@ -98,7 +101,15 @@ class Inspect extends Command
     private function getPath(InputInterface $input): iterable
     {
         $path = $input->getArgument('path');
-        $path = realpath($path);
+
+        // Say which path is wrong. Left to itself, a non-existent path reaches the
+        // iterator below as an empty string and reports that an argument "must not be
+        // empty", which names neither the path nor the problem.
+        if (($realPath = realpath($path)) === false) {
+            throw new InvalidArgumentException(sprintf('The path "%s" does not exist or is not readable.', $path));
+        }
+
+        $path = $realPath;
         if (!$input->getOption('recursive')) {
             yield $path;
             return;

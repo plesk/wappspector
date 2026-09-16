@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Plesk\Wappspector\Command\Inspect;
 use Plesk\Wappspector\DIContainer;
 use Plesk\Wappspector\Helper\ScanDirectoryIterator;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
 #[CoversClass(Inspect::class)]
@@ -50,6 +51,15 @@ class InspectTest extends TestCase
         $results = $this->inspect('php');
 
         $this->assertNotSame([], $results, 'a plain directory is unaffected by container scoping');
+    }
+
+    public function testNamesAPathItCannotRead(): void
+    {
+        $tester = new CommandTester(DIContainer::build()->get(Inspect::class));
+        $tester->execute(['path' => '/no/such/path']);
+
+        $this->assertSame(Command::FAILURE, $tester->getStatusCode());
+        $this->assertStringContainsString('/no/such/path', $tester->getDisplay());
     }
 
     /**
