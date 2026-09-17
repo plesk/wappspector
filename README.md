@@ -61,11 +61,13 @@ depth limit is. No flag is needed to find one:
 ```
 
 Exactly one row is reported per registered application, so the rows can simply be
-counted. A container is reported as the application it is and nothing else: the
-technologies inside it are not reported, and neither is anything in the `<container>.bak`
-directories a redeploy leaves behind, which are not registered applications. This is a
-property of the matcher rather than of the command (see `ExclusiveMatcherInterface`), so
-the library behaves the same way.
+counted. What an application is built with is reported alongside it, the way a Laravel
+site is also reported as Composer and PHP. The web application matcher runs first, so a
+caller that wants the application rather than its contents takes the first result per
+directory (`--max 1` on the command line).
+
+The `<container>.bak` directories a redeploy leaves behind are in no registry, so they
+are never reported as applications, whatever they still contain.
 
 A staged application lives under a dot-directory, which the CLI skips while traversing,
 so a scan counts deployed applications only; the matcher itself still detects a staged

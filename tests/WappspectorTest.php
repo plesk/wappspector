@@ -15,12 +15,13 @@ use Plesk\Wappspector\Wappspector;
 class WappspectorTest extends TestCase
 {
     /**
-     * A container is described by the web application matcher alone, whether the caller
-     * came through the command or straight to the library. The command used to apply
-     * this itself, which made the two disagree.
+     * Every matcher is asked about every path, so a web application is reported along
+     * with what it is built with, the way a Laravel site is also reported as Composer
+     * and PHP. The application comes first, so the caller can tell which one describes
+     * the directory best.
      */
     #[DataProvider('containerPathsProvider')]
-    public function testAMatcherClaimingAPathIsTheOnlyOneAsked(string $path, array $expected): void
+    public function testReportsTheApplicationAheadOfWhatItIsBuiltWith(string $path, array $expected): void
     {
         $this->assertSame($expected, $this->inspect($path));
     }
@@ -28,17 +29,26 @@ class WappspectorTest extends TestCase
     public static function containerPathsProvider(): array
     {
         return [
-            // Holds an index.php, which is not reported: it is the application's
-            // business, not the account's.
-            'a deployed application' => ['cpanelwebapp/ea-podman.d/blog.user.01/webapp', ['cpanelwebapp']],
-            // A redeploy leaves this behind. It is in no registry, so it is nothing at
-            // all -- not even the index.php it still holds.
-            'a left-over container' => ['cpanelwebapp/ea-podman.d/oldapp.user.09.bak/webapp', []],
+            'a deployed application' => [
+                'cpanelwebapp/ea-podman.d/blog.user.01/webapp',
+                ['cpanelwebapp', 'php'],
+            ],
+            // A redeploy leaves this behind. It is in no registry, so it is not an
+            // application -- only the PHP its left-over files are.
+            'a left-over container' => ['cpanelwebapp/ea-podman.d/oldapp.user.09.bak/webapp', ['php']],
             'the container directory' => ['cpanelwebapp/ea-podman.d', []],
         ];
     }
 
-    public function testAnUnclaimedPathIsOfferedToEveryMatcher(): void
+    /**
+     * Matcher order is the priority order, so a limit of one leaves the best match.
+     */
+    public function testALimitKeepsTheBestMatch(): void
+    {
+        $this->assertSame(['cpanelwebapp'], $this->inspect('cpanelwebapp/ea-podman.d/blog.user.01/webapp', 1));
+    }
+
+    public function testEveryMatcherIsOfferedAPathOutsideAContainer(): void
     {
         $this->assertSame(['php'], $this->inspect('php/direct'));
     }
@@ -46,11 +56,11 @@ class WappspectorTest extends TestCase
     /**
      * @return string[] The ids reported for the path, in matcher order
      */
-    private function inspect(string $path): array
+    private function inspect(string $path, int $matchersLimit = 0): array
     {
         $results = DIContainer::build()
             ->get(Wappspector::class)
-            ->run(realpath(TESTS_DIR . '/../test-data/' . $path));
+            ->run(realpath(TESTS_DIR . '/../test-data/' . $path), '/', $matchersLimit);
 
         return array_map(
             static fn(MatchResultInterface $result): string => $result->getId(),

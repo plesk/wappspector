@@ -17,40 +17,56 @@ use Symfony\Component\Console\Tester\CommandTester;
 class InspectTest extends TestCase
 {
     /**
-     * A web application is reported once, as a web application. Its `index.php` stands
-     * in for whatever an application happens to contain: a container is reported as the
-     * application it is, never as the technologies inside it, so scanning an account
-     * yields one row per application and the rows can be counted.
+     * A registered application is reported exactly once as a web application, so
+     * scanning an account yields one such row per application and the rows can be
+     * counted. What it is built with is reported after it, the way a Laravel site is
+     * also reported as Composer and PHP.
      */
-    public function testReportsAWebApplicationOnceAndNotItsContents(): void
+    public function testReportsAWebApplicationOnceAheadOfItsContents(): void
     {
         $results = $this->inspect('cpanelwebapp');
         $app = 'ea-podman.d/blog.user.01/webapp';
 
         $this->assertSame(
+            [['id' => 'cpanelwebapp', 'application' => 'blog'], ['id' => 'php', 'application' => null]],
+            $this->resultsFor($results, $app)
+        );
+    }
+
+    /**
+     * `--max 1` keeps the first match only, and the web application matcher runs first,
+     * so a caller that wants applications alone gets one row per application.
+     */
+    public function testAMaximumOfOneLeavesTheWebApplication(): void
+    {
+        $results = $this->inspect('cpanelwebapp', ['--max' => 1]);
+
+        $this->assertSame(
             [['id' => 'cpanelwebapp', 'application' => 'blog']],
-            $this->resultsFor($results, $app),
-            'a web application holding an index.php must not also be reported as PHP'
+            $this->resultsFor($results, 'ea-podman.d/blog.user.01/webapp')
         );
     }
 
     /**
      * A redeploy leaves the previous container behind as `<container>.bak`. It is not
-     * in the registry, so it is not an application, and nothing inside it may be
-     * reported either — otherwise every superseded deploy shows up as a live site.
+     * in the registry, so it is never reported as an application — otherwise every
+     * superseded deploy would be counted as a live site.
      */
-    public function testReportsNothingForALeftOverContainer(): void
+    public function testReportsNoApplicationForALeftOverContainer(): void
     {
         $results = $this->inspect('cpanelwebapp');
 
-        $this->assertSame([], $this->resultsFor($results, 'ea-podman.d/oldapp.user.09.bak/webapp'));
+        $this->assertSame(
+            [['id' => 'php', 'application' => null]],
+            $this->resultsFor($results, 'ea-podman.d/oldapp.user.09.bak/webapp')
+        );
     }
 
     public function testStillReportsTechnologiesOutsideContainers(): void
     {
         $results = $this->inspect('php');
 
-        $this->assertNotSame([], $results, 'a plain directory is unaffected by container scoping');
+        $this->assertNotSame([], $results, 'a plain directory is unaffected by web application detection');
     }
 
     public function testNamesAPathItCannotRead(): void
@@ -71,7 +87,7 @@ class InspectTest extends TestCase
 
         foreach ($results as $result) {
             if (str_ends_with($result['path'], '/' . $relativePath)) {
-                $found[] = ['id' => $result['id'], 'application' => $result['application']];
+                $found[] = ['id' => $result['id'], 'application' => $result['application'] ?? null];
             }
         }
 
@@ -81,10 +97,10 @@ class InspectTest extends TestCase
     /**
      * @return array<int, array<string, mixed>> The command's JSON output, decoded
      */
-    private function inspect(string $fixture): array
+    private function inspect(string $fixture, array $options = []): array
     {
         $tester = new CommandTester(DIContainer::build()->get(Inspect::class));
-        $tester->execute(['path' => TESTS_DIR . '/../test-data/' . $fixture, '--json' => true]);
+        $tester->execute(['path' => TESTS_DIR . '/../test-data/' . $fixture, '--json' => true, ...$options]);
         $tester->assertCommandIsSuccessful();
 
         return json_decode($tester->getDisplay(), true, 512, JSON_THROW_ON_ERROR);

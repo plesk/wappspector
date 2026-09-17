@@ -23,8 +23,13 @@ use Plesk\Wappspector\MatchResult\MatchResultInterface;
  *
  * Exactly one directory per registered application matches, so a recursive scan reports
  * each application once and the results can simply be counted.
+ *
+ * The technologies an application is built with are still reported alongside it, the way
+ * a Laravel site is also reported as Composer and PHP. This matcher is registered first,
+ * so a caller that wants the application rather than its contents takes the first result
+ * (`--max 1` on the command line).
  */
-class CpanelWebApp implements ExclusiveMatcherInterface
+class CpanelWebApp implements MatcherInterface
 {
     /**
      * The directory holding an account's containers, one directory each.
@@ -54,19 +59,6 @@ class CpanelWebApp implements ExclusiveMatcherInterface
      * home directory.
      */
     private const MAX_UP_LEVELS = 5;
-
-    /**
-     * Everything inside a container belongs to the application deployed there, so this
-     * matcher decides what those directories are and no other matcher describes them.
-     * Otherwise a scan would report what an application is built with, and would report
-     * the `<container>.bak` directories a redeploy leaves behind as live sites.
-     */
-    public function isExclusiveFor(string $path): bool
-    {
-        $path = '/' . trim(str_replace('\\', '/', $path), '/') . '/';
-
-        return str_contains($path, '/' . self::CONTAINER_DIR . '/');
-    }
 
     public function match(Filesystem $fs, string $path): MatchResultInterface
     {
