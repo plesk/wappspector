@@ -4,6 +4,7 @@ namespace Plesk\Wappspector\Command;
 
 use JsonException;
 use Plesk\Wappspector\Helper\ScanDirectoryIterator;
+use Plesk\Wappspector\MatchResult\CpanelWebApp;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 use Plesk\Wappspector\Wappspector;
 use SplFileInfo;
@@ -135,6 +136,8 @@ class Inspect extends Command
      */
     private function filterResults(array $result): array
     {
+        $result = $this->dropWhatWebApplicationsAreBuiltWith($result);
+
         return array_values(
             array_filter($result, static function (MatchResultInterface $matcher) {
                 static $uniq = [];
@@ -145,6 +148,38 @@ class Inspect extends Command
                 $uniq[$key] = true;
                 return true;
             })
+        );
+    }
+
+    /**
+     * A directory registered as a web application is reported as that application and
+     * nothing else. The registry is the authority on what such a directory is, so what
+     * it happens to be built with adds nothing, and reporting both lists one
+     * application twice.
+     *
+     * The highest-priority result wins for these paths only. Every other path still
+     * reports every technology matched there, the way a Laravel site is also reported
+     * as Composer, PHP and JS.
+     *
+     * @param MatchResultInterface[] $results
+     * @return MatchResultInterface[]
+     */
+    private function dropWhatWebApplicationsAreBuiltWith(array $results): array
+    {
+        $webAppPaths = [];
+
+        foreach ($results as $result) {
+            if (!$result instanceof CpanelWebApp) {
+                continue;
+            }
+
+            $webAppPaths[$result->getPath()] = true;
+        }
+
+        return array_filter(
+            $results,
+            static fn(MatchResultInterface $result): bool => $result instanceof CpanelWebApp
+                || !isset($webAppPaths[$result->getPath()])
         );
     }
 }

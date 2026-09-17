@@ -61,10 +61,15 @@ depth limit is. No flag is needed to find one:
 ```
 
 Exactly one row is reported per registered application, so the rows can simply be
-counted. What an application is built with is reported alongside it, the way a Laravel
-site is also reported as Composer and PHP. The web application matcher runs first, so a
-caller that wants the application rather than its contents takes the first result per
-directory (`--max 1` on the command line).
+counted. The registry is the authority on what such a directory is, so the command
+reports it as the application it is and drops the lower-priority match for that path:
+an application holding an `index.php` is not also reported as PHP. This narrowing
+applies to a registered application's own path only -- everywhere else every match is
+still reported, the way a Laravel site is also reported as Composer, PHP and JS.
+
+The library reports both and leaves the choice to the caller: `Wappspector::run()`
+returns every match in priority order, the web application first, and `--max 1` keeps
+the first one.
 
 The `<container>.bak` directories a redeploy leaves behind are in no registry, so they
 are never reported as applications; the scan skips them entirely, along with the copy of

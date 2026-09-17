@@ -17,33 +17,34 @@ use Symfony\Component\Console\Tester\CommandTester;
 class InspectTest extends TestCase
 {
     /**
-     * A registered application is reported exactly once as a web application, so
-     * scanning an account yields one such row per application and the rows can be
-     * counted. What it is built with is reported after it, the way a Laravel site is
-     * also reported as Composer and PHP.
+     * A registered application is reported exactly once, as the application it is. Its
+     * `index.php` stands in for whatever an application happens to be built with: the
+     * registry already says what the directory is, so the lower-priority match is
+     * dropped rather than listing the same application twice.
      */
-    public function testReportsAWebApplicationOnceAheadOfItsContents(): void
+    public function testReportsAWebApplicationAndNotWhatItIsBuiltWith(): void
     {
         $results = $this->inspect('cpanelwebapp');
         $app = 'ea-podman.d/blog.user.01/webapp';
 
         $this->assertSame(
-            [['id' => 'cpanelwebapp', 'application' => 'blog'], ['id' => 'php', 'application' => null]],
-            $this->resultsFor($results, $app)
+            [['id' => 'cpanelwebapp', 'application' => 'blog']],
+            $this->resultsFor($results, $app),
+            'a web application holding an index.php must not also be reported as PHP'
         );
     }
 
     /**
-     * `--max 1` keeps the first match only, and the web application matcher runs first,
-     * so a caller that wants applications alone gets one row per application.
+     * Only a web application's own path is narrowed to one row. Everywhere else every
+     * match is still reported, so a Laravel site is reported as Composer too.
      */
-    public function testAMaximumOfOneLeavesTheWebApplication(): void
+    public function testStillReportsEveryTechnologyElsewhere(): void
     {
-        $results = $this->inspect('cpanelwebapp', ['--max' => 1]);
+        $results = $this->inspect('laravel');
 
         $this->assertSame(
-            [['id' => 'cpanelwebapp', 'application' => 'blog']],
-            $this->resultsFor($results, 'ea-podman.d/blog.user.01/webapp')
+            [['id' => 'laravel', 'application' => null], ['id' => 'composer', 'application' => 'laravel/laravel']],
+            $this->resultsFor($results, 'laravel10')
         );
     }
 
