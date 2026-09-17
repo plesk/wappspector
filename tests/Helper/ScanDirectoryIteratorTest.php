@@ -52,6 +52,26 @@ class ScanDirectoryIteratorTest extends TestCase
     }
 
     /**
+     * The copy a redeploy leaves behind holds the whole superseded deploy, which would
+     * otherwise be walked and reported as a live site. Neither it nor anything below it
+     * is visited, at any depth.
+     */
+    #[DataProvider('leftOverContainerPathsProvider')]
+    public function testNeverVisitsALeftOverContainer(string $path, int $depth): void
+    {
+        $this->assertNotContains($path, $this->scan($depth));
+    }
+
+    public static function leftOverContainerPathsProvider(): array
+    {
+        return [
+            'the left-over container' => ['cpanelwebapp/ea-podman.d/oldapp.user.09.bak', 1],
+            'what it still holds' => ['cpanelwebapp/ea-podman.d/oldapp.user.09.bak/webapp', 1],
+            'with the depth limit raised past it' => ['cpanelwebapp/ea-podman.d/oldapp.user.09.bak', 9],
+        ];
+    }
+
+    /**
      * @return string[] Directories found under `test-data`, relative to it
      */
     private function scan(int $depth): array

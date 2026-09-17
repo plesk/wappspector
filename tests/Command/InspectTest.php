@@ -48,18 +48,15 @@ class InspectTest extends TestCase
     }
 
     /**
-     * A redeploy leaves the previous container behind as `<container>.bak`. It is not
-     * in the registry, so it is never reported as an application — otherwise every
-     * superseded deploy would be counted as a live site.
+     * A redeploy leaves the previous container behind as `<container>.bak`. It is in no
+     * registry, so it is not an application, and the scan leaves it out altogether:
+     * what it still holds is a copy of the superseded deploy, not a live site.
      */
-    public function testReportsNoApplicationForALeftOverContainer(): void
+    public function testReportsNothingForALeftOverContainer(): void
     {
         $results = $this->inspect('cpanelwebapp');
 
-        $this->assertSame(
-            [['id' => 'php', 'application' => null]],
-            $this->resultsFor($results, 'ea-podman.d/oldapp.user.09.bak/webapp')
-        );
+        $this->assertSame([], $this->resultsFor($results, 'ea-podman.d/oldapp.user.09.bak/webapp'));
     }
 
     public function testStillReportsTechnologiesOutsideContainers(): void

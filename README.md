@@ -67,7 +67,8 @@ caller that wants the application rather than its contents takes the first resul
 directory (`--max 1` on the command line).
 
 The `<container>.bak` directories a redeploy leaves behind are in no registry, so they
-are never reported as applications, whatever they still contain.
+are never reported as applications; the scan skips them entirely, along with the copy of
+the superseded deploy they still hold, which would otherwise be reported as a live site.
 
 A staged application lives under a dot-directory, which the CLI skips while traversing,
 so a scan counts deployed applications only; the matcher itself still detects a staged

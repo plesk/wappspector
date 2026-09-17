@@ -6,6 +6,7 @@ namespace Plesk\Wappspector\Helper;
 
 use FilesystemIterator;
 use Plesk\Wappspector\Matchers\CpanelWebApp;
+use RecursiveCallbackFilterIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
@@ -20,16 +21,31 @@ use SplFileInfo;
  * so the two levels under `ea-podman.d` are always descended into. They hold one
  * directory per container and are cheap to walk; nothing below them is, and nothing
  * below them is descended into either.
+ *
+ * One directory is left out of the walk entirely: `ea-podman.d/<container>.bak`, the
+ * copy a redeploy leaves behind.
  */
 final class ScanDirectoryIterator extends RecursiveIteratorIterator
 {
+    /**
+     * Suffix of the directory a redeploy leaves behind, alongside the container it
+     * replaced.
+     */
+    private const LEFT_OVER_SUFFIX = '.bak';
+
     private const FLAGS = FilesystemIterator::KEY_AS_PATHNAME
         | FilesystemIterator::CURRENT_AS_FILEINFO
         | FilesystemIterator::SKIP_DOTS;
 
     public function __construct(string $path, private int $maxDepth)
     {
-        parent::__construct(new RecursiveDirectoryIterator($path, self::FLAGS), self::SELF_FIRST);
+        parent::__construct(
+            new RecursiveCallbackFilterIterator(
+                new RecursiveDirectoryIterator($path, self::FLAGS),
+                static fn(SplFileInfo $item): bool => !self::isLeftOverContainer($item)
+            ),
+            self::SELF_FIRST
+        );
     }
 
     public function callHasChildren(): bool
@@ -55,5 +71,22 @@ final class ScanDirectoryIterator extends RecursiveIteratorIterator
 
         return $current->getFilename() === CpanelWebApp::CONTAINER_DIR
             || $current->getPathInfo()?->getFilename() === CpanelWebApp::CONTAINER_DIR;
+    }
+
+    /**
+     * Whether the item is the container copy a redeploy leaves behind. Such a copy is
+     * in no registry, so it is not a web application, yet it still holds a full copy of
+     * the superseded one — reporting what is inside it would report every superseded
+     * deploy on the server as a live site. It is dropped from the walk, along with
+     * everything below it.
+     *
+     * This exclusion is not a caller preference. Should an `--ignore=<pattern>` option
+     * ever be added, this one must stay in effect regardless of what the caller passes.
+     */
+    private static function isLeftOverContainer(SplFileInfo $item): bool
+    {
+        return $item->isDir()
+            && str_ends_with($item->getFilename(), self::LEFT_OVER_SUFFIX)
+            && $item->getPathInfo()?->getFilename() === CpanelWebApp::CONTAINER_DIR;
     }
 }

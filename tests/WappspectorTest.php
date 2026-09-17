@@ -34,7 +34,8 @@ class WappspectorTest extends TestCase
                 ['cpanelwebapp', 'php'],
             ],
             // A redeploy leaves this behind. It is in no registry, so it is not an
-            // application -- only the PHP its left-over files are.
+            // application -- only the PHP its left-over files are. A scan never reaches
+            // it at all; see ScanDirectoryIterator.
             'a left-over container' => ['cpanelwebapp/ea-podman.d/oldapp.user.09.bak/webapp', ['php']],
             'the container directory' => ['cpanelwebapp/ea-podman.d', []],
         ];
