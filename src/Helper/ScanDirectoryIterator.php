@@ -74,6 +74,31 @@ final class ScanDirectoryIterator extends RecursiveIteratorIterator
     }
 
     /**
+     * Whether the path is a container's plumbing rather than a place an application
+     * lives: `ea-podman.d` itself, one of the container directories inside it, or
+     * anything in a container other than its `webapp` directory.
+     *
+     * The walk passes through these to reach the application directories below them,
+     * but none of them is a document root. Inspecting one reports a container's own
+     * configuration as though it were a site -- an `index.php` next to the container
+     * config reads as a PHP site, and the container is listed alongside the
+     * application it hosts.
+     */
+    public static function isContainerInternals(string $path): bool
+    {
+        $parts = explode('/', str_replace('\\', '/', $path));
+        $containerDir = array_search(CpanelWebApp::CONTAINER_DIR, $parts, true);
+
+        if ($containerDir === false) {
+            return false;
+        }
+
+        $below = array_slice($parts, $containerDir + 1);
+
+        return count($below) !== 2 || $below[1] !== CpanelWebApp::APP_DIR;
+    }
+
+    /**
      * Whether the item is the container copy a redeploy leaves behind. Such a copy is
      * in no registry, so it is not a web application, yet it still holds a full copy of
      * the superseded one — reporting what is inside it would report every superseded

@@ -71,6 +71,10 @@ The library reports both and leaves the choice to the caller: `Wappspector::run(
 returns every match in priority order, the web application first, and `--max 1` keeps
 the first one.
 
+Only the `webapp` directory inside a container is inspected. `ea-podman.d` and the
+container directories inside it are walked through to reach it, but they hold the
+containers' own configuration rather than a site, so they are not reported.
+
 The `<container>.bak` directories a redeploy leaves behind are in no registry, so they
 are never reported as applications; the scan skips them entirely, along with the copy of
 the superseded deploy they still hold, which would otherwise be reported as a live site.

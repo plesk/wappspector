@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Test\Command;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Plesk\Wappspector\Command\Inspect;
 use Plesk\Wappspector\DIContainer;
@@ -32,6 +33,27 @@ class InspectTest extends TestCase
             $this->resultsFor($results, $app),
             'a web application holding an index.php must not also be reported as PHP'
         );
+    }
+
+    /**
+     * A container directory holds the container's own plumbing -- the fixture keeps an
+     * `index.php` there, as a real container keeps its configuration. It is walked
+     * through to reach the application inside it, never inspected itself, so neither it
+     * nor `ea-podman.d` is reported as a site of its own.
+     */
+    #[DataProvider('containerInternalsProvider')]
+    public function testReportsNothingForAContainersOwnDirectories(string $relativePath): void
+    {
+        $this->assertSame([], $this->resultsFor($this->inspect('cpanelwebapp'), $relativePath));
+    }
+
+    public static function containerInternalsProvider(): array
+    {
+        return [
+            'the container directory' => ['ea-podman.d'],
+            'a container' => ['ea-podman.d/blog.user.01'],
+            'a container holding no application' => ['ea-podman.d/notawebapp.user.03'],
+        ];
     }
 
     /**

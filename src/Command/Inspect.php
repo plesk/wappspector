@@ -126,6 +126,10 @@ class Inspect extends Command
             if (!$item->isDir()) {
                 continue;
             }
+            // Walked through to reach the applications below, not inspected itself.
+            if (ScanDirectoryIterator::isContainerInternals($path)) {
+                continue;
+            }
             yield $path;
         }
     }

@@ -37,6 +37,12 @@ class CpanelWebApp implements MatcherInterface
     public const CONTAINER_DIR = 'ea-podman.d';
 
     /**
+     * The one directory inside a container that holds an application. Everything else
+     * in there is the container's own plumbing.
+     */
+    public const APP_DIR = 'webapp';
+
+    /**
      * The per-account application registry, relative to the home directory.
      */
     private const REGISTRY_FILE = '.cpanel/webapp/registry.json';
@@ -45,7 +51,7 @@ class CpanelWebApp implements MatcherInterface
      * Directory of a deployed application, relative to the home directory. The
      * placeholder is the name of the podman container that hosts it.
      */
-    private const DEPLOYED_DIR = self::CONTAINER_DIR . '/%s/webapp';
+    private const DEPLOYED_DIR = self::CONTAINER_DIR . '/%s/' . self::APP_DIR;
 
     /**
      * Directory of a staged (not yet deployed) application, relative to the home
