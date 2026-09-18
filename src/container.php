@@ -10,6 +10,7 @@ use Symfony\Component\Console\Application;
 
 return [
     'matchers' => [
+        Matchers\CpanelWebApp::class,
         Matchers\Wordpress::class,
         Matchers\Joomla::class,
         Matchers\Drupal::class,

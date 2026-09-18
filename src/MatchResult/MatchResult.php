@@ -72,6 +72,7 @@ class MatchResult implements MatchResultInterface, JsonSerializable
             CakePHP::ID => CakePHP::class,
             CodeIgniter::ID => CodeIgniter::class,
             Composer::ID => Composer::class,
+            CpanelWebApp::ID => CpanelWebApp::class,
             DotNet::ID => DotNet::class,
             Drupal::ID => Drupal::class,
             Joomla::ID => Joomla::class,

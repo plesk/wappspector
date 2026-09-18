@@ -1,0 +1,52 @@
+{
+    "apps": {
+        "blog.user.01": {
+            "_container_name": "blog.user.01",
+            "name": "blog",
+            "status": "running",
+            "domain": "blog.example.com",
+            "url": "https://blog.example.com",
+            "source": {
+                "type": "git",
+                "url": "https://example.com/blog.git",
+                "branch": "main",
+                "ssh_key_name": null
+            },
+            "env": {},
+            "last_deploy": {
+                "result": "success"
+            }
+        },
+        "shop.user.02": {
+            "_container_name": "shop.user.02",
+            "name": "shop",
+            "status": "running",
+            "domain": "shop.example.com",
+            "url": "https://shop.example.com",
+            "source": {
+                "type": "upload",
+                "url": null,
+                "branch": null,
+                "ssh_key_name": null
+            },
+            "env": {},
+            "last_deploy": {
+                "result": "success"
+            }
+        },
+        "staged:draft": {
+            "name": "draft",
+            "status": "created",
+            "domain": "draft.example.com",
+            "url": "https://draft.example.com",
+            "source": {
+                "type": "upload",
+                "url": null,
+                "branch": null,
+                "ssh_key_name": null
+            },
+            "env": {},
+            "last_deploy": null
+        }
+    }
+}

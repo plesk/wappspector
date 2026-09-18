@@ -2,15 +2,15 @@
 
 namespace Plesk\Wappspector\Command;
 
-use FilesystemIterator;
 use JsonException;
+use Plesk\Wappspector\Helper\ScanDirectoryIterator;
+use Plesk\Wappspector\MatchResult\CpanelWebApp;
 use Plesk\Wappspector\MatchResult\MatchResultInterface;
 use Plesk\Wappspector\Wappspector;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
 use SplFileInfo;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -60,7 +60,9 @@ class Inspect extends Command
 
             return Command::SUCCESS;
         } catch (Throwable $exception) {
-            $logger->error($exception->getMessage());
+            // The class matters as much as the message here: some of these carry no
+            // message at all, which would otherwise report a bare empty line.
+            $logger->error(sprintf('%s: %s', $exception::class, $exception->getMessage()));
             return Command::FAILURE;
         }
     }
@@ -100,18 +102,21 @@ class Inspect extends Command
     private function getPath(InputInterface $input): iterable
     {
         $path = $input->getArgument('path');
-        $path = realpath($path);
+
+        // Say which path is wrong. Left to itself, a non-existent path reaches the
+        // iterator below as an empty string and reports that an argument "must not be
+        // empty", which names neither the path nor the problem.
+        if (($realPath = realpath($path)) === false) {
+            throw new InvalidArgumentException(sprintf('The path "%s" does not exist or is not readable.', $path));
+        }
+
+        $path = $realPath;
         if (!$input->getOption('recursive')) {
             yield $path;
             return;
         }
 
-        $flags = FilesystemIterator::KEY_AS_PATHNAME
-            | FilesystemIterator::CURRENT_AS_FILEINFO
-            | FilesystemIterator::SKIP_DOTS;
-        $itFlags = RecursiveIteratorIterator::SELF_FIRST;
-        $it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, $flags), $itFlags);
-        $it->setMaxDepth((int)$input->getOption('depth'));
+        $it = new ScanDirectoryIterator($path, (int)$input->getOption('depth'));
 
         foreach ($it as $path => $item) {
             /** @var SplFileInfo $item */
@@ -119,6 +124,10 @@ class Inspect extends Command
                 continue;
             }
             if (!$item->isDir()) {
+                continue;
+            }
+            // Walked through to reach the applications below, not inspected itself.
+            if (ScanDirectoryIterator::isContainerInternals($path)) {
                 continue;
             }
             yield $path;
@@ -131,6 +140,8 @@ class Inspect extends Command
      */
     private function filterResults(array $result): array
     {
+        $result = $this->dropWhatWebApplicationsAreBuiltWith($result);
+
         return array_values(
             array_filter($result, static function (MatchResultInterface $matcher) {
                 static $uniq = [];
@@ -141,6 +152,38 @@ class Inspect extends Command
                 $uniq[$key] = true;
                 return true;
             })
+        );
+    }
+
+    /**
+     * A directory registered as a web application is reported as that application and
+     * nothing else. The registry is the authority on what such a directory is, so what
+     * it happens to be built with adds nothing, and reporting both lists one
+     * application twice.
+     *
+     * The highest-priority result wins for these paths only. Every other path still
+     * reports every technology matched there, the way a Laravel site is also reported
+     * as Composer, PHP and JS.
+     *
+     * @param MatchResultInterface[] $results
+     * @return MatchResultInterface[]
+     */
+    private function dropWhatWebApplicationsAreBuiltWith(array $results): array
+    {
+        $webAppPaths = [];
+
+        foreach ($results as $result) {
+            if (!$result instanceof CpanelWebApp) {
+                continue;
+            }
+
+            $webAppPaths[$result->getPath()] = true;
+        }
+
+        return array_filter(
+            $results,
+            static fn(MatchResultInterface $result): bool => $result instanceof CpanelWebApp
+                || !isset($webAppPaths[$result->getPath()])
         );
     }
 }
